@@ -1,0 +1,52 @@
+package grillo78.fantasy_beyond.capabilities.customization.race;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.util.INBTSerializable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Race implements INBTSerializable<CompoundTag> {
+
+    private List<Characteristic> characteristics = new ArrayList<>();
+    private PlayerCustomization playerCustomization;
+
+    public Race(PlayerCustomization playerCustomization) {
+        this.playerCustomization = playerCustomization;
+    }
+
+    public PlayerCustomization getPlayerCustomization() {
+        return playerCustomization;
+    }
+
+    public void render(PlayerModel<Player> model, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight, Player player) {
+        poseStack.pushPose();
+        characteristics.forEach(characteristic -> characteristic.render(model, poseStack, pBuffer, pPackedLight, player));
+        poseStack.popPose();
+    }
+    public List<Characteristic> getCharacteristics() {
+        return characteristics;
+    }
+
+    @Override
+    public CompoundTag serializeNBT() {
+        CompoundTag compoundTag = new CompoundTag();
+        return compoundTag;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag nbt) {
+
+    }
+
+    public abstract EntityDimensions getNewSize(Pose pose, EntityDimensions newSize);
+    public abstract float getNewEyeHeight(Pose pose, float oldEyeHeight);
+}
