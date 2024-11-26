@@ -5,7 +5,6 @@ import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -15,12 +14,13 @@ public abstract class Characteristic implements INBTSerializable<CompoundTag> {
 
     private PlayerCustomization playerCustomization;
     private int variant = 0;
-    private int maxVariant = 1;
+    private int maxVariant;
     protected String name;
 
-    public Characteristic(PlayerCustomization playerCustomization,String name) {
+    public Characteristic(PlayerCustomization playerCustomization,String name, int maxVariant) {
         this.playerCustomization = playerCustomization;
         this.name = name;
+        this.maxVariant = maxVariant;
     }
 
     public String getName() {
@@ -43,12 +43,8 @@ public abstract class Characteristic implements INBTSerializable<CompoundTag> {
         return variant;
     }
 
-    public void increaseVariant(){
-        variant++;
-    }
-
-    public void decreaseVariant(){
-        variant--;
+    public void setVariant(int variant) {
+        this.variant = variant;
     }
 
     @Override
@@ -67,5 +63,5 @@ public abstract class Characteristic implements INBTSerializable<CompoundTag> {
         return playerCustomization;
     }
 
-    public abstract void render(PlayerModel<Player> model, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, Player player);
+    public abstract void render(PlayerModel<Player> model, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight, Player player);
 }

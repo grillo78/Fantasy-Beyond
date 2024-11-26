@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.capabilities.customization.race.Race;
 import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
@@ -13,8 +12,9 @@ import net.minecraft.world.entity.player.Player;
 public class Human extends Race {
     public Human(PlayerCustomization playerCustomization) {
         super(playerCustomization);
-        this.getCharacteristics().add(new HumanCharacteristic(playerCustomization, "body"));
-        this.getCharacteristics().add(new HumanColoreableCharacteristic(playerCustomization, "hair"));
+        this.getCharacteristics().add(new HumanCharacteristic(playerCustomization, "body",1));
+        this.getCharacteristics().add(new HumanColoreableCharacteristic(playerCustomization, "hair",3));
+        this.getCharacteristics().add(new HumanEyes(playerCustomization, "eyes",4));
     }
 
     @Override

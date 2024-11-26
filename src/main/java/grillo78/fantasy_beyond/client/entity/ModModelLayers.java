@@ -9,5 +9,7 @@ public class ModModelLayers {
     public static final ModelLayerLocation FEMALE_HUMAN = new ModelLayerLocation(new ResourceLocation(FantasyBeyond.MOD_ID, "female_human"), "main");
     public static final ModelLayerLocation MALE_ELF = new ModelLayerLocation(new ResourceLocation(FantasyBeyond.MOD_ID, "male_elf"), "main");
     public static final ModelLayerLocation FEMALE_ELF = new ModelLayerLocation(new ResourceLocation(FantasyBeyond.MOD_ID, "female_elf"), "main");
+    public static final ModelLayerLocation MALE_TIEFLING = new ModelLayerLocation(new ResourceLocation(FantasyBeyond.MOD_ID, "male_tiefling"), "main");
+    public static final ModelLayerLocation FEMALE_TIEFLING = new ModelLayerLocation(new ResourceLocation(FantasyBeyond.MOD_ID, "female_tiefling"), "main");
 
 }

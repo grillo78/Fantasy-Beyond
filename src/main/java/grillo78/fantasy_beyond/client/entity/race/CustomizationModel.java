@@ -1,6 +1,6 @@
 package grillo78.fantasy_beyond.client.entity.race;
 
-import grillo78.fantasy_beyond.util.RenderUtil;
+import grillo78.fantasy_beyond.util.ClientUtil;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -11,7 +11,7 @@ public abstract class CustomizationModel<T extends Entity> extends EntityModel<T
     public abstract void setupModel(PlayerModel bipedModel);
 
     public void setModelProperties(Player pLivingEntity) {
-        if(RenderUtil.renderingFirstPersonModel)
+        if(ClientUtil.renderingFirstPersonModel)
             getHeadPart().visible = false;
     }
 

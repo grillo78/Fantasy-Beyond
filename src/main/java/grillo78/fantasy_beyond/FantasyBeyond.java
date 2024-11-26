@@ -8,12 +8,14 @@ import grillo78.fantasy_beyond.capabilities.customization.race.RaceType;
 import grillo78.fantasy_beyond.client.entity.CustomizationLayer;
 import grillo78.fantasy_beyond.client.entity.ModModelLayers;
 import grillo78.fantasy_beyond.client.entity.race.elf.FemaleElfModel;
-import grillo78.fantasy_beyond.client.entity.race.human.FemaleHumanModel;
 import grillo78.fantasy_beyond.client.entity.race.elf.MaleElfModel;
+import grillo78.fantasy_beyond.client.entity.race.human.FemaleHumanModel;
 import grillo78.fantasy_beyond.client.entity.race.human.MaleHumanModel;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.FemaleTieflingModel;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.MaleTieflingModel;
 import grillo78.fantasy_beyond.network.PacketHandler;
 import grillo78.fantasy_beyond.network.messages.OpenCustomizationScreen;
-import grillo78.fantasy_beyond.util.RenderUtil;
+import grillo78.fantasy_beyond.util.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -98,7 +100,7 @@ public class FantasyBeyond {
     }
     @OnlyIn(Dist.CLIENT)
     private void preRenderClothes(PreRenderCloth event) {
-        if (RenderUtil.renderingFirstPersonModel) {
+        if (ClientUtil.renderingFirstPersonModel) {
             event.getModel().head.visible = false;
             event.getModel().hat.visible = false;
         }
@@ -107,7 +109,7 @@ public class FantasyBeyond {
     @OnlyIn(Dist.CLIENT)
     private void renderWorld(RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
-            RenderUtil.renderFirstPersonModel(event);
+            ClientUtil.renderFirstPersonModel(event);
         }
     }
 
@@ -124,5 +126,7 @@ public class FantasyBeyond {
         event.registerLayerDefinition(ModModelLayers.FEMALE_HUMAN, () -> FemaleHumanModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(ModModelLayers.MALE_ELF, () -> MaleElfModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_ELF, () -> FemaleElfModel.createBodyLayer(new CubeDeformation(0)));
+        event.registerLayerDefinition(ModModelLayers.MALE_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0)));
+        event.registerLayerDefinition(ModModelLayers.FEMALE_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0)));
     }
 }

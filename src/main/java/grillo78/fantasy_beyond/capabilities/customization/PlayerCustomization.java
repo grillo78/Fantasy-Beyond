@@ -3,6 +3,7 @@ package grillo78.fantasy_beyond.capabilities.customization;
 import grillo78.fantasy_beyond.capabilities.customization.race.Race;
 import grillo78.fantasy_beyond.capabilities.customization.race.RaceType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class PlayerCustomization implements INBTSerializable<CompoundTag> {
@@ -40,7 +41,7 @@ public class PlayerCustomization implements INBTSerializable<CompoundTag> {
         this.male = male;
         race.getCharacteristics().forEach(characteristic -> {
             while(characteristic.getVariant()>=characteristic.getMaxVariant())
-                characteristic.decreaseVariant();
+                characteristic.setVariant(characteristic.getMaxVariant()-1);
         });
     }
 
@@ -62,6 +63,14 @@ public class PlayerCustomization implements INBTSerializable<CompoundTag> {
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-
+        finished = nbt.getBoolean("finished");
+        if(nbt.contains("race")){
+            CompoundTag raceCompound = nbt.getCompound("race");
+            if(raceCompound.contains("type")){
+                if (race == null || race.getType() != RaceType.RACE_TYPES_REGISTRY.get().getValue(new ResourceLocation(raceCompound.getString("type"))))
+                    race = RaceType.RACE_TYPES_REGISTRY.get().getValue(new ResourceLocation(raceCompound.getString("type"))).createRace(this);
+                race.deserializeNBT(raceCompound);
+            }
+        }
     }
 }

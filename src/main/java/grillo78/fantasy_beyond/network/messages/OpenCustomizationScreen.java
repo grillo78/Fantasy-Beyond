@@ -1,8 +1,9 @@
 package grillo78.fantasy_beyond.network.messages;
 
-import grillo78.fantasy_beyond.client.screen.CustomizationScreen;
-import net.minecraft.client.Minecraft;
+import grillo78.fantasy_beyond.util.ClientUtil;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -21,7 +22,7 @@ public class OpenCustomizationScreen implements IMessage<OpenCustomizationScreen
     @Override
     public void handle(OpenCustomizationScreen message, Supplier<NetworkEvent.Context> supplier) {
         supplier.get().enqueueWork(() -> {
-            Minecraft.getInstance().setScreen(new CustomizationScreen());
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT,()->()-> ClientUtil.openCharacterCreationScreen());
         });
         supplier.get().setPacketHandled(true);
     }

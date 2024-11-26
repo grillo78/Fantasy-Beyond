@@ -3,7 +3,6 @@ package grillo78.fantasy_beyond.capabilities.customization.race;
 import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityDimensions;
@@ -18,9 +17,18 @@ public abstract class Race implements INBTSerializable<CompoundTag> {
 
     private List<Characteristic> characteristics = new ArrayList<>();
     private PlayerCustomization playerCustomization;
+    private RaceType type;
 
     public Race(PlayerCustomization playerCustomization) {
         this.playerCustomization = playerCustomization;
+    }
+
+    public void setType(RaceType type) {
+        this.type = type;
+    }
+
+    public RaceType getType() {
+        return type;
     }
 
     public PlayerCustomization getPlayerCustomization() {
@@ -39,12 +47,21 @@ public abstract class Race implements INBTSerializable<CompoundTag> {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag compoundTag = new CompoundTag();
+        CompoundTag characteristics = new CompoundTag();
+        for (int i = 0; i < characteristics.size(); i++) {
+            characteristics.put(String.valueOf(i), this.characteristics.get(i).serializeNBT());
+        }
+        compoundTag.put("characteristics", characteristics);
+        compoundTag.putString("type", RaceType.RACE_TYPES_REGISTRY.get().getKey(type).toString());
         return compoundTag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-
+        CompoundTag characteristics = nbt.getCompound("characteristics");
+        for (int i = 0; i < this.characteristics.size(); i++) {
+            this.characteristics.get(i).deserializeNBT(characteristics.getCompound(String.valueOf(i)));
+        }
     }
 
     public abstract EntityDimensions getNewSize(Pose pose, EntityDimensions newSize);

@@ -2,7 +2,6 @@ package grillo78.fantasy_beyond.network;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.network.messages.*;
-import grillo78.fantasy_beyond.network.messages.IMessage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -27,6 +26,8 @@ public class PacketHandler {
 
         // Register packets
         register(OpenCustomizationScreen.class, new OpenCustomizationScreen());
+        register(SetPlayerCustomizationOnServer.class, new SetPlayerCustomizationOnServer());
+        register(SyncPlayerData.class, new SyncPlayerData());
     }
 
     /**

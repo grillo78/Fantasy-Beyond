@@ -5,7 +5,7 @@ import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.capabilities.customization.race.Characteristic;
 import grillo78.fantasy_beyond.client.entity.ModModelLayers;
-import grillo78.fantasy_beyond.client.entity.race.*;
+import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
 import grillo78.fantasy_beyond.client.entity.race.elf.FemaleElfModel;
 import grillo78.fantasy_beyond.client.entity.race.elf.MaleElfModel;
 import net.minecraft.client.Minecraft;
@@ -26,8 +26,8 @@ public class ElfCharacteristic extends Characteristic {
     @OnlyIn(Dist.CLIENT)
     private CustomizationModel femaleModel;
 
-    public ElfCharacteristic(PlayerCustomization playerCustomization, String name) {
-        super(playerCustomization,name);
+    public ElfCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariants) {
+        super(playerCustomization,name, maxVariants);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()->{
             this.maleModel = new MaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_ELF));
             this.femaleModel = new FemaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_ELF));
@@ -41,7 +41,7 @@ public class ElfCharacteristic extends Characteristic {
         customizationModel.young = getPlayerCustomization().isYoung();
         customizationModel.setModelProperties(player);
         customizationModel.setupModel(model);
-        customizationModel.renderToBuffer(poseStack, pBuffer.getBuffer(RenderType.entityTranslucent(getTexture())),pPackedLight, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+        customizationModel.renderToBuffer(poseStack, pBuffer.getBuffer(RenderType.entityTranslucent(getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, getColor().getRed() / 255F, getColor().getGreen() / 255F, getColor().getBlue() / 255F, 1);
     }
 
     public ResourceLocation getTexture(){

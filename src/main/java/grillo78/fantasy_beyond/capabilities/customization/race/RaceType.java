@@ -4,6 +4,7 @@ import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.capabilities.customization.race.elf.Elf;
 import grillo78.fantasy_beyond.capabilities.customization.race.human.Human;
+import grillo78.fantasy_beyond.capabilities.customization.race.tiefling.Tiefling;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -19,6 +20,7 @@ public class RaceType {
 
     public static RaceType HUMAN = register("human",new RaceType(Human::new));
     public static RaceType ELF = register("elf",new RaceType(Elf::new));
+    public static RaceType TIEFLING = register("tiefling",new RaceType(Tiefling::new));
 
     private Function<PlayerCustomization, Race> raceFunction;
 
@@ -32,6 +34,8 @@ public class RaceType {
     }
 
     public Race createRace(PlayerCustomization playerCustomization) {
-        return raceFunction.apply(playerCustomization);
+        Race race = raceFunction.apply(playerCustomization);
+        race.setType(this);
+        return race;
     }
 }

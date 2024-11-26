@@ -2,14 +2,18 @@ package grillo78.fantasy_beyond.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import grillo78.fantasy_beyond.capabilities.PlayerDataProvider;
+import grillo78.fantasy_beyond.client.screen.CustomizationScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 
-public class RenderUtil {
+public class ClientUtil {
 
     public static boolean renderingFirstPersonModel = false;
 
@@ -36,5 +40,19 @@ public class RenderUtil {
         matrixStack.popPose();
         buffers.endBatch();
         RenderSystem.disableDepthTest();
+    }
+
+    public static void openCharacterCreationScreen() {
+        Minecraft.getInstance().setScreen(new CustomizationScreen());
+    }
+
+    public static void setPlayerData(int id, CompoundTag playerData) {
+        Entity entity = Minecraft.getInstance().level.getEntity(id);
+        entity.getCapability(PlayerDataProvider.DATA).ifPresent(data->{
+            boolean oldFinished = data.getPlayerCustomization().isFinished();
+            data.deserializeNBT(playerData);
+            if(oldFinished != data.getPlayerCustomization().isFinished())
+               entity.refreshDimensions();
+        });
     }
 }

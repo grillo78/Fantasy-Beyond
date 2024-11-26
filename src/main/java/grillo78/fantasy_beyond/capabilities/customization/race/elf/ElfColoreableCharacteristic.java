@@ -1,15 +1,15 @@
-package grillo78.fantasy_beyond.capabilities.customization.race.human;
+package grillo78.fantasy_beyond.capabilities.customization.race.elf;
 
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.capabilities.customization.race.Coloreable;
 
 import java.awt.*;
 
-public class HumanColoreableCharacteristic extends HumanCharacteristic implements Coloreable {
+public class ElfColoreableCharacteristic extends ElfCharacteristic implements Coloreable {
 
     private Color color = new Color(105, 18, 18,255);
 
-    public HumanColoreableCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariants) {
+    public ElfColoreableCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariants) {
         super(playerCustomization,name, maxVariants);
     }
 

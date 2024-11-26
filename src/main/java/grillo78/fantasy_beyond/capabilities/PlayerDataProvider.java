@@ -36,6 +36,6 @@ public class PlayerDataProvider implements ICapabilitySerializable<CompoundTag> 
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        PlayerDataOptional.ifPresent(magic -> magic.deserializeNBT(nbt));
+        PlayerDataOptional.ifPresent(data -> data.deserializeNBT(nbt));
     }
 }

@@ -1,4 +1,4 @@
-package grillo78.fantasy_beyond.capabilities.customization.race.human;
+package grillo78.fantasy_beyond.capabilities.customization.race.tiefling;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.fantasy_beyond.FantasyBeyond;
@@ -8,6 +8,8 @@ import grillo78.fantasy_beyond.client.entity.ModModelLayers;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
 import grillo78.fantasy_beyond.client.entity.race.human.FemaleHumanModel;
 import grillo78.fantasy_beyond.client.entity.race.human.MaleHumanModel;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.FemaleTieflingModel;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.MaleTieflingModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,22 +21,21 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 
-public class HumanCharacteristic extends Characteristic {
+public class TieflingCharacteristic extends Characteristic {
 
     @OnlyIn(Dist.CLIENT)
     private CustomizationModel femaleModel;
     @OnlyIn(Dist.CLIENT)
     private CustomizationModel maleModel;
 
-    public HumanCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariants) {
-        super(playerCustomization,name, maxVariants);
+    public TieflingCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariant) {
+        super(playerCustomization, name, maxVariant);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            this.maleModel = new MaleHumanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_HUMAN));
-            this.femaleModel = new FemaleHumanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_HUMAN));
+            this.maleModel = new MaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_TIEFLING));
+            this.femaleModel = new FemaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_TIEFLING));
         });
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void render(PlayerModel<Player> model, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight, Player player) {
         CustomizationModel customizationModel = getPlayerCustomization().isMale()? maleModel : femaleModel;
@@ -45,6 +46,6 @@ public class HumanCharacteristic extends Characteristic {
     }
 
     public ResourceLocation getTexture() {
-        return new ResourceLocation(FantasyBeyond.MOD_ID, "textures/entity/customization/race/human/" + name + "/" + (getPlayerCustomization().isMale() ? "male_" : "female_") + getVariant() + ".png");
+        return new ResourceLocation(FantasyBeyond.MOD_ID, "textures/entity/customization/race/tiefling/" + name + "/" + (getPlayerCustomization().isMale() ? "male_" : "female_") + getVariant() + ".png");
     }
 }

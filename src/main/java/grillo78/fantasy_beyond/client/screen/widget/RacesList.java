@@ -53,6 +53,16 @@ public class RacesList extends ObjectSelectionList<RacesList.RaceEntry> {
     }
 
     @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+
+        boolean canClick = parent.getColorPicker() == null;
+        if(canClick){
+            canClick = super.mouseClicked(pMouseX, pMouseY, pButton);
+        }
+        return canClick;
+    }
+
+    @Override
     protected void renderBackground(GuiGraphics pGuiGraphics) {
         super.renderBackground(pGuiGraphics);
         pGuiGraphics.blit(new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/scrolls.png"), x0 - 5, y0 - 3, 0, 0, x1 - x0, y1 - 22, x1 - x0, y1 - 22);
@@ -70,12 +80,15 @@ public class RacesList extends ObjectSelectionList<RacesList.RaceEntry> {
 
         @Override
         public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-            RaceType raceType = RaceType.RACE_TYPES_REGISTRY.get().getValue(raceKey);
-            Minecraft.getInstance().player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
-                data.getPlayerCustomization().setRace(raceType.createRace(data.getPlayerCustomization()));
-                RacesList.this.characteristicsList.fillCharacteristics(data.getPlayerCustomization().getRace());
-            });
-            return true;
+            boolean canClick = parent.getColorPicker() == null;
+            if(canClick){
+                RaceType raceType = RaceType.RACE_TYPES_REGISTRY.get().getValue(raceKey);
+                Minecraft.getInstance().player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
+                    data.getPlayerCustomization().setRace(raceType.createRace(data.getPlayerCustomization()));
+                    RacesList.this.characteristicsList.fillCharacteristics(data.getPlayerCustomization().getRace());
+                });
+            }
+            return canClick;
         }
 
         @Override

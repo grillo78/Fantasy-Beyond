@@ -1,15 +1,15 @@
-package grillo78.fantasy_beyond.capabilities.customization.race.human;
+package grillo78.fantasy_beyond.capabilities.customization.race.tiefling;
 
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.capabilities.customization.race.Coloreable;
 
 import java.awt.*;
 
-public class HumanColoreableCharacteristic extends HumanCharacteristic implements Coloreable {
+public class TieflingColoreableCharacteristic extends TieflingCharacteristic implements Coloreable {
 
     private Color color = new Color(105, 18, 18,255);
 
-    public HumanColoreableCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariants) {
+    public TieflingColoreableCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariants) {
         super(playerCustomization,name, maxVariants);
     }
 
