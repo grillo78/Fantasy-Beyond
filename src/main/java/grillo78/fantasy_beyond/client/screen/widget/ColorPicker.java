@@ -17,7 +17,8 @@ public class ColorPicker extends AbstractWidget {
 
     private static ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker_background.png");
     private static ResourceLocation COLOR_PICKER_SLIDER_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker.png");
-    private static ResourceLocation COLOR_PICKER_POINT_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker.png");
+    private static ResourceLocation COLOR_PICKER_POINT_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker_point.png");
+    private static ResourceLocation COLOR_PICKER_SLIDER_SELECT_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker_slider.png");
 
     private float hue = 0;
     private float saturation = 0;

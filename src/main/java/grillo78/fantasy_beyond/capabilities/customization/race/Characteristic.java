@@ -2,10 +2,14 @@ package grillo78.fantasy_beyond.capabilities.customization.race;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
+import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import java.awt.*;
@@ -54,6 +58,9 @@ public abstract class Characteristic implements INBTSerializable<CompoundTag> {
         return compoundTag;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public abstract void translateToArm(PoseStack poseStack, HumanoidArm arm);
+
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         variant = nbt.getInt("variant");
@@ -63,5 +70,9 @@ public abstract class Characteristic implements INBTSerializable<CompoundTag> {
         return playerCustomization;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public abstract CustomizationModel getModel();
+
+    @OnlyIn(Dist.CLIENT)
     public abstract void render(PlayerModel<Player> model, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight, Player player);
 }

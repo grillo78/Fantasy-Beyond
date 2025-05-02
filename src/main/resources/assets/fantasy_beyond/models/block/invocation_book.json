@@ -1,0 +1,7 @@
+{
+	"parent": "fantasy_beyond:block/book",
+	"textures": {
+		"0": "fantasy_beyond:block/invocation_book",
+		"particle": "fantasy_beyond:block/invocation_book"
+	}
+}

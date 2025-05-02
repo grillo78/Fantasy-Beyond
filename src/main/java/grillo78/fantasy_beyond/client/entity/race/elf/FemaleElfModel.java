@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 
 public class FemaleElfModel<T extends Entity> extends CustomizationModel<T> {
@@ -91,6 +92,11 @@ public class FemaleElfModel<T extends Entity> extends CustomizationModel<T> {
 	@Override
 	public ModelPart getHeadPart() {
 		return head;
+	}
+
+	@Override
+	public ModelPart getArmPart(HumanoidArm arm) {
+		return arm == HumanoidArm.RIGHT? right_arm : left_arm;
 	}
 
 	@Override

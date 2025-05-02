@@ -5,6 +5,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 
 public abstract class CustomizationModel<T extends Entity> extends EntityModel<T> {
@@ -16,6 +17,8 @@ public abstract class CustomizationModel<T extends Entity> extends EntityModel<T
     }
 
     public abstract ModelPart getHeadPart();
+
+    public abstract ModelPart getArmPart(HumanoidArm arm);
 
     public void copyFrom(ModelPart newBone, ModelPart oldBone, boolean copyPos) {
         newBone.resetPose();

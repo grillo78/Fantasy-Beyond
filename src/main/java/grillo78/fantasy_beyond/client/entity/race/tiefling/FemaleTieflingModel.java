@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 
 public class FemaleTieflingModel<T extends Entity> extends CustomizationModel<T> {
@@ -27,6 +28,11 @@ public class FemaleTieflingModel<T extends Entity> extends CustomizationModel<T>
 		this.head = this.root.getChild("head");
 		this.left_arm = this.root.getChild("left_arm");
 		this.right_arm = this.root.getChild("right_arm");
+	}
+
+	@Override
+	public ModelPart getArmPart(HumanoidArm arm) {
+		return arm == HumanoidArm.RIGHT? right_arm : left_arm;
 	}
 
 	public static LayerDefinition createBodyLayer(CubeDeformation cubeDeformation) {

@@ -8,10 +8,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.fml.ModList;
 
 public class ClientUtil {
 
@@ -26,9 +28,9 @@ public class ClientUtil {
         matrixStack.translate(-view.x(), -view.y(), -view.z());
         if (Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
             AbstractClientPlayer player = Minecraft.getInstance().player;
-            double playerRot = Math.toRadians(player.yBodyRot);
+            double playerRot = Math.toRadians(Mth.lerp(event.getPartialTick(), player.yBodyRotO, player.yBodyRot));
             Vec3 lookVector = new Vec3(-Math.sin(playerRot), 0, Math.cos(playerRot));
-            Vec3 playerPosition = player.getPosition(event.getPartialTick()).add(-lookVector.x() * (player.getPose() != Pose.SWIMMING ? 0.1 : .5), 0, -lookVector.z() * (player.getPose() != Pose.SWIMMING ? 0.1 : .5));
+            Vec3 playerPosition = player.getPosition(event.getPartialTick()).add(-lookVector.x() * (player.getPose() != Pose.SWIMMING ? 0.1 : .5), 0, -lookVector.z() * (player.getPose() != Pose.SWIMMING ? 0.1 : .5)).add(new Vec3(0,0,ModList.get().isLoaded("parcool")? (player.isCrouching()?-0.25: -0.1):0).yRot((float) -playerRot));
             matrixStack.pushPose();
 
             renderingFirstPersonModel = true;
@@ -48,11 +50,11 @@ public class ClientUtil {
 
     public static void setPlayerData(int id, CompoundTag playerData) {
         Entity entity = Minecraft.getInstance().level.getEntity(id);
-        entity.getCapability(PlayerDataProvider.DATA).ifPresent(data->{
+        entity.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
             boolean oldFinished = data.getPlayerCustomization().isFinished();
             data.deserializeNBT(playerData);
-            if(oldFinished != data.getPlayerCustomization().isFinished())
-               entity.refreshDimensions();
+            if (oldFinished != data.getPlayerCustomization().isFinished())
+                entity.refreshDimensions();
         });
     }
 }

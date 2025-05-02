@@ -1,0 +1,14 @@
+{
+  "lopus_invocation": {
+    "sounds": ["fantasy_beyond:lopus_invocation"],
+    "subtitle": "subtitles.lopus_invocation"
+  },
+  "lopus_invocation_sfx_1": {
+    "sounds": ["fantasy_beyond:lopus_invocation_sfx_1"],
+    "subtitle": "subtitles.lopus_invocation_sfx_1"
+  },
+  "lopus_invocation_sfx_2": {
+    "sounds": ["fantasy_beyond:lopus_invocation_sfx_2"],
+    "subtitle": "subtitles.lopus_invocation_sfx_2"
+  }
+}

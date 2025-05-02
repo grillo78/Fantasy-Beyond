@@ -6,16 +6,15 @@ import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.capabilities.customization.race.Characteristic;
 import grillo78.fantasy_beyond.client.entity.ModModelLayers;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
-import grillo78.fantasy_beyond.client.entity.race.human.FemaleHumanModel;
-import grillo78.fantasy_beyond.client.entity.race.human.MaleHumanModel;
-import grillo78.fantasy_beyond.client.entity.race.tiefling.FemaleTieflingModel;
-import grillo78.fantasy_beyond.client.entity.race.tiefling.MaleTieflingModel;
+import grillo78.fantasy_beyond.client.entity.race.orc.FemaleOrcModel;
+import grillo78.fantasy_beyond.client.entity.race.orc.MaleOrcModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,11 +30,27 @@ public class TieflingCharacteristic extends Characteristic {
     public TieflingCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariant) {
         super(playerCustomization, name, maxVariant);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            this.maleModel = new MaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_TIEFLING));
-            this.femaleModel = new FemaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_TIEFLING));
+            this.maleModel = new MaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_TIEFLING));
+            this.femaleModel = new FemaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_TIEFLING));
         });
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public CustomizationModel getModel() {
+        return getPlayerCustomization().isMale()? maleModel : femaleModel;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void translateToArm(PoseStack poseStack, HumanoidArm arm) {
+        if(getPlayerCustomization().isMale())
+            maleModel.getArmPart(arm).translateAndRotate(poseStack);
+        else
+            femaleModel.getArmPart(arm).translateAndRotate(poseStack);
+    }
+
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void render(PlayerModel<Player> model, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight, Player player) {
         CustomizationModel customizationModel = getPlayerCustomization().isMale()? maleModel : femaleModel;

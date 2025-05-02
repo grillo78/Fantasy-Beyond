@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,left=false": {
+      "model": "fantasy_beyond:block/research_table"
+    },
+    "facing=east,left=false": {
+      "model": "fantasy_beyond:block/research_table",
+      "y": 90
+    },
+    "facing=south,left=false": {
+      "model": "fantasy_beyond:block/research_table",
+      "y": 180
+    },
+    "facing=west,left=false": {
+      "model": "fantasy_beyond:block/research_table",
+      "y": 270
+    },
+    "facing=north,left=true": {
+      "model": "fantasy_beyond:block/empty"
+    },
+    "facing=east,left=true": {
+      "model": "fantasy_beyond:block/empty",
+      "y": 90
+    },
+    "facing=south,left=true": {
+      "model": "fantasy_beyond:block/empty",
+      "y": 180
+    },
+    "facing=west,left=true": {
+      "model": "fantasy_beyond:block/empty",
+      "y": 270
+    }
+  }
+}

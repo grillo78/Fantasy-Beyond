@@ -28,6 +28,11 @@ public class PacketHandler {
         register(OpenCustomizationScreen.class, new OpenCustomizationScreen());
         register(SetPlayerCustomizationOnServer.class, new SetPlayerCustomizationOnServer());
         register(SyncPlayerData.class, new SyncPlayerData());
+        register(SetAnimation.class, new SetAnimation());
+        register(ApplyAnimation.class, new ApplyAnimation());
+        register(SyncMagic.class, new SyncMagic());
+        register(SetEffect.class, new SetEffect());
+        register(ScrollSpell.class, new ScrollSpell());
     }
 
     /**

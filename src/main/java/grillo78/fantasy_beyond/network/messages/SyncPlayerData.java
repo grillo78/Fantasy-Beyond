@@ -1,6 +1,5 @@
 package grillo78.fantasy_beyond.network.messages;
 
-import grillo78.fantasy_beyond.capabilities.PlayerDataProvider;
 import grillo78.fantasy_beyond.util.ClientUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,6 +19,7 @@ public class SyncPlayerData implements IMessage<SyncPlayerData> {
 
     public SyncPlayerData(CompoundTag playerData, int id) {
         this.playerData = playerData;
+        this.id = id;
     }
 
     @Override

@@ -16,6 +16,7 @@ import java.awt.*;
 public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList.CharacteristicEntry> {
 
     private CustomizationScreen parent;
+    private ImageButtonWithText backButton;
 
     //Minecraft pMinecraft, int pWidth, int pHeight, int pY0, int pY1, int pItemHeight
     public CharacteristicsList(CustomizationScreen parent) {
@@ -26,6 +27,16 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
         this.x1 = parent.width;
         setRenderTopAndBottom(false);
         setRenderBackground(false);
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+
+        boolean canClick = parent.getColorPicker() == null;
+        if (canClick) {
+            canClick = super.mouseClicked(pMouseX, pMouseY, pButton);
+        }
+        return canClick;
     }
 
     @Override
@@ -54,6 +65,10 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
         }
     }
 
+    public ImageButtonWithText getBackButton() {
+        return backButton;
+    }
+
     public class CharacteristicEntry extends ObjectSelectionList.Entry<CharacteristicEntry> {
         private Component text;
         private Characteristic characteristic;
@@ -75,14 +90,14 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
             if (pMouseX > getRowRight() - 16) {
                 if(screen.getColorPicker() != null)
                     screen.removeRenderable(screen.getColorPicker());
-                screen.setColorPicker(new ColorPicker(screen.width/2, screen.height/2,50,65, (Coloreable) characteristic));
+                screen.setColorPicker(new ColorPicker(getRight() - getRowWidth()/2, getTop() ,50,65, (Coloreable) characteristic));
                 screen.addRenderableWidgetWrap(screen.getColorPicker());
             } else {
                 screen.removeRenderable(list);
                 VariantsList variantsList = new VariantsList(screen, characteristic);
                 screen.addRenderableWidgetWrap(variantsList);
                 //int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, int pYDiffTex, ResourceLocation pResourceLocation, int pTextureWidth, int pTextureHeight, Button.OnPress pOnPress, Component pMessage
-                screen.addRenderableWidgetWrap(new ImageButtonWithText(2 * parent.width / 3 + 5, 30, parent.width / 3 - 30, 22, 0, 0, 22, new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/scroll_button.png"), parent.width / 3 - 30, 66, (button) -> {
+                screen.addRenderableWidgetWrap(CharacteristicsList.this.backButton =new ImageButtonWithText(2 * parent.width / 3 + 5, 30, parent.width / 3 - 30, 22, 0, 0, 22, new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/scroll_button.png"), parent.width / 3 - 30, 66, (button) -> {
                     screen.removeRenderable(button);
                     screen.removeRenderable(variantsList);
                     screen.addRenderableWidgetWrap(list);

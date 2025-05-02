@@ -2,8 +2,10 @@ package grillo78.fantasy_beyond.capabilities.customization.race;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
+import grillo78.fantasy_beyond.capabilities.customization.race.dwarf.Dwarf;
 import grillo78.fantasy_beyond.capabilities.customization.race.elf.Elf;
 import grillo78.fantasy_beyond.capabilities.customization.race.human.Human;
+import grillo78.fantasy_beyond.capabilities.customization.race.merfolk.Merfolk;
 import grillo78.fantasy_beyond.capabilities.customization.race.tiefling.Tiefling;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,6 +23,10 @@ public class RaceType {
     public static RaceType HUMAN = register("human",new RaceType(Human::new));
     public static RaceType ELF = register("elf",new RaceType(Elf::new));
     public static RaceType TIEFLING = register("tiefling",new RaceType(Tiefling::new));
+    public static RaceType MERFOLKF = register("merfolk",new RaceType(Merfolk::new));
+//    public static RaceType ORC = register("orc",new RaceType(Orc::new));
+    public static RaceType DWARF = register("dwarf",new RaceType(Dwarf::new));
+//    public static RaceType AUTOMATON = register("automaton",new RaceType(Automaton::new));
 
     private Function<PlayerCustomization, Race> raceFunction;
 

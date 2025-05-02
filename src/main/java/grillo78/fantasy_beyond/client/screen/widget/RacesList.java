@@ -23,8 +23,8 @@ public class RacesList extends ObjectSelectionList<RacesList.RaceEntry> {
         super(parent.getMinecraft(), parent.width / 3 - 20, parent.height,
                 28, parent.height - 28, parent.getMinecraft().font.lineHeight * 2 + 8);
         this.parent = parent;
-        this.x0 = parent.width / 3-20;
-        this.x1 = 2 * parent.width / 3-20;
+        this.x0 = parent.width / 3 - 20;
+        this.x1 = 2 * parent.width / 3 - 20;
         setRenderTopAndBottom(false);
         setRenderBackground(false);
         this.characteristicsList = characteristicsList;
@@ -56,7 +56,7 @@ public class RacesList extends ObjectSelectionList<RacesList.RaceEntry> {
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
 
         boolean canClick = parent.getColorPicker() == null;
-        if(canClick){
+        if (canClick) {
             canClick = super.mouseClicked(pMouseX, pMouseY, pButton);
         }
         return canClick;
@@ -81,10 +81,24 @@ public class RacesList extends ObjectSelectionList<RacesList.RaceEntry> {
         @Override
         public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
             boolean canClick = parent.getColorPicker() == null;
-            if(canClick){
+            if (canClick) {
                 RaceType raceType = RaceType.RACE_TYPES_REGISTRY.get().getValue(raceKey);
                 Minecraft.getInstance().player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
                     data.getPlayerCustomization().setRace(raceType.createRace(data.getPlayerCustomization()));
+                    if (!RacesList.this.parent.children().contains(RacesList.this.characteristicsList)) {
+                        boolean removed = false;
+                        System.out.println(RacesList.this.parent.children().size());
+                        for (int i = 0; i < RacesList.this.parent.children().size() && !removed; i++) {
+                            System.out.println(RacesList.this.parent.children().get(i));
+                            if (RacesList.this.parent.children().get(i) instanceof VariantsList) {
+                                VariantsList variantsList = (VariantsList)RacesList.this.parent.children().get(i);
+                                RacesList.this.parent.removeRenderable(variantsList);
+                                RacesList.this.parent.removeRenderable(RacesList.this.characteristicsList.getBackButton());
+                                removed = true;
+                            }
+                        }
+                        RacesList.this.parent.addRenderableWidgetWrap(RacesList.this.characteristicsList);
+                    }
                     RacesList.this.characteristicsList.fillCharacteristics(data.getPlayerCustomization().getRace());
                 });
             }
@@ -99,7 +113,7 @@ public class RacesList extends ObjectSelectionList<RacesList.RaceEntry> {
         @Override
         public void render(GuiGraphics pGuiGraphics, int pIndex, int pTop, int pLeft, int pWidth, int pHeight, int pMouseX, int pMouseY, boolean pHovering, float pPartialTick) {
             pGuiGraphics.blit(new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/scroll_entry" + (pHovering || isSelectedItem(pIndex) ? "_selected" : "") + ".png"), pLeft + 5, pTop, 0, 0, pWidth, pHeight, pWidth, pHeight);
-            pGuiGraphics.drawString(Minecraft.getInstance().font, text, pLeft +5 + pWidth / 2 - Minecraft.getInstance().font.width(text) / 2, pTop + pHeight / 2-Minecraft.getInstance().font.lineHeight/2, pHovering ? Color.GRAY.hashCode() : Color.WHITE.hashCode());
+            pGuiGraphics.drawString(Minecraft.getInstance().font, text, pLeft + 5 + pWidth / 2 - Minecraft.getInstance().font.width(text) / 2, pTop + pHeight / 2 - Minecraft.getInstance().font.lineHeight / 2, pHovering ? Color.GRAY.hashCode() : Color.WHITE.hashCode());
         }
     }
 }

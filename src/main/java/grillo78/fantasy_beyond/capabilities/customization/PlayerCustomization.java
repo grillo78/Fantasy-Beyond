@@ -14,14 +14,14 @@ public class PlayerCustomization implements INBTSerializable<CompoundTag> {
     private boolean finished = false;
 
     public PlayerCustomization() {
-        race = ((RaceType)RaceType.RACE_TYPES_REGISTRY.get().getValues().toArray()[0]).createRace(this);
+        race = ((RaceType) RaceType.RACE_TYPES_REGISTRY.get().getValues().toArray()[0]).createRace(this);
     }
 
     public boolean isFinished() {
         return finished;
     }
 
-    public void finish(){
+    public void finish() {
         finished = true;
     }
 
@@ -40,8 +40,8 @@ public class PlayerCustomization implements INBTSerializable<CompoundTag> {
     public void setMale(boolean male) {
         this.male = male;
         race.getCharacteristics().forEach(characteristic -> {
-            while(characteristic.getVariant()>=characteristic.getMaxVariant())
-                characteristic.setVariant(characteristic.getMaxVariant()-1);
+            while (characteristic.getVariant() >= characteristic.getMaxVariant())
+                characteristic.setVariant(characteristic.getMaxVariant() - 1);
         });
     }
 
@@ -58,19 +58,22 @@ public class PlayerCustomization implements INBTSerializable<CompoundTag> {
         CompoundTag tag = new CompoundTag();
         tag.put("race", race.serializeNBT());
         tag.putBoolean("finished", finished);
+        tag.putBoolean("male", male);
         return tag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         finished = nbt.getBoolean("finished");
-        if(nbt.contains("race")){
+        if (nbt.contains("male"))
+            male = nbt.getBoolean("male");
+        if (nbt.contains("race")) {
             CompoundTag raceCompound = nbt.getCompound("race");
-            if(raceCompound.contains("type")){
+            if (raceCompound.contains("type")) {
                 if (race == null || race.getType() != RaceType.RACE_TYPES_REGISTRY.get().getValue(new ResourceLocation(raceCompound.getString("type"))))
                     race = RaceType.RACE_TYPES_REGISTRY.get().getValue(new ResourceLocation(raceCompound.getString("type"))).createRace(this);
-                race.deserializeNBT(raceCompound);
             }
+            race.deserializeNBT(raceCompound);
         }
     }
 }

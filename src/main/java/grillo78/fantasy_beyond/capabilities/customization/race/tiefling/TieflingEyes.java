@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.capabilities.customization.race.Coloreable;
-import grillo78.fantasy_beyond.capabilities.customization.race.human.HumanCharacteristic;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;

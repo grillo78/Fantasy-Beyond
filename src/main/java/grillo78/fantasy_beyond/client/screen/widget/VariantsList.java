@@ -14,10 +14,12 @@ import java.awt.*;
 public class VariantsList extends ObjectSelectionList<VariantsList.VariantEntry> {
 
     private Characteristic characteristic;
+    private CustomizationScreen parent;
 
     public VariantsList(CustomizationScreen parent, Characteristic characteristic) {
         super(parent.getMinecraft(), parent.width / 3 - 20, parent.height,
                 58, parent.height - 60, parent.getMinecraft().font.lineHeight * 2 + 8);
+        this.parent = parent;
         this.x0 = 2 * parent.width / 3;
         this.x1 = parent.width;
         this.characteristic = characteristic;
@@ -30,6 +32,16 @@ public class VariantsList extends ObjectSelectionList<VariantsList.VariantEntry>
             if (characteristic.getVariant() == i)
                 setSelected(entry);
         }
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+
+        boolean canClick = parent.getColorPicker() == null;
+        if (canClick) {
+            canClick = super.mouseClicked(pMouseX, pMouseY, pButton);
+        }
+        return canClick;
     }
 
     @Override

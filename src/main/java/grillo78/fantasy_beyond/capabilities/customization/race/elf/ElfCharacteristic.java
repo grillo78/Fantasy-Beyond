@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,6 +33,21 @@ public class ElfCharacteristic extends Characteristic {
             this.maleModel = new MaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_ELF));
             this.femaleModel = new FemaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_ELF));
         });
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public CustomizationModel getModel() {
+        return getPlayerCustomization().isMale()? maleModel : femaleModel;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void translateToArm(PoseStack poseStack, HumanoidArm arm) {
+        if(getPlayerCustomization().isMale())
+            maleModel.getArmPart(arm).translateAndRotate(poseStack);
+        else
+            femaleModel.getArmPart(arm).translateAndRotate(poseStack);
     }
 
     @OnlyIn(Dist.CLIENT)

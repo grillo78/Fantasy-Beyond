@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 
 public class MaleHumanModel<T extends Entity> extends CustomizationModel<T> {
@@ -29,6 +30,11 @@ public class MaleHumanModel<T extends Entity> extends CustomizationModel<T> {
         this.right_leg = this.root.getChild("right_leg");
     }
 
+    @Override
+    public ModelPart getArmPart(HumanoidArm arm) {
+        return arm == HumanoidArm.RIGHT? right_arm : left_arm;
+    }
+
     public ModelPart getRoot() {
         return root;
     }
@@ -44,10 +50,10 @@ public class MaleHumanModel<T extends Entity> extends CustomizationModel<T> {
                 .texOffs(16, 26).addBox(-3.5F, 6.0F, -1.5F, 7.0F, 6.0F, 3.0F, cubeDeformation.extend(0.1F))
                 .texOffs(16, 45).addBox(-3.5F, 6.0F, -1.5F, 7.0F, 6.0F, 3.0F, cubeDeformation.extend(0.35F)), PartPose.offset(0.0F, -24.0F, 1.0F));
 
-        PartDefinition left_leg = root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation)
+        PartDefinition right_leg = root.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation)
                 .texOffs(0, 32).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation.extend(0.25F)), PartPose.offset(-2.0F, -12.0F, 1.0F));
 
-        PartDefinition right_leg = root.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(16, 54).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation)
+        PartDefinition left_leg = root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(16, 54).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation)
                 .texOffs(0, 54).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation.extend(0.25F)), PartPose.offset(2.0F, -12.0F, 1.0F));
 
         PartDefinition left_arm = root.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(32, 54).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubeDeformation)
