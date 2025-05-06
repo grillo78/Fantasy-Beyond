@@ -27,6 +27,14 @@ public class ModItems {
     public static final RegistryObject<Item> HUMAN_BELT_1 = register("human_belt_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.BELT, RaceType.HUMAN));
     public static final RegistryObject<Item> HUMAN_PANTS_1 = register("human_pants_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, RaceType.HUMAN));
     public static final RegistryObject<Item> HUMAN_BOOTS_1 = register("human_boots_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, RaceType.HUMAN));
+    public static final RegistryObject<Item> HUMAN_SHIRT_2 = register("human_shirt_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, RaceType.HUMAN));
+    public static final RegistryObject<Item> HUMAN_PANTS_2 = register("human_pants_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, RaceType.HUMAN));
+    public static final RegistryObject<Item> HUMAN_BOOTS_2 = register("human_boots_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, RaceType.HUMAN));
+    public static final RegistryObject<Item> HUMAN_HOOD_1 = register("human_hood_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.HEAD, RaceType.HUMAN));
+    public static final RegistryObject<Item> HUMAN_SHIRT_3 = register("human_shirt_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, RaceType.HUMAN));
+    public static final RegistryObject<Item> HUMAN_BELT_2 = register("human_belt_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.BELT, RaceType.HUMAN));
+    public static final RegistryObject<Item> HUMAN_PANTS_3 = register("human_pants_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, RaceType.HUMAN));
+    public static final RegistryObject<Item> HUMAN_BOOTS_3 = register("human_boots_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, RaceType.HUMAN));
     public static final RegistryObject<Item> GOBLIN_SPAWN_EGG = register("goblin_spawn_egg", ()-> new ForgeSpawnEggItem(()-> ModEntities.GOBLIN.get(), Color.GREEN.hashCode(), Color.GRAY.hashCode(),new Item.Properties()));
 
     public static <T extends Item, V extends Supplier<T>> RegistryObject<T> register(String name, V itemSupplier) {

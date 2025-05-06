@@ -20,6 +20,14 @@ public class ModTabs {
         output.accept(ModItems.HUMAN_BELT_1.get());
         output.accept(ModItems.HUMAN_PANTS_1.get());
         output.accept(ModItems.HUMAN_BOOTS_1.get());
+        output.accept(ModItems.HUMAN_SHIRT_2.get());
+        output.accept(ModItems.HUMAN_PANTS_2.get());
+        output.accept(ModItems.HUMAN_BOOTS_2.get());
+        output.accept(ModItems.HUMAN_HOOD_1.get());
+        output.accept(ModItems.HUMAN_SHIRT_3.get());
+        output.accept(ModItems.HUMAN_BELT_2.get());
+        output.accept(ModItems.HUMAN_PANTS_3.get());
+        output.accept(ModItems.HUMAN_BOOTS_3.get());
         output.accept(ModItems.GOBLIN_SPAWN_EGG.get());
         output.accept(ModBlocks.INVOCATION_BOOK.get());
         output.accept(ModBlocks.RESEARCH_TABLE.get());

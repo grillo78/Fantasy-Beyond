@@ -25,11 +25,11 @@ public class Orc extends Race {
 
     @Override
     public EntityDimensions getNewSize(Pose pose, EntityDimensions newSize) {
-        return newSize.scale(1.05F);
+        return newSize.scale(1.25F);
     }
 
     @Override
     public float getNewEyeHeight(Pose pose, float oldEyeHeight) {
-        return oldEyeHeight;
+        return oldEyeHeight*1.45F;
     }
 }

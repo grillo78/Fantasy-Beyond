@@ -1,6 +1,7 @@
 package grillo78.fantasy_beyond;
 
 import com.lowdragmc.shimmer.client.light.LightCounter;
+import com.lowdragmc.shimmer.platform.Services;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.logging.LogUtils;
 import dev.kosmx.playerAnim.api.layered.IAnimation;
@@ -125,7 +126,8 @@ public class FantasyBeyond {
                     PlayerAnimationAccess.getPlayerAssociatedData(player).set(new ResourceLocation(MOD_ID, "data"), layer);
                 });
             });
-            LightCounter.Render.enable = false;
+            if (Services.PLATFORM.isDevelopmentEnvironment())
+                LightCounter.Render.enable = false;
             modEventBus.addListener(this::onClientSetup);
             modEventBus.addListener(this::registerLayerDefinitions);
             modEventBus.addListener(this::registerModel);
@@ -138,6 +140,7 @@ public class FantasyBeyond {
             MinecraftForge.EVENT_BUS.addListener(this::scrollMouse);
         });
     }
+
     private void levelTick(final TickEvent.LevelTickEvent event) {
         if (event.phase == TickEvent.Phase.END)
             event.level.getCapability(MagicProvider.MAGIC).ifPresent(magic -> {
@@ -167,9 +170,9 @@ public class FantasyBeyond {
         event.player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
             data.tick();
         });
-            event.player.getCapability(PlayerDataProvider.DATA).ifPresent(magic -> {
-                magic.tick();
-            });
+        event.player.getCapability(PlayerDataProvider.DATA).ifPresent(magic -> {
+            magic.tick();
+        });
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

@@ -1,0 +1,21 @@
+{
+  "name": "fantasy_beyond:stone_dungeon/cross",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 2,
+      "element": {
+        "location": "fantasy_beyond:stone_dungeon/cross",
+        "processors": {
+          "processors": [
+            {
+              "processor_type": "fantasy_beyond:waterlogging_fix_processor"
+            }
+          ]
+        },
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

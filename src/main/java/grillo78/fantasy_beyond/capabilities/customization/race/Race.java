@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,10 @@ public abstract class Race implements INBTSerializable<CompoundTag> {
 
     public Race(PlayerCustomization playerCustomization) {
         this.playerCustomization = playerCustomization;
+    }
+
+    public void onDamageEvent(LivingDamageEvent event) {
+
     }
 
     public void setType(RaceType type) {

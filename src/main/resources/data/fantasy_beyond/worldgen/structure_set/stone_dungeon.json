@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "fantasy_beyond:stone_dungeon",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 200,
+    "separation": 100,
+    "salt": 1646207470
+  }
+}

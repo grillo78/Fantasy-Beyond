@@ -40,6 +40,6 @@ public class OrcEyes extends OrcCharacteristic implements Coloreable {
 
     @Override
     public ResourceLocation getTexture() {
-        return renderingIris? new ResourceLocation(FantasyBeyond.MOD_ID, "textures/entity/customization/race/common/iris/" + getVariant() + ".png"): new ResourceLocation(FantasyBeyond.MOD_ID, "textures/entity/customization/race/common/eyes/" + getVariant() + ".png");
+        return renderingIris? new ResourceLocation(FantasyBeyond.MOD_ID, "textures/entity/customization/race/orc/iris/" + getVariant() + ".png"): new ResourceLocation(FantasyBeyond.MOD_ID, "textures/entity/customization/race/orc/eyes/" + getVariant() + ".png");
     }
 }
