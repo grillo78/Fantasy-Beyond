@@ -5,6 +5,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 //import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
 //import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 //import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+import dev.kosmx.playerAnim.api.layered.IAnimation;
+import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.capabilities.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.magic.spells.Spell;
@@ -26,10 +30,10 @@ import net.minecraftforge.network.NetworkDirection;
 public class PlayerData implements INBTSerializable<CompoundTag> {
     private Player player;
     private PlayerCustomization playerCustomization = new PlayerCustomization();
-//    private ModifierLayer layer = new ModifierLayer();
+    private ModifierLayer layer = new ModifierLayer();
     @OnlyIn(Dist.CLIENT)
     private Spell spell;
-//    private IAnimation stop = new KeyframeAnimationPlayer(PlayerAnimationRegistry.getAnimation(new ResourceLocation(FantasyBeyond.MOD_ID, "stop")));
+    private IAnimation stop = new KeyframeAnimationPlayer(PlayerAnimationRegistry.getAnimation(new ResourceLocation(FantasyBeyond.MOD_ID, "stop")));
 
     public PlayerData(Player player) {
         this.player = player;
@@ -54,9 +58,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
     @OnlyIn(Dist.CLIENT)
     private void clientTick() {
-//        if (layer.getAnimation() != null && layer.getAnimation() != this.stop && ((KeyframeAnimationPlayer) layer.getAnimation()).getCurrentTick() == ((KeyframeAnimationPlayer) layer.getAnimation()).getStopTick() - 5) {
-//            layer.setAnimation(stop = new KeyframeAnimationPlayer(PlayerAnimationRegistry.getAnimation(new ResourceLocation(FantasyBeyond.MOD_ID, "stop"))));
-//        }
+        if (layer.getAnimation() != null && layer.getAnimation() != this.stop && ((KeyframeAnimationPlayer) layer.getAnimation()).getCurrentTick() == ((KeyframeAnimationPlayer) layer.getAnimation()).getStopTick() - 5) {
+            layer.setAnimation(stop = new KeyframeAnimationPlayer(PlayerAnimationRegistry.getAnimation(new ResourceLocation(FantasyBeyond.MOD_ID, "stop"))));
+        }
     }
 
     @Override
@@ -85,15 +89,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         }
     }
 
-//    public ModifierLayer getLayer() {
-//        return layer;
-//    }
-//
+    public ModifierLayer getLayer() {
+        return layer;
+    }
+
     public void applyAnimation(String animation) {
-//        IAnimation animator = new KeyframeAnimationPlayer(PlayerAnimationRegistry.getAnimation(animation.contains(":") ? new ResourceLocation(animation) : new ResourceLocation(FantasyBeyond.MOD_ID, animation)));
-//        if (animator != null) {
-//            layer.setAnimation(animator);
-//        }
+        IAnimation animator = new KeyframeAnimationPlayer(PlayerAnimationRegistry.getAnimation(animation.contains(":") ? new ResourceLocation(animation) : new ResourceLocation(FantasyBeyond.MOD_ID, animation)));
+        if (animator != null) {
+            layer.setAnimation(animator);
+        }
     }
 
     public void sync() {

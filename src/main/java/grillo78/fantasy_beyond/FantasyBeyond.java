@@ -5,6 +5,9 @@ import com.lowdragmc.shimmer.platform.Services;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.logging.LogUtils;
+import dev.kosmx.playerAnim.api.layered.IAnimation;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import grillo78.clothes_mod.client.event.PreRenderCloth;
 import grillo78.fantasy_beyond.blockentities.ModBlockEntities;
 import grillo78.fantasy_beyond.blocks.ModBlocks;
@@ -148,13 +151,13 @@ public class FantasyBeyond {
         MinecraftForge.EVENT_BUS.addListener(this::canBreath);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-//            PlayerAnimationAccess.REGISTER_ANIMATION_EVENT.register((player, animationStack) -> {
-//                player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
-//                    ModifierLayer<IAnimation> layer = data.getLayer();
-//                    animationStack.addAnimLayer(69, layer);
-//                    PlayerAnimationAccess.getPlayerAssociatedData(player).set(new ResourceLocation(MOD_ID, "data"), layer);
-//                });
-//            });
+            PlayerAnimationAccess.REGISTER_ANIMATION_EVENT.register((player, animationStack) -> {
+                player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
+                    ModifierLayer<IAnimation> layer = data.getLayer();
+                    animationStack.addAnimLayer(69, layer);
+                    PlayerAnimationAccess.getPlayerAssociatedData(player).set(new ResourceLocation(MOD_ID, "data"), layer);
+                });
+            });
             if (Services.PLATFORM.isDevelopmentEnvironment())
                 LightCounter.Render.enable = false;
             modEventBus.addListener(this::onClientSetup);

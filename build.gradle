@@ -157,7 +157,7 @@ dependencies {
     implementation fg.deobf("com.lowdragmc.photon:photon-forge-1.20.1:${photon_version}") { transitive = false }
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:${ldlib_version}") { transitive = false }
     implementation fg.deobf("com.lowdragmc.shimmer:Shimmer-forge:${minecraft_version}-${shimmer_version}") { transitive = false }
-//    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animation_version}")
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animation_version}")
     implementation fg.deobf("curse.maven:parcool-482378:5849584")
 //    runtimeOnly fg.deobf("curse.maven:emotecraft-forge-403422:4632460")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5308079")
