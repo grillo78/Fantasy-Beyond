@@ -7,6 +7,7 @@ import grillo78.fantasy_beyond.capabilities.MagicProvider;
 import grillo78.fantasy_beyond.client.RenderUtils;
 import grillo78.fantasy_beyond.network.PacketHandler;
 import grillo78.fantasy_beyond.network.messages.SetEffect;
+import grillo78.fantasy_beyond.util.ProjectilesUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -84,26 +85,11 @@ public class FallingCannonMagicCircleType extends MagicCircleType {
 
     public void drawBeam(MagicCircle instance, PoseStack poseStack, float partialTick, Color color, MultiBufferSource bufferSource) {
         VertexConsumer consumer = bufferSource.getBuffer(RenderType.lightning());
-        HitResult result = getHitResult(instance.position, Objects::nonNull, new Vec3(0, -200, 0), Minecraft.getInstance().level, null);
+        HitResult result = ProjectilesUtil.getHitResult(instance.position, Objects::nonNull, new Vec3(0, -200, 0), Minecraft.getInstance().level, null);
         double distance = result.getLocation().distanceTo(instance.position);
 
         RenderUtils.renderFilledBox(poseStack, consumer, new AABB(-0.25, 0, -0.25, 0.25, (1 - (455 - Mth.lerp(partialTick, instance.getTickCount(), instance.getTickCount() + 1)) / 15) * (result == null ? 50 : -distance), 0.25), 1, 1, 1, 1, 15728880);
         RenderUtils.renderFilledBox(poseStack, consumer, new AABB(-0.5, 0, -0.5, 0.5, (1 - (455 - Mth.lerp(partialTick, instance.getTickCount(), instance.getTickCount() + 1)) / 15) * (result == null ? 50 : -distance), 0.5), color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, color.getAlpha() / 255F, 15728880);
-    }
-
-    public static HitResult getHitResult(Vec3 pStartVec, Predicate<Entity> pFilter, Vec3 pEndVecOffset, Level pLevel, Player player) {
-        Vec3 vec3 = pStartVec.add(pEndVecOffset);
-        HitResult hitresult = pLevel.clip(new ClipContext(pStartVec, vec3, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
-        if (hitresult.getType() != HitResult.Type.MISS) {
-            vec3 = hitresult.getLocation();
-        }
-
-        HitResult hitresult1 = ProjectileUtil.getEntityHitResult(pLevel, null, pStartVec, vec3, new AABB(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).move(pStartVec).expandTowards(pEndVecOffset).inflate(1.0D), pFilter);
-        if (hitresult1 != null) {
-            hitresult = hitresult1;
-        }
-
-        return hitresult;
     }
 
     public void drawCircle(MagicCircle instance, PoseStack poseStack, float partialTick, Color color, MultiBufferSource bufferSource) {
@@ -188,8 +174,8 @@ public class FallingCannonMagicCircleType extends MagicCircleType {
 
     public static void createInstanceStatic(Level level, Player player) {
         level.getCapability(MagicProvider.MAGIC).ifPresent(magic -> {
-            HitResult hitResult = getHitResult(player.getEyePosition(), entity -> player != entity, player.getViewVector(0).multiply(50, 50, 50), level, player);
-            hitResult = getHitResult(hitResult.getLocation(), entity -> player != entity,new Vec3(0,60,0),level, player);
+            HitResult hitResult = ProjectilesUtil.getHitResult(player.getEyePosition(), entity -> player != entity, player.getViewVector(0).multiply(50, 50, 50), level, player);
+            hitResult = ProjectilesUtil.getHitResult(hitResult.getLocation(), entity -> player != entity,new Vec3(0,60,0),level, player);
             if(hitResult.distanceTo(player)>= 60){
                 magic.getMagicCircles().add(MagicCircleType.FALLING_CANNON_CIRCLE.get().createInstance((ServerLevel) level, hitResult.getLocation().add(0, 60, 0), new ArrayList()));
             }
@@ -200,7 +186,7 @@ public class FallingCannonMagicCircleType extends MagicCircleType {
     public void tick(MagicCircle magicCircle, Level level) {
         super.tick(magicCircle, level);
         if (magicCircle.getTickCount() >= 455 && !level.isClientSide) {
-            HitResult result = getHitResult(magicCircle.position, Objects::nonNull, new Vec3(0, -200, 0), level, null);
+            HitResult result = ProjectilesUtil.getHitResult(magicCircle.position, Objects::nonNull, new Vec3(0, -200, 0), level, null);
             if (result != null) {
                 if (magicCircle.getTickCount() == 465)
                     level.explode(null, result.getLocation().x, result.getLocation().y, result.getLocation().z, 20, Level.ExplosionInteraction.TNT);

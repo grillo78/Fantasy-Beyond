@@ -1,4 +1,4 @@
-package grillo78.fantasy_beyond.client.entity;
+package grillo78.fantasy_beyond.client.entity.goblin;
 // Made with Blockbench 4.11.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports

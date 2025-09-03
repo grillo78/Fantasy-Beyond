@@ -8,6 +8,9 @@ import grillo78.fantasy_beyond.client.entity.race.dwarf.MaleDwarfModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 
@@ -24,6 +27,15 @@ public class Dwarf extends Race {
     }
 
     @Override
+    public void applyAttributes(Player player) {
+        super.applyAttributes(player);
+        setAttribute(player, "health", Attributes.MAX_HEALTH, ATTRIBUTE_UUID, 6, AttributeModifier.Operation.ADDITION);
+        setAttribute(player, "speed", Attributes.MOVEMENT_SPEED, ATTRIBUTE_UUID, -0.015, AttributeModifier.Operation.ADDITION);
+        setAttribute(player, "knockback_resistance", Attributes.KNOCKBACK_RESISTANCE, ATTRIBUTE_UUID, 3, AttributeModifier.Operation.MULTIPLY_BASE);
+        player.setHealth(player.getHealth()*player.getMaxHealth()/20);
+    }
+
+    @Override
     public EntityDimensions getNewSize(Pose pose, EntityDimensions newSize) {
         return newSize.scale(0.95F);
     }
@@ -31,5 +43,10 @@ public class Dwarf extends Race {
     @Override
     public float getNewEyeHeight(Pose pose, float oldEyeHeight) {
         return oldEyeHeight*0.8F;
+    }
+
+    @Override
+    public int getHUDViewerScale() {
+        return 25;
     }
 }

@@ -5,13 +5,15 @@
   "refmap": "fantasy_beyond.refmap.json",
   "mixins": [
     "PlayerMixin",
+    "LivingEntityMixin",
     "structures.StructureTemplateMixin",
     "structures.StructureProcessorAccessor"
   ],
   "client": [
-    "client.PlayerRendererMixin",
+    "client.LivingEntityRendererMixin",
     "client.HumanoidArmorLayerMixin",
-    "client.ItemInHandLayerMixin"
+    "client.ItemInHandLayerMixin",
+    "client.CameraNearPlaneMixin"
   ],
   "injectors": {
     "defaultRequire": 1

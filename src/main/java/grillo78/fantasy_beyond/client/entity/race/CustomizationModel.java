@@ -11,6 +11,10 @@ import net.minecraft.world.entity.player.Player;
 public abstract class CustomizationModel<T extends Entity> extends EntityModel<T> {
     public abstract void setupModel(PlayerModel bipedModel);
 
+    public void setupModel(PlayerModel bipedModel, Player player, float partialTick){
+        setupModel(bipedModel);
+    }
+
     public void setModelProperties(Player pLivingEntity) {
         if(ClientUtil.renderingFirstPersonModel)
             getHeadPart().visible = false;

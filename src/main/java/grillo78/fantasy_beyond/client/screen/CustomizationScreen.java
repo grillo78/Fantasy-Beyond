@@ -40,12 +40,12 @@ public class CustomizationScreen extends Screen {
         super(Component.empty());
     }
 
-    public void setColorPicker(ColorPicker colorPicker) {
-        this.colorPicker = colorPicker;
-    }
-
     public ColorPicker getColorPicker() {
         return colorPicker;
+    }
+
+    public void setColorPicker(ColorPicker colorPicker) {
+        this.colorPicker = colorPicker;
     }
 
     @Override
@@ -71,12 +71,12 @@ public class CustomizationScreen extends Screen {
                 data.getPlayerCustomization().setMale(false);
             });
             addRenderableWidget(femaleButton);
-            addRenderableWidget(new ImageButton(width / 6 - 8, 28, 16, 16, 0, 0, 16, PLAY_BUTTON_TEXTURE, 16, 48, (pButton -> {
+            addRenderableWidget(new ImageButton(width / 6 - 8, height - 22, 16, 16, 0, 0, 16, PLAY_BUTTON_TEXTURE, 16, 48, (pButton -> {
                 paused = !paused;
                 ((ImageButton) pButton).resourceLocation = paused ? PLAY_BUTTON_TEXTURE : PAUSE_BUTTON_TEXTURE;
                 pButton.setFocused(false);
             })));
-            addRenderableWidget(new ImageButtonWithText(2 * width / 3 + 5, height-55, width / 3 - 30, 22, 0, 0, 22, SCROLL_BUTTON_TEXTURE, width / 3 - 30, 66, (pButton -> {
+            addRenderableWidget(new ImageButtonWithText(2 * width / 3 + 5, height - 55, width / 3 - 30, 22, 0, 0, 22, SCROLL_BUTTON_TEXTURE, width / 3 - 30, 66, (pButton -> {
                 data.getPlayerCustomization().finish();
                 PacketHandler.INSTANCE.sendToServer(new SetPlayerCustomizationOnServer(data.getPlayerCustomization().serializeNBT()));
                 Minecraft.getInstance().player.refreshDimensions();
@@ -98,7 +98,7 @@ public class CustomizationScreen extends Screen {
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
 
         boolean canClick = colorPicker == null;
-        if(!canClick && !colorPicker.isHovered()){
+        if (!canClick && !colorPicker.isHovered()) {
             removeRenderable(colorPicker);
             colorPicker = null;
         }
@@ -128,7 +128,7 @@ public class CustomizationScreen extends Screen {
         float y = scale * 0.9F + height / 2F;
         Minecraft.getInstance().player.setYHeadRot(0);
         Minecraft.getInstance().player.setYRot(0);
-        InventoryScreen.renderEntityInInventory(pGuiGraphics, (int) x, (int) y, scale, new Quaternionf().rotationX((float) Math.PI).rotateLocalY((float) Math.toRadians(paused?angle:Mth.lerp(pPartialTick, angle, angle + 1))), new Quaternionf().rotationX((float) 0), Minecraft.getInstance().player);
+        InventoryScreen.renderEntityInInventory(pGuiGraphics, (int) x, (int) y, scale, new Quaternionf().rotationX((float) Math.PI).rotateLocalY((float) Math.toRadians(paused ? angle : Mth.lerp(pPartialTick, angle, angle + 1))), new Quaternionf().rotationX((float) 0), Minecraft.getInstance().player);
     }
 
     public <T extends GuiEventListener & Renderable & NarratableEntry> void removeRenderable(T widget) {

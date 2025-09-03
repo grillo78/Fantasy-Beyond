@@ -11,6 +11,8 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -69,5 +71,17 @@ public class Human extends Race {
             }
         }
         return eyeHeight;
+    }
+
+    @Override
+    public void applyAttributes(Player player) {
+        super.applyAttributes(player);
+        setAttribute(player, "speed", Attributes.MOVEMENT_SPEED, ATTRIBUTE_UUID, 0.025, AttributeModifier.Operation.ADDITION);
+        setAttribute(player, "attack_speed", Attributes.ATTACK_SPEED, ATTRIBUTE_UUID, 0.025, AttributeModifier.Operation.ADDITION);
+    }
+
+    @Override
+    public int getHUDViewerScale() {
+        return 21;
     }
 }

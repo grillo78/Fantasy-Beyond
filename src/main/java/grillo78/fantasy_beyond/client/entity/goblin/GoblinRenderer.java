@@ -1,6 +1,7 @@
-package grillo78.fantasy_beyond.client.entity;
+package grillo78.fantasy_beyond.client.entity.goblin;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
+import grillo78.fantasy_beyond.client.entity.ModModelLayers;
 import grillo78.fantasy_beyond.entities.Goblin;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;

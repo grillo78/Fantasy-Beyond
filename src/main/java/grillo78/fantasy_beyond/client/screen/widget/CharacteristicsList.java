@@ -87,7 +87,7 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
 
         @Override
         public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-            if (pMouseX > getRowRight() - 16) {
+            if (pMouseX > getRowRight() - 16 && characteristic instanceof Coloreable) {
                 if(screen.getColorPicker() != null)
                     screen.removeRenderable(screen.getColorPicker());
                 screen.setColorPicker(new ColorPicker(getRight() - getRowWidth()/2, getTop() ,50,65, (Coloreable) characteristic));
@@ -108,7 +108,7 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
 
         @Override
         public void render(GuiGraphics pGuiGraphics, int pIndex, int pTop, int pLeft, int pWidth, int pHeight, int pMouseX, int pMouseY, boolean pHovering, float pPartialTick) {
-            pGuiGraphics.blit(new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/scroll_entry" + ((pHovering && pMouseX < getRowRight() - 20) ? "_selected" : "") + ".png"), pLeft + 5, pTop, 0, 0, pWidth - (characteristic instanceof Coloreable ? 24 : 0), pHeight, pWidth - (characteristic instanceof Coloreable ? 24 : 0), pHeight);
+            pGuiGraphics.blit(new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/scroll_entry" + ((pHovering && pMouseX < getRowRight() - (characteristic instanceof Coloreable? 20 : -6)) ? "_selected" : "") + ".png"), pLeft + 5, pTop, 0, 0, pWidth - (characteristic instanceof Coloreable ? 24 : 0), pHeight, pWidth - (characteristic instanceof Coloreable ? 24 : 0), pHeight);
             pGuiGraphics.drawString(Minecraft.getInstance().font, text, pLeft + 5 + pWidth / 2 - Minecraft.getInstance().font.width(text) / 2, pTop + pHeight / 2 - Minecraft.getInstance().font.lineHeight / 2, (pHovering && pMouseX < getRowRight() - 20) ? Color.GRAY.hashCode() : Color.WHITE.hashCode());
             if (characteristic instanceof Coloreable)
                 pGuiGraphics.blit(new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker_icon.png"), getRowRight() - 16, pTop, 0, 0, 22, 22, 22, 22);

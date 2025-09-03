@@ -8,16 +8,25 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingBreatheEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class Race implements INBTSerializable<CompoundTag> {
+
+    public static final UUID ATTRIBUTE_UUID = UUID.fromString("931d9762-4e36-46a6-ab4f-7a2e38d80d3b");
 
     private List<Characteristic> characteristics = new ArrayList<>();
     private PlayerCustomization playerCustomization;
@@ -29,10 +38,6 @@ public abstract class Race implements INBTSerializable<CompoundTag> {
 
     public Race(PlayerCustomization playerCustomization) {
         this.playerCustomization = playerCustomization;
-    }
-
-    public void onDamageEvent(LivingDamageEvent event) {
-
     }
 
     public void setType(RaceType type) {
@@ -93,7 +98,55 @@ public abstract class Race implements INBTSerializable<CompoundTag> {
         }
     }
 
+    public void tick(TickEvent.PlayerTickEvent event){}
+
+    public void onHurt(LivingAttackEvent event){}
+
+    public void canBreath(LivingBreatheEvent event) {}
+
     public abstract EntityDimensions getNewSize(Pose pose, EntityDimensions newSize);
 
     public abstract float getNewEyeHeight(Pose pose, float oldEyeHeight);
+
+    public int getMaxBreathAmount() {
+        return 300;
+    }
+
+    public void applyAttributes(Player player) {
+    }
+
+    public static void setAttribute(Player entity, String name, Attribute attribute, UUID uuid, double amount, AttributeModifier.Operation operation) {
+        AttributeInstance instance = entity.getAttribute(attribute);
+
+        if (instance == null || entity.level().isClientSide) {
+            return;
+        }
+
+        AttributeModifier modifier = instance.getModifier(uuid);
+
+        if (amount == 0 || modifier != null && (modifier.getAmount() != amount || modifier.getOperation() != operation)) {
+            instance.removeModifier(uuid);
+            if(amount == 0)
+                return;
+        }
+
+        modifier = instance.getModifier(uuid);
+
+        if (modifier == null) {
+            modifier = new AttributeModifier(uuid, name, amount, operation);
+            instance.addTransientModifier(modifier);
+        }
+    }
+
+    public int getHUDViewerScale() {
+        return 20;
+    }
+
+    public float getJumpScale() {
+        return 1;
+    }
+
+    public void livingFall(LivingFallEvent event) {
+
+    }
 }

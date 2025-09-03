@@ -1,6 +1,10 @@
 package grillo78.fantasy_beyond.items;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import grillo78.clothes_mod.ClothesMod;
+import grillo78.clothes_mod.client.texture.AlphaMaskTexture;
+import grillo78.clothes_mod.common.capabilities.ClothesProvider;
+import grillo78.clothes_mod.common.items.Cloth;
 import grillo78.clothes_mod.common.items.ClothItem;
 import grillo78.clothes_mod.common.items.ClothesSlot;
 import grillo78.fantasy_beyond.capabilities.PlayerData;
@@ -16,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -23,32 +28,49 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class RacistClothItem extends ClothItem {
 
-    private RaceType race;
+    private List<RaceType> races;
     private boolean isGenderless;
     private boolean isForMale;
+    public static List<RacistClothItem> CLOTHES = new ArrayList<>();
+    private boolean hasMask;
 
-    public RacistClothItem(Properties pProperties, ClothesSlot slot, RaceType race) {
-        this(pProperties, slot, race, true, false);
+    public RacistClothItem(Properties pProperties, ClothesSlot slot, List<RaceType> races) {
+        this(pProperties, slot, races, true, false, false);
     }
-    public RacistClothItem(Properties pProperties, ClothesSlot slot, RaceType race, boolean isGenderless, boolean isForMale) {
-        super(pProperties, slot);
-        this.race = race;
+
+    public RacistClothItem(Properties pProperties, ClothesSlot slot, List<RaceType> races, boolean hasMask) {
+        this(pProperties, slot, races, true, false, hasMask);
+    }
+
+    public RacistClothItem(Properties pProperties, ClothesSlot slot, List<RaceType> races, boolean isGenderless, boolean isForMale, boolean hasMask) {
+        super(pProperties, slot, hasMask, new ResourceLocation(""));
+        this.races = races;
         this.isGenderless = isGenderless;
         this.isForMale = isForMale;
+        this.hasMask = hasMask;
+        CLOTHES.add(this);
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        ResourceLocation raceLoc = RaceType.RACE_TYPES_REGISTRY.get().getKey(race);
-        MutableComponent raceComp = Component.translatable("fantasy_beyond.tooltip.race", Component.translatable("race.name." + raceLoc.getPath()).getString());
+        MutableComponent raceComp;
+        raceComp = Component.translatable("fantasy_beyond.tooltip.races");
         raceComp.setStyle(raceComp.getStyle().withColor(Color.ORANGE.hashCode()));
         pTooltipComponents.add(raceComp);
-        raceComp = Component.translatable("fantasy_beyond.tooltip.gender", isGenderless? Component.translatable("fantasy_beyond.tooltip.gender.genderless") : (isForMale? Component.translatable("fantasy_beyond.tooltip.gender.male") : Component.translatable("fantasy_beyond.tooltip.gender.female")));
+        for (int i = 0; i < races.size(); i++) {
+            ResourceLocation raceLoc = RaceType.RACE_TYPES_REGISTRY.get().getKey(races.get(i));
+            raceComp = Component.literal("   " + Component.translatable("race.name." + raceLoc.getPath()).getString());
+            raceComp.setStyle(raceComp.getStyle().withColor(Color.ORANGE.hashCode()));
+            pTooltipComponents.add(raceComp);
+        }
+        raceComp = Component.translatable("fantasy_beyond.tooltip.gender", isGenderless ? Component.translatable("fantasy_beyond.tooltip.gender.genderless") : (isForMale ? Component.translatable("fantasy_beyond.tooltip.gender.male") : Component.translatable("fantasy_beyond.tooltip.gender.female")));
         raceComp.setStyle(raceComp.getStyle().withColor(Color.CYAN.hashCode()));
         pTooltipComponents.add(raceComp);
     }
@@ -69,16 +91,55 @@ public class RacistClothItem extends ClothItem {
     public boolean canPlace(ItemStack stack, ClothesSlot slot, Player player) {
         AtomicBoolean fitCustomization = new AtomicBoolean(true);
         player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
-            fitCustomization.set(this.race == data.getPlayerCustomization().getRace().getType() && (isGenderless || data.getPlayerCustomization().isMale() == isForMale));
+            fitCustomization.set(this.races.contains(data.getPlayerCustomization().getRace().getType()) && (isGenderless || data.getPlayerCustomization().isMale() == isForMale));
         });
         return super.canPlace(stack, slot, player) && fitCustomization.get();
     }
 
+    @Override
+    public ResourceLocation getAlphaMask(Player player) {
+        PlayerData data = player.getCapability(PlayerDataProvider.DATA).orElse(null);
+
+        ResourceLocation texture = getBaseTexture(data);
+
+        return !this.hasMask? null: new ResourceLocation(texture.getNamespace(), texture.getPath().replace(".png", "_a.png"));
+    }
+
     protected ResourceLocation getTexture(PlayerData data) {
-        AtomicBoolean isForMale = new AtomicBoolean(this.isForMale);
-        if(isGenderless){
-            isForMale.set(data.getPlayerCustomization().isMale());
+        ResourceLocation baseTexture = getBaseTexture(data);
+
+        List<ResourceLocation> masks = new ArrayList<>();
+        AtomicReference<String> append = new AtomicReference<>("");
+        data.getPlayer().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(clothes -> {
+            switch (getSlot()){
+                case SHIRT:
+                    addMask(clothes.getInventory().getStackInSlot(ClothesSlot.HEAD.getID()).getItem(), append, masks, data.getPlayer());
+                    addMask(clothes.getInventory().getStackInSlot(ClothesSlot.WRIST.getID()).getItem(), append, masks, data.getPlayer());
+                    addMask(clothes.getInventory().getStackInSlot(ClothesSlot.PANTS.getID()).getItem(), append, masks, data.getPlayer());
+                case PANTS:
+                    addMask(clothes.getInventory().getStackInSlot(ClothesSlot.BELT.getID()).getItem(), append, masks, data.getPlayer());
+                case WRIST:
+                case HEAD:
+                    addMask(clothes.getInventory().getStackInSlot(ClothesSlot.JACKET.getID()).getItem(), append, masks, data.getPlayer());
+                    break;
+            }
+        });
+
+        return AlphaMaskTexture.getTexture(baseTexture, new ResourceLocation(ClothesMod.MOD_ID, baseTexture.getPath() + append), masks);
+    }
+
+    private ResourceLocation getBaseTexture(PlayerData data) {
+        boolean isForMale = this.isForMale;
+        if (isGenderless) {
+            isForMale = data.getPlayerCustomization().isMale();
         }
-        return new ResourceLocation(ForgeRegistries.ITEMS.getKey(this).getNamespace(), "textures/entity/clothes/"+ (isForMale.get()? "male": "female") + "/" + ForgeRegistries.ITEMS.getKey(this).getPath() + ".png");
+        return new ResourceLocation(ForgeRegistries.ITEMS.getKey(this).getNamespace(), "textures/entity/clothes/" + (isForMale ? "male" : "female") + "/" + ForgeRegistries.ITEMS.getKey(this).getPath() + ".png");
+    }
+
+    private void addMask(Item item, AtomicReference<String> append, List<ResourceLocation> masks, Player player){
+        if (item instanceof Cloth) {
+            masks.add(((Cloth) item).getAlphaMask(player));
+            append.set(append.get() + ForgeRegistries.ITEMS.getKey(item).toString().replace(":", "_"));
+        }
     }
 }

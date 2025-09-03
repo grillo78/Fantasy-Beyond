@@ -9,6 +9,8 @@
   "characteristic.name.body": "Body",
   "characteristic.name.eyes": "Eyes",
   "characteristic.name.hair": "Hairs",
+  "characteristic.name.horns": "Horns",
+  "characteristic.name.tail": "Tails",
   "item.fantasy_beyond.staff": "Staff",
   "item.fantasy_beyond.spells_book": "Spells Book",
   "item.fantasy_beyond.human_shirt_1": "Human Shirt 1",
@@ -29,5 +31,7 @@
   "fantasy_beyond.tooltip.gender": "Gender: %s",
   "fantasy_beyond.tooltip.gender.genderless": "Genderless",
   "fantasy_beyond.tooltip.gender.male": "Male",
-  "fantasy_beyond.tooltip.gender.female": "Female"
+  "fantasy_beyond.tooltip.gender.female": "Female",
+  "fantasy_beyond.hud.level": "Level:",
+  "gamerule.keepCharacter": "Keep character after death"
 }

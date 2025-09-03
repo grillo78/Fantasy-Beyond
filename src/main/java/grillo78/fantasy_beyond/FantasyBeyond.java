@@ -2,11 +2,9 @@ package grillo78.fantasy_beyond;
 
 import com.lowdragmc.shimmer.client.light.LightCounter;
 import com.lowdragmc.shimmer.platform.Services;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.logging.LogUtils;
-import dev.kosmx.playerAnim.api.layered.IAnimation;
-import dev.kosmx.playerAnim.api.layered.ModifierLayer;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import grillo78.clothes_mod.client.event.PreRenderCloth;
 import grillo78.fantasy_beyond.blockentities.ModBlockEntities;
 import grillo78.fantasy_beyond.blocks.ModBlocks;
@@ -15,9 +13,16 @@ import grillo78.fantasy_beyond.capabilities.PlayerDataProvider;
 import grillo78.fantasy_beyond.capabilities.customization.race.RaceType;
 import grillo78.fantasy_beyond.capabilities.spells_book.SpellsBookProvider;
 import grillo78.fantasy_beyond.client.KeyMappings;
-import grillo78.fantasy_beyond.client.entity.*;
+import grillo78.fantasy_beyond.client.entity.CustomizationLayer;
+import grillo78.fantasy_beyond.client.entity.FireballRenderer;
+import grillo78.fantasy_beyond.client.entity.LightSourceSpellRenderer;
+import grillo78.fantasy_beyond.client.entity.ModModelLayers;
+import grillo78.fantasy_beyond.client.entity.goblin.GoblinModel;
+import grillo78.fantasy_beyond.client.entity.goblin.GoblinRenderer;
 import grillo78.fantasy_beyond.client.entity.lopus.LopusModel;
 import grillo78.fantasy_beyond.client.entity.lopus.LopusRenderer;
+import grillo78.fantasy_beyond.client.entity.mimic.MimicModel;
+import grillo78.fantasy_beyond.client.entity.mimic.MimicRenderer;
 import grillo78.fantasy_beyond.client.entity.race.automaton.AutomatonModel;
 import grillo78.fantasy_beyond.client.entity.race.dwarf.FemaleDwarfModel;
 import grillo78.fantasy_beyond.client.entity.race.dwarf.MaleDwarfModel;
@@ -27,12 +32,19 @@ import grillo78.fantasy_beyond.client.entity.race.human.FemaleHumanModel;
 import grillo78.fantasy_beyond.client.entity.race.human.MaleHumanModel;
 import grillo78.fantasy_beyond.client.entity.race.merfolk.FemaleMerfolkModel;
 import grillo78.fantasy_beyond.client.entity.race.merfolk.MaleMerfolkModel;
+import grillo78.fantasy_beyond.client.entity.race.merfolk.tails.MerfolkTail1Model;
 import grillo78.fantasy_beyond.client.entity.race.orc.FemaleOrcModel;
 import grillo78.fantasy_beyond.client.entity.race.orc.MaleOrcModel;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.FemaleTieflingModel;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.MaleTieflingModel;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.BigHornsModel;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.MediumHornsModel;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.TallHornsModel;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail1Model;
+import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail2Model;
 import grillo78.fantasy_beyond.entities.Goblin;
 import grillo78.fantasy_beyond.entities.Lopus;
+import grillo78.fantasy_beyond.entities.Mimic;
 import grillo78.fantasy_beyond.entities.ModEntities;
 import grillo78.fantasy_beyond.items.ModItems;
 import grillo78.fantasy_beyond.items.SpellsBook;
@@ -48,11 +60,15 @@ import grillo78.fantasy_beyond.structures.ModStructures;
 import grillo78.fantasy_beyond.tabs.ModTabs;
 import grillo78.fantasy_beyond.util.ClientUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
@@ -61,13 +77,18 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.gui.overlay.NamedGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingBreatheEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -75,8 +96,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkDirection;
+import org.joml.Quaternionf;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
+
+import java.awt.*;
+import java.math.BigDecimal;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(FantasyBeyond.MOD_ID)
@@ -85,6 +110,7 @@ public class FantasyBeyond {
     public static final String MOD_ID = "fantasy_beyond";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
+    private static final GameRules.Key<GameRules.BooleanValue> KEEP_CHARACTER = GameRules.register("keepCharacter", GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
 
     @SuppressWarnings("removal")
     public FantasyBeyond() {
@@ -110,6 +136,7 @@ public class FantasyBeyond {
 
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapabilities);
         MinecraftForge.EVENT_BUS.addGenericListener(Level.class, this::attachLevelCapabilities);
+        MinecraftForge.EVENT_BUS.addListener(this::livingFall);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::entityJoin);
         MinecraftForge.EVENT_BUS.addListener(this::onStartTracking);
@@ -117,27 +144,42 @@ public class FantasyBeyond {
         MinecraftForge.EVENT_BUS.addListener(this::playerTick);
         MinecraftForge.EVENT_BUS.addListener(this::levelTick);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerClone);
+        MinecraftForge.EVENT_BUS.addListener(this::onHurt);
+        MinecraftForge.EVENT_BUS.addListener(this::canBreath);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            PlayerAnimationAccess.REGISTER_ANIMATION_EVENT.register((player, animationStack) -> {
-                player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
-                    ModifierLayer<IAnimation> layer = data.getLayer();
-                    animationStack.addAnimLayer(69, layer);
-                    PlayerAnimationAccess.getPlayerAssociatedData(player).set(new ResourceLocation(MOD_ID, "data"), layer);
-                });
-            });
+//            PlayerAnimationAccess.REGISTER_ANIMATION_EVENT.register((player, animationStack) -> {
+//                player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
+//                    ModifierLayer<IAnimation> layer = data.getLayer();
+//                    animationStack.addAnimLayer(69, layer);
+//                    PlayerAnimationAccess.getPlayerAssociatedData(player).set(new ResourceLocation(MOD_ID, "data"), layer);
+//                });
+//            });
             if (Services.PLATFORM.isDevelopmentEnvironment())
                 LightCounter.Render.enable = false;
             modEventBus.addListener(this::onClientSetup);
             modEventBus.addListener(this::registerLayerDefinitions);
             modEventBus.addListener(this::registerModel);
-            modEventBus.addListener(this::addLayers);
+            modEventBus.addListener(EventPriority.HIGHEST, this::addLayers);
             modEventBus.addListener(this::registerKeys);
             MinecraftForge.EVENT_BUS.addListener(this::preRenderClothes);
             MinecraftForge.EVENT_BUS.addListener(this::renderFirstPersonHand);
             MinecraftForge.EVENT_BUS.addListener(this::keyInput);
             MinecraftForge.EVENT_BUS.addListener(this::renderLevelLast);
             MinecraftForge.EVENT_BUS.addListener(this::scrollMouse);
+            MinecraftForge.EVENT_BUS.addListener(this::renderHUD);
+        });
+    }
+
+    public void canBreath(LivingBreatheEvent event) {
+        event.getEntity().getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
+            data.getPlayerCustomization().getRace().canBreath(event);
+        });
+    }
+
+    private void onHurt(LivingAttackEvent event) {
+        event.getEntity().getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
+            data.getPlayerCustomization().getRace().onHurt(event);
         });
     }
 
@@ -149,7 +191,7 @@ public class FantasyBeyond {
     }
 
     private void onPlayerClone(final PlayerEvent.Clone event) {
-        if (event.getEntity() instanceof Player && event.getEntity().level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
+        if (event.getEntity() instanceof Player && event.getEntity().level().getGameRules().getBoolean(KEEP_CHARACTER)) {
             event.getOriginal().reviveCaps();
             event.getOriginal().getCapability(PlayerDataProvider.DATA).ifPresent(h ->
                     event.getEntity().getCapability(PlayerDataProvider.DATA).ifPresent(c -> {
@@ -161,22 +203,23 @@ public class FantasyBeyond {
         }
     }
 
-    private void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        event.put(ModEntities.GOBLIN.get(), Goblin.createAttributes());
-        event.put(ModEntities.LOPUS.get(), Lopus.createAttributes());
-    }
-
     private void playerTick(TickEvent.PlayerTickEvent event) {
         event.player.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
-            data.tick();
+            data.tick(event);
         });
         event.player.getCapability(PlayerDataProvider.DATA).ifPresent(magic -> {
-            magic.tick();
+            magic.tick(event);
         });
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
         PacketHandler.init();
+    }
+
+    private void livingFall(LivingFallEvent event) {
+        event.getEntity().getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
+            data.getPlayerCustomization().getRace().livingFall(event);
+        });
     }
 
     @SuppressWarnings("removal")
@@ -194,8 +237,10 @@ public class FantasyBeyond {
                 if (!event.getEntity().level().isClientSide) {
                     if (!data.getPlayerCustomization().isFinished())
                         PacketHandler.INSTANCE.sendTo(new OpenCustomizationScreen(), ((ServerPlayer) event.getEntity()).connection.connection, NetworkDirection.PLAY_TO_CLIENT);
-                    else
+                    else {
+                        data.getPlayerCustomization().getRace().applyAttributes((Player) event.getEntity());
                         data.sync();
+                    }
                 }
             });
         }
@@ -230,8 +275,15 @@ public class FantasyBeyond {
     private void onClientSetup(FMLClientSetupEvent event) {
         EntityRenderers.register(ModEntities.GOBLIN.get(), GoblinRenderer::new);
         EntityRenderers.register(ModEntities.LOPUS.get(), LopusRenderer::new);
+        EntityRenderers.register(ModEntities.MIMIC.get(), MimicRenderer::new);
         EntityRenderers.register(ModEntities.FIREBALL.get(), FireballRenderer::new);
         EntityRenderers.register(ModEntities.LIGHT_SOURCE.get(), LightSourceSpellRenderer::new);
+    }
+
+    private void registerEntityAttributes(EntityAttributeCreationEvent event) {
+        event.put(ModEntities.GOBLIN.get(), Goblin.createAttributes());
+        event.put(ModEntities.LOPUS.get(), Lopus.createAttributes());
+        event.put(ModEntities.MIMIC.get(), Mimic.createAttributes());
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -293,10 +345,6 @@ public class FantasyBeyond {
         event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_ELF, () -> MaleElfModel.createBodyLayer(new CubeDeformation(0.1F)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_ELF, () -> FemaleElfModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_ELF, () -> FemaleElfModel.createBodyLayer(new CubeDeformation(0.1F)));
-        event.registerLayerDefinition(ModModelLayers.MALE_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0.1F)));
-        event.registerLayerDefinition(ModModelLayers.FEMALE_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0.1F)));
         event.registerLayerDefinition(ModModelLayers.MALE_MERFLOK, () -> MaleMerfolkModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_MERFLOK, () -> MaleMerfolkModel.createBodyLayer(new CubeDeformation(0.1F)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_MERFLOK, () -> FemaleMerfolkModel.createBodyLayer(new CubeDeformation(0)));
@@ -311,8 +359,21 @@ public class FantasyBeyond {
         event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_DWARF, () -> FemaleDwarfModel.createBodyLayer(new CubeDeformation(0.1F)));
         event.registerLayerDefinition(ModModelLayers.AUTOMATON, () -> AutomatonModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(ModModelLayers.CLOTH_AUTOMATON, () -> AutomatonModel.createBodyLayer(new CubeDeformation(0.1F)));
+
+        event.registerLayerDefinition(ModModelLayers.MALE_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.FEMALE_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.BIG_HORNS, () -> BigHornsModel.createBodyLayer());
+        event.registerLayerDefinition(ModModelLayers.MEDIUM_HORNS, () -> MediumHornsModel.createBodyLayer());
+        event.registerLayerDefinition(ModModelLayers.TALL_HORNS, () -> TallHornsModel.createBodyLayer());
+        event.registerLayerDefinition(ModModelLayers.TIEFLING_TAIL_1, () -> TieflingTail1Model.createBodyLayer());
+        event.registerLayerDefinition(ModModelLayers.TIEFLING_TAIL_2, () -> TieflingTail2Model.createBodyLayer());
+        event.registerLayerDefinition(ModModelLayers.MERFOLK_TAIL_1, () -> MerfolkTail1Model.createBodyLayer());
+
         event.registerLayerDefinition(ModModelLayers.GOBLIN, GoblinModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.LOPUS, LopusModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.MIMIC, MimicModel::createBodyLayer);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -333,6 +394,75 @@ public class FantasyBeyond {
             poseStack.popPose();
             ClientUtil.renderFirstPersonModel(event);
         }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void renderHUD(RenderGuiOverlayEvent.Pre event) {
+        if (!Minecraft.getInstance().player.isCreative() && !Minecraft.getInstance().player.isSpectator()) {
+            NamedGuiOverlay type = event.getOverlay();
+            switch (type.id().getPath()) {
+                case "player_health":
+                    renderHealth(event);
+//                case "crosshair":
+                case "boss_event_progress":
+                case "armor_level":
+                case "experience_bar":
+                case "food_level":
+                case "air_level":
+                case "potion_icons":
+                    event.setCanceled(true);
+                    break;
+            }
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void renderHealth(RenderGuiOverlayEvent.Pre event) {
+
+        Minecraft.getInstance().player.getCapability(PlayerDataProvider.DATA).ifPresent(playerData -> {
+            GuiGraphics graphics = event.getGuiGraphics();
+            Player player = Minecraft.getInstance().player;
+
+            int offset = 10;
+            double factor = Minecraft.getInstance().getWindow().getGuiScale();
+
+            graphics.blit(new ResourceLocation(MOD_ID, "textures/screen/hud/health_indicator.png"), offset - 8, 5, 0, 0, 140, 60, 140, 60);
+
+            RenderSystem.enableScissor((int) ((offset + 10) * factor), (int) (Minecraft.getInstance().getWindow().getHeight() - 60 * factor), (int) (factor * (49)), (int) (49 * factor));
+            InventoryScreen.renderEntityInInventory(graphics, offset + 35, 60, playerData.getPlayerCustomization().getRace().getHUDViewerScale(), new Quaternionf().rotateX((float) Math.PI).rotateY((float) Math.toRadians(player.yBodyRot)), new Quaternionf().rotationX((float) 0), Minecraft.getInstance().player);
+            RenderSystem.disableScissor();
+
+            graphics.fillGradient(offset + 70, 11, offset + (int) (70 + (56 * Minecraft.getInstance().player.getHealth() / Minecraft.getInstance().player.getMaxHealth())), 16, new Color(250,100,100).hashCode(), Color.RED.hashCode());
+
+            graphics.fillGradient(offset + 70, 19, offset + (int) (70 + (56 * Minecraft.getInstance().player.getArmorCoverPercentage())), 24, Color.LIGHT_GRAY.hashCode(), Color.GRAY.hashCode());
+
+            graphics.fillGradient(offset + 70, 27, offset + 70 + (56 * Minecraft.getInstance().player.getFoodData().getFoodLevel() / 20), 32, Color.GREEN.hashCode(), new Color(0,200,0).hashCode());
+
+            graphics.fillGradient(offset + 70, 35, offset + 70 + Mth.clamp((56 * Minecraft.getInstance().player.getAirSupply() / Minecraft.getInstance().player.getMaxAirSupply()), 0, 56), 40, new Color(100,100,250).hashCode(), Color.BLUE.hashCode());
+
+            graphics.fillGradient(offset, (int) (61 - (50 * Minecraft.getInstance().player.experienceProgress)), offset + 7, 60, new Color(0, 150, 10).hashCode(), new Color(0, 200, 10).hashCode());
+
+            Component text = Component.literal(String.valueOf(Minecraft.getInstance().player.experienceLevel));
+            graphics.drawString(Minecraft.getInstance().font, Component.translatable(MOD_ID+".hud.level"), offset + 63, 42, new Color(0, 150, 10).hashCode());
+            graphics.drawString(Minecraft.getInstance().font, text, offset + 63, 52, new Color(0, 150, 10).hashCode());
+
+            graphics.pose().pushPose();
+            graphics.pose().scale(0.5F, 0.5F, 0.5F);
+
+            text = Component.literal(round(Minecraft.getInstance().player.getHealth(), 2) + " / " + Minecraft.getInstance().player.getMaxHealth());
+
+            graphics.drawString(Minecraft.getInstance().font, text, (offset + 96) * 2 - (Minecraft.getInstance().font.width(text) / 2), 24, Color.WHITE.hashCode(), false);
+            text = Component.literal(String.valueOf(Minecraft.getInstance().player.getArmorCoverPercentage()));
+            graphics.drawString(Minecraft.getInstance().font, text, (offset + 96) * 2 - (Minecraft.getInstance().font.width(text) / 2), 40, Color.WHITE.hashCode(), false);
+            text = Component.literal(Minecraft.getInstance().player.getFoodData().getFoodLevel() + "/ 20");
+            graphics.drawString(Minecraft.getInstance().font, text, (int) ((offset + 93.5) * 2 - (Minecraft.getInstance().font.width(text) / 2)), 56, Color.WHITE.hashCode(), false);
+            text = Component.literal(Minecraft.getInstance().player.getAirSupply() + " / " + Minecraft.getInstance().player.getMaxAirSupply());
+            graphics.drawString(Minecraft.getInstance().font, text, (int) ((offset + 93.5) * 2 - (Minecraft.getInstance().font.width(text) / 2)), 72, Color.WHITE.hashCode(), false);
+            graphics.pose().popPose();
+        });
+    }
+    public float round(float d, int decimalPlace) {
+        return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
     }
 
     @OnlyIn(Dist.CLIENT)
