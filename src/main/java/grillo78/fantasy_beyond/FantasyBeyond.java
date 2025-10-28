@@ -16,6 +16,7 @@ import grillo78.fantasy_beyond.capabilities.PlayerDataProvider;
 import grillo78.fantasy_beyond.capabilities.customization.race.RaceType;
 import grillo78.fantasy_beyond.capabilities.spells_book.SpellsBookProvider;
 import grillo78.fantasy_beyond.client.KeyMappings;
+import grillo78.fantasy_beyond.datagen.ModItemModelProvider;
 import grillo78.fantasy_beyond.client.entity.CustomizationLayer;
 import grillo78.fantasy_beyond.client.entity.FireballRenderer;
 import grillo78.fantasy_beyond.client.entity.LightSourceSpellRenderer;
@@ -45,6 +46,7 @@ import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.MediumHornsMode
 import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.TallHornsModel;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail1Model;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail2Model;
+import grillo78.fantasy_beyond.datagen.ModLanguageProvider;
 import grillo78.fantasy_beyond.entities.Goblin;
 import grillo78.fantasy_beyond.entities.Lopus;
 import grillo78.fantasy_beyond.entities.Mimic;
@@ -68,6 +70,7 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.data.DataProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -82,6 +85,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.NamedGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -135,6 +139,7 @@ public class FantasyBeyond {
         ModTabs.CREATIVE_MODE_TABS.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::gatherData);
         modEventBus.addListener(this::registerEntityAttributes);
 
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapabilities);
@@ -172,6 +177,16 @@ public class FantasyBeyond {
             MinecraftForge.EVENT_BUS.addListener(this::scrollMouse);
             MinecraftForge.EVENT_BUS.addListener(this::renderHUD);
         });
+    }
+
+    public void gatherData(GatherDataEvent event) {
+        event.getGenerator().addProvider(true, new ModItemModelProvider(event.getGenerator(), MOD_ID, event.getExistingFileHelper()));
+        event.getGenerator().addProvider(
+                // Tell generator to run only when client assets are generating
+                event.includeClient(),
+                // Localizations for American English
+                (DataProvider.Factory<ModLanguageProvider>) output -> new ModLanguageProvider(output, MOD_ID, "en_us")
+        );
     }
 
     public void canBreath(LivingBreatheEvent event) {

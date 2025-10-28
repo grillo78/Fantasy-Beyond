@@ -1,0 +1,6 @@
+{
+  "parent": "fantasy_beyond:item/clothes/male_human",
+  "textures": {
+    "0": "fantasy_beyond:entity/clothes/male/human_shirt_4"
+  }
+}

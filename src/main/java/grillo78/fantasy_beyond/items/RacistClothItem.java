@@ -128,6 +128,14 @@ public class RacistClothItem extends ClothItem {
         return AlphaMaskTexture.getTexture(baseTexture, new ResourceLocation(ClothesMod.MOD_ID, baseTexture.getPath() + append), masks);
     }
 
+    public boolean isForMale() {
+        return isForMale;
+    }
+
+    public boolean isGenderless() {
+        return isGenderless;
+    }
+
     private ResourceLocation getBaseTexture(PlayerData data) {
         boolean isForMale = this.isForMale;
         if (isGenderless) {
@@ -141,5 +149,9 @@ public class RacistClothItem extends ClothItem {
             masks.add(((Cloth) item).getAlphaMask(player));
             append.set(append.get() + ForgeRegistries.ITEMS.getKey(item).toString().replace(":", "_"));
         }
+    }
+
+    public String getBaseModel() {
+        return (isGenderless || isForMale? "male_" : "female_")+ RaceType.RACE_TYPES_REGISTRY.get().getKey(races.get(0)).getPath();
     }
 }

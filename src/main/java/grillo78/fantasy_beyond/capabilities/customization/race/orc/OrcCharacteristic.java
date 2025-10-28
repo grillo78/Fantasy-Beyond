@@ -54,9 +54,9 @@ public class OrcCharacteristic extends Characteristic {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void translateToArm(PoseStack poseStack, HumanoidArm arm) {
+        poseStack.translate(0.05,1.2,-0.2);
         if(getPlayerCustomization().isMale()) {
             maleModel.getArmPart(arm).translateAndRotate(poseStack);
-            poseStack.translate(0, 1.55, 0);
         }
         else
             femaleModel.getArmPart(arm).translateAndRotate(poseStack);

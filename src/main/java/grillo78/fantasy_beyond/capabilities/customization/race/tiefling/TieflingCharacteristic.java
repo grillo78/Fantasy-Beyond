@@ -63,7 +63,7 @@ public class TieflingCharacteristic extends Characteristic {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void render(PlayerModel<Player> model, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight, Player player) {
-        CustomizationModel customizationModel = getModel();;
+        CustomizationModel customizationModel = getModel();
         customizationModel.young = getPlayerCustomization().isYoung();
         customizationModel.setModelProperties(player);
         customizationModel.setupModel(model, player, Minecraft.getInstance().getPartialTick());

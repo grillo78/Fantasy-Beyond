@@ -20,10 +20,10 @@ public class ModItems {
     // Create a Deferred Register to hold Items which will all be registered under the "wizarding_magic" namespace
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, FantasyBeyond.MOD_ID);
 
-    public static final RegistryObject<Item> STAFF = register("staff", ()-> new Staff(new Item.Properties().stacksTo(1)));
-    public static final RegistryObject<Item> SPELLS_BOOK = register("spells_book", ()-> new SpellsBook(new Item.Properties().stacksTo(1), Arrays.asList(SpellType.FALLING_CANNON_SPELL,
-//            SpellType.SHIELD_SPELL, SpellType.SWORD_INVOKE_SPELL,
-            SpellType.FIREBALL_SPELL, SpellType.LIGHT_SPELL)));
+//    public static final RegistryObject<Item> STAFF = register("staff", ()-> new Staff(new Item.Properties().stacksTo(1)));
+//    public static final RegistryObject<Item> SPELLS_BOOK = register("spells_book", ()-> new SpellsBook(new Item.Properties().stacksTo(1), Arrays.asList(SpellType.FALLING_CANNON_SPELL,
+////            SpellType.SHIELD_SPELL, SpellType.SWORD_INVOKE_SPELL,
+//            SpellType.FIREBALL_SPELL, SpellType.LIGHT_SPELL)));
 
     public static final RegistryObject<Item> DWARF_SHIRT_1 = register("dwarf_shirt_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.DWARF)));
     public static final RegistryObject<Item> DWARF_PANTS_1 = register("dwarf_pants_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.DWARF)));

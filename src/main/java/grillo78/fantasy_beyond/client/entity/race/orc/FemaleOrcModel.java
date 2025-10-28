@@ -92,6 +92,8 @@ public class FemaleOrcModel<T extends Entity> extends CustomizationModel<T> {
 		copyFrom(right_arm, bipedModel.rightArm, true);
 		copyFrom(left_leg, bipedModel.leftLeg, true);
 		copyFrom(right_leg, bipedModel.rightLeg, true);
+		left_leg.z = left_leg.z*1.75F;
+		right_leg.z = right_leg.z*1.75F;
 	}
 
 	@Override
