@@ -2,8 +2,8 @@ package grillo78.fantasy_beyond.client.screen.widget;
 
 
 import grillo78.fantasy_beyond.FantasyBeyond;
-import grillo78.fantasy_beyond.capabilities.customization.race.Characteristic;
-import grillo78.fantasy_beyond.capabilities.customization.race.Coloreable;
+import grillo78.fantasy_beyond.character.customization.race.Characteristic;
+import grillo78.fantasy_beyond.character.customization.race.Coloreable;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -15,10 +15,10 @@ import java.awt.*;
 
 public class ColorPicker extends AbstractWidget {
 
-    private static ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker_background.png");
-    private static ResourceLocation COLOR_PICKER_SLIDER_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker.png");
-    private static ResourceLocation COLOR_PICKER_POINT_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker_point.png");
-    private static ResourceLocation COLOR_PICKER_SLIDER_SELECT_TEXTURE = new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker_slider.png");
+    private static ResourceLocation BACKGROUND_TEXTURE = ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/color_picker_background.png");
+    private static ResourceLocation COLOR_PICKER_SLIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/color_picker.png");
+    private static ResourceLocation COLOR_PICKER_POINT_TEXTURE = ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/color_picker_point.png");
+    private static ResourceLocation COLOR_PICKER_SLIDER_SELECT_TEXTURE = ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/color_picker_slider.png");
 
     private float hue = 0;
     private float saturation = 0;
@@ -37,6 +37,8 @@ public class ColorPicker extends AbstractWidget {
 
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        pGuiGraphics.pose().pushPose();
+        pGuiGraphics.pose().translate(0,0,10);
         pGuiGraphics.blit(BACKGROUND_TEXTURE, getX(), getY(), 0, 0, width, height, width, height);
         pGuiGraphics.blit(COLOR_PICKER_SLIDER_TEXTURE, getX() + 5, getY() - 15 + height, 0, 0, width - 10, 10, width - 10, 10);
         pGuiGraphics.fill(getX() + 5, getY() + 5, getX() + width - 5, getY() + height - 20, Color.WHITE.hashCode());
@@ -47,6 +49,7 @@ public class ColorPicker extends AbstractWidget {
         pGuiGraphics.fillGradient(0, 0, height - 25, width - 15, Color.BLACK.hashCode(), new Color(0, 0, 0, 0).hashCode());
         pGuiGraphics.pose().popPose();
         pGuiGraphics.blit(COLOR_PICKER_POINT_TEXTURE, (int) (getX() + (width -2.5F - 5) * (1-lightness)), (int) (getY() -2 + (height - 20) * (1-saturation)), 0, 0, 5, 5, 5, 5);
+        pGuiGraphics.pose().popPose();
     }
 
     @Override

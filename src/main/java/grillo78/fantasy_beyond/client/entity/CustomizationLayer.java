@@ -1,7 +1,8 @@
 package grillo78.fantasy_beyond.client.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import grillo78.fantasy_beyond.capabilities.PlayerDataProvider;
+import grillo78.fantasy_beyond.attachment.ModAttachments;
+import grillo78.fantasy_beyond.character.CharacterData;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
 import grillo78.fantasy_beyond.client.entity.race.human.MaleHumanModel;
 import net.minecraft.client.Minecraft;
@@ -21,13 +22,11 @@ public class CustomizationLayer extends RenderLayer<AbstractClientPlayer, Player
 
     @Override
     public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, AbstractClientPlayer pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-
         pPoseStack.pushPose();
         PlayerModel bipedModel = getParentModel();
-        pLivingEntity.getCapability(PlayerDataProvider.DATA).ifPresent(data -> {
-            if (data.getPlayerCustomization() != null)
-                data.getPlayerCustomization().getRace().render(bipedModel, pPoseStack, pBuffer, pPackedLight, data.getPlayer());
-        });
+        CharacterData data = pLivingEntity.getData(ModAttachments.CHARACTER_DATA);
+        if (data.getPlayerCustomization() != null && !pLivingEntity.isInvisible())
+            data.getPlayerCustomization().getRace().render(bipedModel, pPoseStack, pBuffer, pPackedLight, pLivingEntity);
         pPoseStack.popPose();
     }
 

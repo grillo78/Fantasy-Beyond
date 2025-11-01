@@ -1,22 +1,16 @@
 {
   "required": true,
   "package": "grillo78.fantasy_beyond.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "refmap": "fantasy_beyond.refmap.json",
-  "mixins": [
-    "PlayerMixin",
-    "LivingEntityMixin",
-    "structures.StructureTemplateMixin",
-    "structures.StructureProcessorAccessor"
-  ],
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
   "client": [
     "client.LivingEntityRendererMixin",
-    "client.HumanoidArmorLayerMixin",
-    "client.ItemInHandLayerMixin",
-    "client.CameraNearPlaneMixin"
+    "client.ItemInHandLayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "minVersion": "0.8"
+  "overwrites": {
+    "requireAnnotations": true
+  }
 }

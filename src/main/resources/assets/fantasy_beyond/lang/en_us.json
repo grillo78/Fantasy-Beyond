@@ -73,7 +73,7 @@
   "fantasy_beyond.spell.light_spell": "Light source",
   "fantasy_beyond.spell_description.light_spell": "The user invokes a moving light source that follow the user for for more than a minute",
   "fantasy_beyond.hud.level": "Level",
-  "fantasy_beyond.tooltip.race": "Race: %s",
+  "fantasy_beyond.tooltip.races": "Races:",
   "fantasy_beyond.tooltip.gender": "Gender: %s",
   "fantasy_beyond.tooltip.gender.genderless": "Genderless",
   "fantasy_beyond.tooltip.gender.male": "Male",

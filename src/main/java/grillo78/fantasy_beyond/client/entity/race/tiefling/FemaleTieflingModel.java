@@ -3,13 +3,13 @@ package grillo78.fantasy_beyond.client.entity.race.tiefling;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 
 public class FemaleTieflingModel<T extends Entity> extends CustomizationModel<T> {
 	private final ModelPart root;
@@ -28,6 +28,17 @@ public class FemaleTieflingModel<T extends Entity> extends CustomizationModel<T>
 		this.head = this.root.getChild("head");
 		this.left_arm = this.root.getChild("left_arm");
 		this.right_arm = this.root.getChild("right_arm");
+	}
+	
+	@Override
+	public void copyFrom(CustomizationModel model) {
+		root.copyFrom(((FemaleTieflingModel) model).root);
+		body.copyFrom(((FemaleTieflingModel) model).body);
+		right_leg.copyFrom(((FemaleTieflingModel) model).right_leg);
+		left_leg.copyFrom(((FemaleTieflingModel) model).left_leg);
+		head.copyFrom(((FemaleTieflingModel) model).head);
+		left_arm.copyFrom(((FemaleTieflingModel) model).left_arm);
+		right_arm.copyFrom(((FemaleTieflingModel) model).right_arm);
 	}
 
 	@Override
@@ -80,12 +91,12 @@ public class FemaleTieflingModel<T extends Entity> extends CustomizationModel<T>
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 	}
 
 	@Override
-	public void setupModel(PlayerModel bipedModel) {
+	public void setupModel(HumanoidModel bipedModel) {
 		copyFrom(head, bipedModel.head, true);
 		copyFrom(body, bipedModel.body, true);
 		copyFrom(left_arm, bipedModel.leftArm, true);
@@ -95,7 +106,7 @@ public class FemaleTieflingModel<T extends Entity> extends CustomizationModel<T>
 	}
 
 	@Override
-	public void setModelProperties(Player pLivingEntity) {
+	public void setModelProperties(LivingEntity pLivingEntity) {
 		if (pLivingEntity.isSpectator()) {
 			root.getAllParts().forEach(modelPart -> modelPart.visible = false);
 			head.visible = true;

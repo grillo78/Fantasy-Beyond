@@ -1,93 +1,87 @@
 package grillo78.fantasy_beyond.items;
 
 import com.google.common.collect.Lists;
-import grillo78.clothes_mod.common.items.ClothesSlot;
 import grillo78.fantasy_beyond.FantasyBeyond;
-import grillo78.fantasy_beyond.capabilities.customization.race.RaceType;
-import grillo78.fantasy_beyond.entities.ModEntities;
-import grillo78.fantasy_beyond.magic.spells.SpellType;
+import grillo78.fantasy_beyond.character.customization.race.RaceType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.awt.*;
-import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class ModItems {
     // Create a Deferred Register to hold Items which will all be registered under the "wizarding_magic" namespace
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, FantasyBeyond.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, FantasyBeyond.MOD_ID);
 
-//    public static final RegistryObject<Item> STAFF = register("staff", ()-> new Staff(new Item.Properties().stacksTo(1)));
-//    public static final RegistryObject<Item> SPELLS_BOOK = register("spells_book", ()-> new SpellsBook(new Item.Properties().stacksTo(1), Arrays.asList(SpellType.FALLING_CANNON_SPELL,
+//    public static final DeferredHolder<Item,Item> STAFF = register("staff", ()-> new Staff(new Item.Properties().stacksTo(1)));
+//    public static final DeferredHolder<Item,Item> SPELLS_BOOK = register("spells_book", ()-> new SpellsBook(new Item.Properties().stacksTo(1), Arrays.asList(SpellType.FALLING_CANNON_SPELL,
 ////            SpellType.SHIELD_SPELL, SpellType.SWORD_INVOKE_SPELL,
 //            SpellType.FIREBALL_SPELL, SpellType.LIGHT_SPELL)));
 
-    public static final RegistryObject<Item> DWARF_SHIRT_1 = register("dwarf_shirt_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_PANTS_1 = register("dwarf_pants_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_BOOTS_1 = register("dwarf_boots_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_SHIRT_1 = register("dwarf_shirt_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_PANTS_1 = register("dwarf_pants_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_BOOTS_1 = register("dwarf_boots_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
 
-    public static final RegistryObject<Item> DWARF_HOOD_2 = register("dwarf_hood_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.HEAD, Lists.newArrayList(RaceType.DWARF), true));
-    public static final RegistryObject<Item> DWARF_SHIRT_2 = register("dwarf_shirt_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_BELT_2 = register("dwarf_belt_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.BELT, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_PANTS_2 = register("dwarf_pants_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_BOOTS_2 = register("dwarf_boots_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_HOOD_2 = register("dwarf_hood_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF), true));
+    public static final DeferredHolder<Item,Item> DWARF_SHIRT_2 = register("dwarf_shirt_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_BELT_2 = register("dwarf_belt_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_PANTS_2 = register("dwarf_pants_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_BOOTS_2 = register("dwarf_boots_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
 
-    public static final RegistryObject<Item> DWARF_SHIRT_3 = register("dwarf_shirt_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_BELT_3 = register("dwarf_belt_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.BELT, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_PANTS_3 = register("dwarf_pants_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_BOOTS_3 = register("dwarf_boots_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_SHIRT_3 = register("dwarf_shirt_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_BELT_3 = register("dwarf_belt_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_PANTS_3 = register("dwarf_pants_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_BOOTS_3 = register("dwarf_boots_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
 
-    public static final RegistryObject<Item> DWARF_COAT_4 = register("dwarf_coat_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.JACKET, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_SHIRT_4 = register("dwarf_shirt_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_PANTS_4 = register("dwarf_pants_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.DWARF)));
-    public static final RegistryObject<Item> DWARF_BOOTS_4 = register("dwarf_boots_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_COAT_4 = register("dwarf_coat_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_SHIRT_4 = register("dwarf_shirt_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_PANTS_4 = register("dwarf_pants_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
+    public static final DeferredHolder<Item,Item> DWARF_BOOTS_4 = register("dwarf_boots_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
 
-    public static final RegistryObject<Item>HUMAN_SHIRT_1 = register("human_shirt_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_PANTS_1 = register("human_pants_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_BOOTS_1 = register("human_boots_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_SHIRT_1 = register("human_shirt_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_PANTS_1 = register("human_pants_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_BOOTS_1 = register("human_boots_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
 
-    public static final RegistryObject<Item>HUMAN_HOOD_2 = register("human_hood_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.HEAD, Lists.newArrayList(RaceType.HUMAN), true));
-    public static final RegistryObject<Item>HUMAN_SHIRT_2 = register("human_shirt_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_BELT_2 = register("human_belt_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.BELT, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_PANTS_2 = register("human_pants_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_BOOTS_2 = register("human_boots_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_HOOD_2 = register("human_hood_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN), true));
+    public static final DeferredHolder<Item,Item>HUMAN_SHIRT_2 = register("human_shirt_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_BELT_2 = register("human_belt_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_PANTS_2 = register("human_pants_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_BOOTS_2 = register("human_boots_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
 
-    public static final RegistryObject<Item>HUMAN_SHIRT_3 = register("human_shirt_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_BELT_3 = register("human_belt_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.BELT, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_PANTS_3 = register("human_pants_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_BOOTS_3 = register("human_boots_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_SHIRT_3 = register("human_shirt_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_BELT_3 = register("human_belt_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_PANTS_3 = register("human_pants_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_BOOTS_3 = register("human_boots_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
 
-    public static final RegistryObject<Item>HUMAN_COAT_4 = register("human_coat_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.JACKET, Lists.newArrayList(RaceType.HUMAN),true));
-    public static final RegistryObject<Item>HUMAN_SHIRT_4 = register("human_shirt_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_PANTS_4 = register("human_pants_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.HUMAN)));
-    public static final RegistryObject<Item>HUMAN_BOOTS_4 = register("human_boots_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_COAT_4 = register("human_coat_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN),true));
+    public static final DeferredHolder<Item,Item>HUMAN_SHIRT_4 = register("human_shirt_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_PANTS_4 = register("human_pants_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
+    public static final DeferredHolder<Item,Item>HUMAN_BOOTS_4 = register("human_boots_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.HUMAN)));
 
-    public static final RegistryObject<Item> MULTI_SHIRT_1 = register("multi_shirt_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_PANTS_1 = register("multi_pants_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_BOOTS_1 = register("multi_boots_1", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_SHIRT_1 = register("multi_shirt_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_PANTS_1 = register("multi_pants_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_BOOTS_1 = register("multi_boots_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
 
-    public static final RegistryObject<Item> MULTI_HOOD_2 = register("multi_hood_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.HEAD, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF), true));
-    public static final RegistryObject<Item> MULTI_SHIRT_2 = register("multi_shirt_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_BELT_2 = register("multi_belt_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.BELT, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_PANTS_2 = register("multi_pants_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_BOOTS_2 = register("multi_boots_2", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_HOOD_2 = register("multi_hood_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF), true));
+    public static final DeferredHolder<Item,Item> MULTI_SHIRT_2 = register("multi_shirt_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_BELT_2 = register("multi_belt_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_PANTS_2 = register("multi_pants_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_BOOTS_2 = register("multi_boots_2", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
 
-    public static final RegistryObject<Item> MULTI_SHIRT_3 = register("multi_shirt_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_BELT_3 = register("multi_belt_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.BELT, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_PANTS_3 = register("multi_pants_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_BOOTS_3 = register("multi_boots_3", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_SHIRT_3 = register("multi_shirt_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_BELT_3 = register("multi_belt_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_PANTS_3 = register("multi_pants_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_BOOTS_3 = register("multi_boots_3", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
 
-    public static final RegistryObject<Item> MULTI_COAT_4 = register("multi_coat_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.JACKET, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_SHIRT_4 = register("multi_shirt_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHIRT, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_PANTS_4 = register("multi_pants_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.PANTS, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
-    public static final RegistryObject<Item> MULTI_BOOTS_4 = register("multi_boots_4", ()-> new RacistClothItem(new Item.Properties(), ClothesSlot.SHOES, Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_COAT_4 = register("multi_coat_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF), false, true, true));
+    public static final DeferredHolder<Item,Item> MULTI_SHIRT_4 = register("multi_shirt_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_PANTS_4 = register("multi_pants_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
+    public static final DeferredHolder<Item,Item> MULTI_BOOTS_4 = register("multi_boots_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
 
-    public static final RegistryObject<Item> GOBLIN_SPAWN_EGG = register("goblin_spawn_egg", ()-> new ForgeSpawnEggItem(()-> ModEntities.GOBLIN.get(), Color.GREEN.hashCode(), Color.GRAY.hashCode(),new Item.Properties()));
+//    public static final DeferredHolder<Item, Item> GOBLIN_SPAWN_EGG = register("goblin_spawn_egg", ()-> new ForgeSpawnEggItem(()-> ModEntities.GOBLIN.get(), Color.GREEN.hashCode(), Color.GRAY.hashCode(),new Item.Properties()));
 
-    public static <T extends Item, V extends Supplier<T>> RegistryObject<T> register(String name, V itemSupplier) {
+    public static <T extends Item, V extends Supplier<T>> DeferredHolder<Item, T> register(String name, V itemSupplier) {
         return ITEMS.register(name, itemSupplier);
     }
 }

@@ -3,13 +3,14 @@ package grillo78.fantasy_beyond.client.entity.race.tiefling.tails;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 public class TieflingTail1Model<T extends Entity> extends CustomizationModel<T> {
@@ -75,8 +76,8 @@ public class TieflingTail1Model<T extends Entity> extends CustomizationModel<T> 
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+        root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
     @Override
     public ModelPart getArmPart(HumanoidArm arm) {
@@ -84,7 +85,7 @@ public class TieflingTail1Model<T extends Entity> extends CustomizationModel<T> 
     }
 
     @Override
-    public void setupModel(PlayerModel bipedModel, Player player, float partialTick) {
+    public void setupModel(HumanoidModel bipedModel, Player player, float partialTick) {
         super.setupModel(bipedModel, player, partialTick);
         bone.setRotation((float) Math.toRadians((player.isVisuallySwimming()?-60:0)+Math.cos(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 5) * 7 - 7), (float) Math.toRadians(Math.sin(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 2) * 3), (float) Math.toRadians(Math.sin(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 5) * 20));
         bone2.setRotation((float) Math.toRadians(Math.cos(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 5) * 7 - 7), (float) Math.toRadians(Math.sin(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 2) * 3), (float) Math.toRadians(Math.sin(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 5) * 20));
@@ -93,7 +94,7 @@ public class TieflingTail1Model<T extends Entity> extends CustomizationModel<T> 
     }
 
     @Override
-    public void setupModel(PlayerModel bipedModel) {
+    public void setupModel(HumanoidModel bipedModel) {
         copyFrom(head, bipedModel.head, true);
         copyFrom(body, bipedModel.body, true);
         copyFrom(left_arm, bipedModel.leftArm, true);

@@ -1,13 +1,14 @@
 package grillo78.fantasy_beyond.client.screen.widget;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
-import grillo78.fantasy_beyond.capabilities.customization.race.Characteristic;
-import grillo78.fantasy_beyond.capabilities.customization.race.Coloreable;
-import grillo78.fantasy_beyond.capabilities.customization.race.Race;
+import grillo78.fantasy_beyond.character.customization.race.Characteristic;
+import grillo78.fantasy_beyond.character.customization.race.Coloreable;
+import grillo78.fantasy_beyond.character.customization.race.Race;
 import grillo78.fantasy_beyond.client.screen.CustomizationScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -20,13 +21,10 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
 
     //Minecraft pMinecraft, int pWidth, int pHeight, int pY0, int pY1, int pItemHeight
     public CharacteristicsList(CustomizationScreen parent) {
-        super(parent.getMinecraft(), parent.width / 3 - 20, parent.height,
-                28, parent.height - 60, parent.getMinecraft().font.lineHeight * 2 + 8);
+        super(parent.getMinecraft(), parent.width / 3, parent.height - 56,
+                28, parent.getMinecraft().font.lineHeight * 2 + 8);
+        this.setX(2 * parent.width / 3);
         this.parent = parent;
-        this.x0 = 2 * parent.width / 3;
-        this.x1 = parent.width;
-        setRenderTopAndBottom(false);
-        setRenderBackground(false);
     }
 
     @Override
@@ -45,17 +43,17 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
 
     @Override
     public int getRowLeft() {
-        return this.x0;
+        return this.getX();
     }
 
     @Override
     public int getRowWidth() {
-        return width - 10;
+        return width - 22;
     }
 
     @Override
     protected int getScrollbarPosition() {
-        return x1 - 22;
+        return getX() + width - 15;
     }
 
     public void fillCharacteristics(Race race) {
@@ -63,6 +61,16 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
         for (int i = 0; i < race.getCharacteristics().size(); i++) {
             addEntry(new CharacteristicEntry(race.getCharacteristics().get(i), race.getCharacteristics().get(i).getName(), parent));
         }
+    }
+
+
+    @Override
+    protected void renderListBackground(GuiGraphics guiGraphics) {
+    }
+
+    @Override
+    protected void renderListSeparators(GuiGraphics guiGraphics) {
+
     }
 
     public ImageButtonWithText getBackButton() {
@@ -90,14 +98,14 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
             if (pMouseX > getRowRight() - 16 && characteristic instanceof Coloreable) {
                 if(screen.getColorPicker() != null)
                     screen.removeRenderable(screen.getColorPicker());
-                screen.setColorPicker(new ColorPicker(getRight() - getRowWidth()/2, getTop() ,50,65, (Coloreable) characteristic));
+                screen.setColorPicker(new ColorPicker(getRight() - getRowWidth()/2, getY() ,50,65, (Coloreable) characteristic));
                 screen.addRenderableWidgetWrap(screen.getColorPicker());
             } else {
                 screen.removeRenderable(list);
                 VariantsList variantsList = new VariantsList(screen, characteristic);
                 screen.addRenderableWidgetWrap(variantsList);
                 //int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, int pYDiffTex, ResourceLocation pResourceLocation, int pTextureWidth, int pTextureHeight, Button.OnPress pOnPress, Component pMessage
-                screen.addRenderableWidgetWrap(CharacteristicsList.this.backButton =new ImageButtonWithText(2 * parent.width / 3 + 5, 30, parent.width / 3 - 30, 22, 0, 0, 22, new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/scroll_button.png"), parent.width / 3 - 30, 66, (button) -> {
+                screen.addRenderableWidgetWrap(CharacteristicsList.this.backButton =new ImageButtonWithText(getRowLeft() + 5, 32, getRowWidth(), 22, 0, 0, 22, CustomizationScreen.SCROLL_BUTTON_TEXTURE, parent.width / 3 - 30, 66, (button) -> {
                     screen.removeRenderable(button);
                     screen.removeRenderable(variantsList);
                     screen.addRenderableWidgetWrap(list);
@@ -108,10 +116,10 @@ public class CharacteristicsList extends ObjectSelectionList<CharacteristicsList
 
         @Override
         public void render(GuiGraphics pGuiGraphics, int pIndex, int pTop, int pLeft, int pWidth, int pHeight, int pMouseX, int pMouseY, boolean pHovering, float pPartialTick) {
-            pGuiGraphics.blit(new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/scroll_entry" + ((pHovering && pMouseX < getRowRight() - (characteristic instanceof Coloreable? 20 : -6)) ? "_selected" : "") + ".png"), pLeft + 5, pTop, 0, 0, pWidth - (characteristic instanceof Coloreable ? 24 : 0), pHeight, pWidth - (characteristic instanceof Coloreable ? 24 : 0), pHeight);
+            pGuiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scroll_entry" + ((pHovering && pMouseX < getRowRight() - (characteristic instanceof Coloreable? 20 : -6)) ? "_selected" : "") + ".png"), pLeft + 5, pTop, 0, 0, pWidth - (characteristic instanceof Coloreable ? 24 : 0), pHeight, pWidth - (characteristic instanceof Coloreable ? 24 : 0), pHeight);
             pGuiGraphics.drawString(Minecraft.getInstance().font, text, pLeft + 5 + pWidth / 2 - Minecraft.getInstance().font.width(text) / 2, pTop + pHeight / 2 - Minecraft.getInstance().font.lineHeight / 2, (pHovering && pMouseX < getRowRight() - 20) ? Color.GRAY.hashCode() : Color.WHITE.hashCode());
             if (characteristic instanceof Coloreable)
-                pGuiGraphics.blit(new ResourceLocation(FantasyBeyond.MOD_ID, "textures/screen/customization/color_picker_icon.png"), getRowRight() - 16, pTop, 0, 0, 22, 22, 22, 22);
+                pGuiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/color_picker_icon.png"), getRowRight() - 16, pTop, 0, 0, 22, 22, 22, 22);
         }
     }
 }

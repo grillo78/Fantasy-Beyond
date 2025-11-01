@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "Elf_shoes_0"
+		"0": "elf_shoes_0"
 	},
 	"elements": [
 		{

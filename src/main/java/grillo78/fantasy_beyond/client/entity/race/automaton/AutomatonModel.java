@@ -3,13 +3,13 @@ package grillo78.fantasy_beyond.client.entity.race.automaton;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 
 public class AutomatonModel<T extends Entity> extends CustomizationModel<T> {
 	private final ModelPart root;
@@ -33,6 +33,17 @@ public class AutomatonModel<T extends Entity> extends CustomizationModel<T> {
 	@Override
 	public ModelPart getArmPart(HumanoidArm arm) {
 		return arm == HumanoidArm.RIGHT? right_arm : left_arm;
+	}
+
+	@Override
+	public void copyFrom(CustomizationModel model) {
+		root.copyFrom(((AutomatonModel) model).root);
+		body.copyFrom(((AutomatonModel) model).body);
+		right_leg.copyFrom(((AutomatonModel) model).right_leg);
+		left_leg.copyFrom(((AutomatonModel) model).left_leg);
+		head.copyFrom(((AutomatonModel) model).head);
+		left_arm.copyFrom(((AutomatonModel) model).left_arm);
+		right_arm.copyFrom(((AutomatonModel) model).right_arm);
 	}
 
 	public static LayerDefinition createBodyLayer(CubeDeformation cubeDeformation) {
@@ -76,14 +87,13 @@ public class AutomatonModel<T extends Entity> extends CustomizationModel<T> {
 	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
-
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 	}
 
 	@Override
-	public void setupModel(PlayerModel bipedModel) {
+	public void setupModel(HumanoidModel bipedModel) {
 		copyFrom(head, bipedModel.head, true);
 		copyFrom(body, bipedModel.body, true);
 		copyFrom(left_arm, bipedModel.leftArm, true);
@@ -93,7 +103,7 @@ public class AutomatonModel<T extends Entity> extends CustomizationModel<T> {
 	}
 
 	@Override
-	public void setModelProperties(Player pLivingEntity) {
+	public void setModelProperties(LivingEntity pLivingEntity) {
 		if (pLivingEntity.isSpectator()) {
 			root.getAllParts().forEach(modelPart -> modelPart.visible = false);
 			head.visible = true;

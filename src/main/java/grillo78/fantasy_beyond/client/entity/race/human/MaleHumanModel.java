@@ -3,13 +3,14 @@ package grillo78.fantasy_beyond.client.entity.race.human;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
-import net.minecraft.client.model.PlayerModel;
+import grillo78.fantasy_beyond.client.entity.race.merfolk.FemaleMerfolkModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 
 public class MaleHumanModel<T extends Entity> extends CustomizationModel<T> {
     private final ModelPart root;
@@ -28,6 +29,17 @@ public class MaleHumanModel<T extends Entity> extends CustomizationModel<T> {
         this.left_arm = this.root.getChild("left_arm");
         this.left_leg = this.root.getChild("left_leg");
         this.right_leg = this.root.getChild("right_leg");
+    }
+
+    @Override
+    public void copyFrom(CustomizationModel model) {
+        root.copyFrom(((MaleHumanModel) model).root);
+        body.copyFrom(((MaleHumanModel) model).body);
+        right_leg.copyFrom(((MaleHumanModel) model).right_leg);
+        left_leg.copyFrom(((MaleHumanModel) model).left_leg);
+        head.copyFrom(((MaleHumanModel) model).head);
+        left_arm.copyFrom(((MaleHumanModel) model).left_arm);
+        right_arm.copyFrom(((MaleHumanModel) model).right_arm);
     }
 
     @Override
@@ -74,11 +86,11 @@ public class MaleHumanModel<T extends Entity> extends CustomizationModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+        root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
 
-    public void setModelProperties(Player pClientPlayer) {
+    public void setModelProperties(LivingEntity pClientPlayer) {
         if (pClientPlayer.isSpectator()) {
             root.getAllParts().forEach(modelPart -> modelPart.visible = false);
             head.visible = true;
@@ -94,7 +106,7 @@ public class MaleHumanModel<T extends Entity> extends CustomizationModel<T> {
     }
 
     @Override
-    public void setupModel(PlayerModel bipedModel) {
+    public void setupModel(HumanoidModel bipedModel) {
         copyFrom(head, bipedModel.head, true);
         copyFrom(body, bipedModel.body, true);
         copyFrom(left_arm, bipedModel.leftArm, true);
