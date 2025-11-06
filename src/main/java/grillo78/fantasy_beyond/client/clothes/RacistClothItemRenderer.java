@@ -4,10 +4,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
+import grillo78.fantasy_beyond.character.customization.race.Characteristic;
 import grillo78.fantasy_beyond.character.customization.race.Race;
 import grillo78.fantasy_beyond.character.customization.race.RaceType;
 import grillo78.fantasy_beyond.client.entity.ModModelLayers;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
+import grillo78.fantasy_beyond.client.entity.race.RaceCharacteristicRenderer;
 import grillo78.fantasy_beyond.client.entity.race.dwarf.FemaleDwarfModel;
 import grillo78.fantasy_beyond.client.entity.race.dwarf.MaleDwarfModel;
 import grillo78.fantasy_beyond.client.entity.race.elf.FemaleElfModel;
@@ -61,8 +63,9 @@ public class RacistClothItemRenderer implements ICurioRenderer {
                 CustomizationModel model = data.getPlayerCustomization().isMale() ? RACE_MODELS.get(race.getType()).getA() : RACE_MODELS.get(race.getType()).getB();
                 model.young = data.getPlayerCustomization().isYoung();
                 model.setModelProperties(slotContext.entity());
-                if (data.getPlayerCustomization().getRace().getCharacteristics().get(0).getModel().getClass() == model.getClass())
-                    model.copyFrom(data.getPlayerCustomization().getRace().getCharacteristics().get(0).getModel());
+                Characteristic characteristic = data.getPlayerCustomization().getRace().getCharacteristics().get(0);
+                if (RaceCharacteristicRenderer.getRenderer(characteristic.getClass()).getModel(characteristic).getClass() == model.getClass())
+                    model.copyFrom(RaceCharacteristicRenderer.getRenderer(characteristic.getClass()).getModel(characteristic));
                 model.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(getTexture(slotContext.entity(), (RacistClothItem) stack.getItem(), slotContext.identifier()))), pPackedLight, OverlayTexture.NO_OVERLAY, Color.WHITE.hashCode());
             }
         }
@@ -132,8 +135,8 @@ public class RacistClothItemRenderer implements ICurioRenderer {
                 new FemaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_FEMALE_ORC)));
         RacistClothItemRenderer.registerRaceModels(RaceType.DWARF, new MaleDwarfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_MALE_DWARF)),
                 new FemaleDwarfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_FEMALE_DWARF)));
-        RacistClothItemRenderer.registerRaceModels(RaceType.MERFOLKF, new MaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_MALE_MERFLOK)),
-                new FemaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_FEMALE_MERFLOK)));
+        RacistClothItemRenderer.registerRaceModels(RaceType.MERFOLKF, new MaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_MALE_MERFOLK)),
+                new FemaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_FEMALE_MERFOLK)));
         RacistClothItemRenderer.registerRaceModels(RaceType.TIEFLING, new MaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_MALE_TIEFLING)),
                 new FemaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CLOTH_FEMALE_TIEFLING)));
     }

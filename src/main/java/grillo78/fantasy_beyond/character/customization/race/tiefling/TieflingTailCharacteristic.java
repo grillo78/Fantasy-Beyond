@@ -2,34 +2,17 @@ package grillo78.fantasy_beyond.character.customization.race.tiefling;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
-import grillo78.fantasy_beyond.character.customization.race.tiefling.tails.Tail;
-import grillo78.fantasy_beyond.character.customization.race.tiefling.tails.TieflingTail1;
-import grillo78.fantasy_beyond.character.customization.race.tiefling.tails.TieflingTail2;
-import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.world.entity.LivingEntity;
 
 public class TieflingTailCharacteristic extends TieflingCharacteristic {
 
-    private List<Tail> tails = new ArrayList<>();
-
-    public TieflingTailCharacteristic(PlayerCustomization playerCustomization, String name) {
-        super(playerCustomization,name, 0);
-        tails.add(new TieflingTail1());
-        tails.add(new TieflingTail2());
-
-        setMaxVariant(tails.size());
+    public TieflingTailCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariant) {
+        super(playerCustomization, name, maxVariant);
     }
 
     @Override
-    public CustomizationModel getModel() {
-        return tails.get(getVariant()).getModel();
-    }
-
-    public ResourceLocation getTexture(Player player) {
+    public ResourceLocation getTexture(LivingEntity player) {
         ResourceLocation baseTexture = ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/entity/customization/race/tiefling/tails/" + getVariant() + ".png");
 
 //        List<ResourceLocation> masks = new ArrayList<>();

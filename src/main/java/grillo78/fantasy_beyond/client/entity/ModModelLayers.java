@@ -34,10 +34,10 @@ public class ModModelLayers {
     public static final ModelLayerLocation TIEFLING_TAIL_1 = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "tiefling_tail_1"), "main");
     public static final ModelLayerLocation TIEFLING_TAIL_2 = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "tiefling_tail_2"), "main");
 
-    public static final ModelLayerLocation MALE_MERFLOK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_merfolk"), "main");
-    public static final ModelLayerLocation CLOTH_MALE_MERFLOK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_male_merfolk"), "main");
-    public static final ModelLayerLocation FEMALE_MERFLOK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_merfolk"), "main");
-    public static final ModelLayerLocation CLOTH_FEMALE_MERFLOK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_female_merfolk"), "main");
+    public static final ModelLayerLocation MALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_merfolk"), "main");
+    public static final ModelLayerLocation CLOTH_MALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_male_merfolk"), "main");
+    public static final ModelLayerLocation FEMALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_merfolk"), "main");
+    public static final ModelLayerLocation CLOTH_FEMALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_female_merfolk"), "main");
     public static final ModelLayerLocation MERFOLK_TAIL_1 = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "merfolk_tail_1"), "main");
 
     public static final ModelLayerLocation LOPUS = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "lopus"), "main");

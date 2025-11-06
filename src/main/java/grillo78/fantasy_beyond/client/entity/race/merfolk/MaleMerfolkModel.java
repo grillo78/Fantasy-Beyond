@@ -47,6 +47,11 @@ public class MaleMerfolkModel<T extends Entity> extends CustomizationModel<T> {
         return arm == HumanoidArm.RIGHT? right_arm : left_arm;
     }
 
+    @Override
+    public ModelPart getRoot() {
+        return root;
+    }
+
     public static LayerDefinition createBodyLayer(CubeDeformation cubeDeformation) {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();

@@ -10,6 +10,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -33,9 +34,12 @@ public record SyncCharacterData(int id, CompoundTag nbt) implements CustomPacket
     public static void handle(final SyncCharacterData data, final IPayloadContext context) {
         Level level = context.player().level();
         Entity entity = level.getEntity(data.id);
-        entity.getData(ModAttachments.CHARACTER_DATA).deserializeNBT(null, data.nbt);
-        entity.refreshDimensions();
-        if(!level.isClientSide)
-            PacketDistributor.sendToAllPlayers(new SyncCharacterData(data.id, data.nbt));
+        if(entity instanceof LivingEntity){
+            entity.getData(ModAttachments.CHARACTER_DATA).deserializeNBT(null, data.nbt);
+            entity.refreshDimensions();
+            entity.getData(ModAttachments.CHARACTER_DATA).applyStats((LivingEntity) entity);
+            if (!level.isClientSide)
+                PacketDistributor.sendToAllPlayers(new SyncCharacterData(data.id, data.nbt));
+        }
     }
 }

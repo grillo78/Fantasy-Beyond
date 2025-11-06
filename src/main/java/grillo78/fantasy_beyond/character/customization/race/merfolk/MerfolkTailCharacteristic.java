@@ -7,28 +7,19 @@ import grillo78.fantasy_beyond.character.customization.race.merfolk.tails.Tail;
 import grillo78.fantasy_beyond.character.customization.race.tiefling.TieflingCharacteristic;
 import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MerfolkTailCharacteristic extends TieflingCharacteristic {
 
-    private List<Tail> tails = new ArrayList<>();
-
-    public MerfolkTailCharacteristic(PlayerCustomization playerCustomization, String name) {
-        super(playerCustomization,name, 0);
-        tails.add(new MerfolkTail1());
-
-        setMaxVariant(tails.size());
+    public MerfolkTailCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariants) {
+        super(playerCustomization,name, maxVariants);
     }
 
     @Override
-    public CustomizationModel getModel() {
-        return tails.get(getVariant()).getModel();
-    }
-
-    public ResourceLocation getTexture(Player player) {
+    public ResourceLocation getTexture(LivingEntity player) {
         ResourceLocation baseTexture = ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/entity/customization/race/merfolk/tails/" + getVariant() + ".png");
 
 //        List<ResourceLocation> masks = new ArrayList<>();

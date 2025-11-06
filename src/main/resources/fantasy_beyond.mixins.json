@@ -5,7 +5,9 @@
   "mixins": [],
   "client": [
     "client.LivingEntityRendererMixin",
-    "client.ItemInHandLayerMixin"
+    "client.ItemInHandLayerMixin",
+    "client.CameraMixin",
+    "client.ModelPartMixin"
   ],
   "injectors": {
     "defaultRequire": 1

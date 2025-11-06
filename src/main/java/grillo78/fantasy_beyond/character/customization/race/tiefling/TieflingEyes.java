@@ -1,17 +1,15 @@
 package grillo78.fantasy_beyond.character.customization.race.tiefling;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.character.customization.race.Coloreable;
 import grillo78.fantasy_beyond.client.clothes.RacistClothItemRenderer;
 import grillo78.fantasy_beyond.client.texture.AlphaMaskTexture;
 import grillo78.fantasy_beyond.items.RacistClothItem;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -23,19 +21,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class TieflingEyes extends TieflingCharacteristic implements Coloreable {
 
-    private boolean renderingIris = false;
     private Color color = new Color(105, 18, 18,255);
 
     public TieflingEyes(PlayerCustomization playerCustomization, String name, int maxVariants) {
         super(playerCustomization,name, maxVariants);
-    }
-
-    @Override
-    public void render(PlayerModel<Player> model, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight, Player player) {
-        super.render(model, poseStack, pBuffer, pPackedLight, player);
-        renderingIris = true;
-        super.render(model, poseStack, pBuffer, pPackedLight, player);
-        renderingIris = false;
     }
 
     @Override
@@ -45,11 +34,11 @@ public class TieflingEyes extends TieflingCharacteristic implements Coloreable {
 
     @Override
     public Color getColor() {
-        return renderingIris? Color.WHITE : color;
+        return color;
     }
 
     @Override
-    public ResourceLocation getTexture(Player player) {
+    public ResourceLocation getTexture(LivingEntity player, boolean renderingIris) {
         ResourceLocation baseTexture = renderingIris ? ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/entity/customization/race/common/iris/" + getVariant() + ".png") : ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/entity/customization/race/common/eyes/" + getVariant() + ".png");
 
         List<ResourceLocation> masks = new ArrayList<>();

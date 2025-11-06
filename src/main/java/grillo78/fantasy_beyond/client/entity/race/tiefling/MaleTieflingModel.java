@@ -43,10 +43,16 @@ public class MaleTieflingModel<T extends Entity> extends CustomizationModel<T> {
 		right_arm.copyFrom(((MaleTieflingModel) model).right_arm);
 	}
 
-	@Override
-	public ModelPart getArmPart(HumanoidArm arm) {
-		return arm == HumanoidArm.RIGHT? right_arm : left_arm;
-	}
+    @Override
+    public ModelPart getArmPart(HumanoidArm arm) {
+        return arm == HumanoidArm.RIGHT? right_arm : left_arm;
+    }
+
+
+    @Override
+    public ModelPart getRoot() {
+        return root;
+    }
 
 	public static LayerDefinition createBodyLayer(CubeDeformation cubeDeformation) {
 		MeshDefinition meshdefinition = new MeshDefinition();

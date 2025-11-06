@@ -42,6 +42,11 @@ public class FemaleOrcModel<T extends Entity> extends CustomizationModel<T> {
     }
 
     @Override
+    public ModelPart getRoot() {
+        return root;
+    }
+
+    @Override
     public ModelPart getArmPart(HumanoidArm arm) {
         return arm == HumanoidArm.RIGHT ? right_arm : left_arm;
     }

@@ -1,10 +1,11 @@
 package grillo78.fantasy_beyond;
 
 import grillo78.fantasy_beyond.attachment.ModAttachments;
+import grillo78.fantasy_beyond.blocks.ModBlocks;
 import grillo78.fantasy_beyond.character.CharacterData;
 import grillo78.fantasy_beyond.character.customization.race.RaceType;
 import grillo78.fantasy_beyond.items.ModItems;
-import grillo78.fantasy_beyond.network.OpenScreen;
+import grillo78.fantasy_beyond.network.OpenCharacterCreationScreen;
 import grillo78.fantasy_beyond.network.SyncCharacterData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -34,6 +35,7 @@ public class FantasyBeyond {
     public FantasyBeyond(IEventBus modEventBus, ModContainer modContainer) {
         RaceType.RACE_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
         modEventBus.addListener(this::register);
@@ -102,11 +104,12 @@ public class FantasyBeyond {
             event.getEntity().refreshDimensions();
             if (!event.getEntity().level().isClientSide) {
                 if (!data.getPlayerCustomization().isFinished())
-                    PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(), new OpenScreen());
+                    PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(), new OpenCharacterCreationScreen());
                 else {
                     data.getPlayerCustomization().getRace().applyAttributes((Player) event.getEntity());
                     event.getEntity().refreshDimensions();
                     PacketDistributor.sendToAllPlayers(new SyncCharacterData(event.getEntity().getId(), data.serializeNBT(null)));
+                    data.applyStats((Player) event.getEntity());
                 }
             }
         }
@@ -114,7 +117,7 @@ public class FantasyBeyond {
 
     private void register(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(MOD_ID);
-        registrar.commonToClient(OpenScreen.TYPE, OpenScreen.STREAM_CODEC, FMLLoader.getDist().isClient() ? OpenScreen::handle : OpenScreen::handleServer);
+        registrar.commonToClient(OpenCharacterCreationScreen.TYPE, OpenCharacterCreationScreen.STREAM_CODEC, FMLLoader.getDist().isClient() ? OpenCharacterCreationScreen::handle : OpenCharacterCreationScreen::handleServer);
         registrar.commonBidirectional(SyncCharacterData.TYPE, SyncCharacterData.STREAM_CODEC, SyncCharacterData::handle);
     }
 }

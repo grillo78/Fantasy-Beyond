@@ -30,10 +30,16 @@ public class AutomatonModel<T extends Entity> extends CustomizationModel<T> {
 		this.right_arm = this.root.getChild("right_arm");
 	}
 
-	@Override
-	public ModelPart getArmPart(HumanoidArm arm) {
-		return arm == HumanoidArm.RIGHT? right_arm : left_arm;
-	}
+    @Override
+    public ModelPart getArmPart(HumanoidArm arm) {
+        return arm == HumanoidArm.RIGHT? right_arm : left_arm;
+    }
+
+
+    @Override
+    public ModelPart getRoot() {
+        return root;
+    }
 
 	@Override
 	public void copyFrom(CustomizationModel model) {

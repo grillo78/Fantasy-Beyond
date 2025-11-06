@@ -46,6 +46,11 @@ public class MerfolkTail1Model<T extends Entity> extends CustomizationModel<T> {
     @Override
     public void copyFrom(CustomizationModel model) {}
 
+    @Override
+    public ModelPart getRoot() {
+        return root;
+    }
+
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
@@ -93,7 +98,7 @@ public class MerfolkTail1Model<T extends Entity> extends CustomizationModel<T> {
     }
 
     @Override
-    public void setupModel(HumanoidModel bipedModel, Player player, float partialTick) {
+    public void setupModel(HumanoidModel bipedModel, LivingEntity player, float partialTick) {
         super.setupModel(bipedModel, player, partialTick);
         bone.setRotation((float) Math.toRadians((player.isVisuallySwimming()?-60:0)+Math.cos(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 5) * 7 - 7), (float) Math.toRadians(Math.sin(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 2) * 3), (float) Math.toRadians(Math.sin(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 5) * 20));
         bone2.setRotation((float) Math.toRadians(Math.cos(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 5) * 7 - 7), (float) Math.toRadians(Math.sin(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 2) * 3), (float) Math.toRadians(Math.sin(-Mth.lerp(partialTick, player.tickCount - 1, player.tickCount) / 5) * 20));

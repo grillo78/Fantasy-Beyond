@@ -1,20 +1,16 @@
 package grillo78.fantasy_beyond.character.customization.race.dwarf;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
+import grillo78.fantasy_beyond.Util;
 import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.character.customization.race.Race;
-import grillo78.fantasy_beyond.client.entity.ModModelLayers;
-import grillo78.fantasy_beyond.client.entity.race.dwarf.FemaleDwarfModel;
-import grillo78.fantasy_beyond.client.entity.race.dwarf.MaleDwarfModel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.loading.FMLLoader;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 
 public class Dwarf extends Race {
     public Dwarf(PlayerCustomization playerCustomization) {
@@ -25,12 +21,17 @@ public class Dwarf extends Race {
     }
 
     @Override
-    public void applyAttributes(Player player) {
+    public void applyAttributes(LivingEntity player) {
         super.applyAttributes(player);
-        setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "health"), Attributes.MAX_HEALTH, 6, AttributeModifier.Operation.ADD_VALUE);
-        setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID,"speed"), Attributes.MOVEMENT_SPEED, -0.015, AttributeModifier.Operation.ADD_VALUE);
-        setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID,"knockback_resistance"), Attributes.KNOCKBACK_RESISTANCE, 3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+        Util.setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "health"), Attributes.MAX_HEALTH, 6, AttributeModifier.Operation.ADD_VALUE);
+        Util.setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID,"speed"), Attributes.MOVEMENT_SPEED, -0.015, AttributeModifier.Operation.ADD_VALUE);
+        Util.setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID,"knockback_resistance"), Attributes.KNOCKBACK_RESISTANCE, 3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
         player.setHealth(player.getHealth()*player.getMaxHealth()/20);
+    }
+
+    @Override
+    public Vec3 getArmOffset() {
+        return new Vec3(-1/16F,0.6,-0.13);
     }
 
     @Override

@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "axis=x,part=right": {
+      "model": "fantasy_beyond:block/empty"
+    },
+    "axis=x,part=center": {
+      "model": "fantasy_beyond:block/end_pilar"
+    },
+    "axis=x,part=left": {
+      "model": "fantasy_beyond:block/empty"
+    },
+    "axis=z,part=right": {
+      "model": "fantasy_beyond:block/empty",
+      "y": 90
+    },
+    "axis=z,part=center": {
+      "model": "fantasy_beyond:block/end_pilar",
+      "y": 90
+    },
+    "axis=z,part=left": {
+      "model": "fantasy_beyond:block/empty",
+      "y": 90
+    }
+  }
+}

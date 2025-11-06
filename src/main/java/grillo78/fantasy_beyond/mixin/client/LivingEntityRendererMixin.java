@@ -24,7 +24,6 @@ public abstract class LivingEntityRendererMixin {
     @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;getRenderType(Lnet/minecraft/world/entity/LivingEntity;ZZZ)Lnet/minecraft/client/renderer/RenderType;"))
     public void render(LivingEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, CallbackInfo ci) {
         if (pEntity instanceof Player) {
-            ((PlayerModel) getModel()).setAllVisible(false);
 //            ((PlayerModel) getModel()).setAllVisible(DebugUtils.shouldRenderDefaultPlayerModel());
 //            if (pEntity.getOffhandItem().getItem() instanceof SpellsBook) {
 //                if (pEntity.getMainArm() == HumanoidArm.RIGHT) {

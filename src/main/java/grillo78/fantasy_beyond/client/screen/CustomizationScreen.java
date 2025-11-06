@@ -43,7 +43,8 @@ public class CustomizationScreen extends Screen {
     private static final WidgetSprites PLAY_BUTTON_TEXTURE = new WidgetSprites(
             ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "customization/play_button"),
             ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "customization/play_button_selected")
-    );;
+    );
+    ;
     private int angle;
     private RacesList racesList;
     private CharacteristicsList characteristicsList;
@@ -87,17 +88,17 @@ public class CustomizationScreen extends Screen {
             data.getPlayerCustomization().setMale(false);
         });
         addRenderableWidget(femaleButton);
-            addRenderableWidget(new CustomImageButton(width / 6 - 8, height - 22, 16, 16, PLAY_BUTTON_TEXTURE, (pButton -> {
-                paused = !paused;
-                ((CustomImageButton) pButton).setSprites(paused ? PLAY_BUTTON_TEXTURE : PAUSE_BUTTON_TEXTURE);
-                pButton.setFocused(false);
-            })));
-            addRenderableWidget(new ImageButtonWithText(2 * width / 3 + 5, height - 55, width / 3 - 30, 22, 0, 0, 22, SCROLL_BUTTON_TEXTURE, width / 3 - 30, 66, (pButton -> {
-                data.getPlayerCustomization().finish();
-                PacketDistributor.sendToServer(new SyncCharacterData(Minecraft.getInstance().player.getId(), data.serializeNBT(null)));
-                Minecraft.getInstance().player.refreshDimensions();
-                this.onClose();
-            }), Component.translatable("gui.done")));
+        addRenderableWidget(new CustomImageButton(width / 6 - 8, height - 22, 16, 16, PLAY_BUTTON_TEXTURE, (pButton -> {
+            paused = !paused;
+            ((CustomImageButton) pButton).setSprites(paused ? PLAY_BUTTON_TEXTURE : PAUSE_BUTTON_TEXTURE);
+            pButton.setFocused(false);
+        })));
+        addRenderableWidget(new ImageButtonWithText(2 * width / 3 + 5, height - 55, width / 3 - 30, 22, 0, 0, 22, SCROLL_BUTTON_TEXTURE, width / 3 - 30, 66, (pButton -> {
+            data.getPlayerCustomization().finish();
+            PacketDistributor.sendToServer(new SyncCharacterData(Minecraft.getInstance().player.getId(), data.serializeNBT(null)));
+            Minecraft.getInstance().player.refreshDimensions();
+            this.onClose();
+        }), Component.translatable("gui.done")));
     }
 
     public <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidgetWrap(T widget) {

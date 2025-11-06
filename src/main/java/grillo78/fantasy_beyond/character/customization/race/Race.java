@@ -2,19 +2,16 @@ package grillo78.fantasy_beyond.character.customization.race;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
-import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
+import grillo78.fantasy_beyond.client.entity.race.RaceCharacteristicRenderer;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -51,11 +48,8 @@ public abstract class Race implements INBTSerializable<CompoundTag> {
         return playerCustomization;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void render(PlayerModel<Player> model, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight, Player player) {
-        poseStack.pushPose();
-        characteristics.forEach(characteristic -> characteristic.render(model, poseStack, pBuffer, pPackedLight, player));
-        poseStack.popPose();
+    public Vec3 getArmOffset() {
+        return new Vec3(-1/ 16.0F,11/16F,-2/16F);
     }
 
     public List<Characteristic> getCharacteristics() {
@@ -96,30 +90,7 @@ public abstract class Race implements INBTSerializable<CompoundTag> {
         return 300;
     }
 
-    public void applyAttributes(Player player) {
-    }
-
-    public static void setAttribute(Player entity, ResourceLocation id, Holder<Attribute> attribute, double amount, AttributeModifier.Operation operation) {
-        AttributeInstance instance = entity.getAttribute(attribute);
-
-        if (instance == null || entity.level().isClientSide) {
-            return;
-        }
-
-        AttributeModifier modifier = instance.getModifier(id);
-
-        if (amount == 0 || modifier != null && (modifier.amount() != amount || modifier.operation() != operation)) {
-            instance.removeModifier(id);
-            if(amount == 0)
-                return;
-        }
-
-        modifier = instance.getModifier(id);
-
-        if (modifier == null) {
-            modifier = new AttributeModifier(id, amount, operation);
-            instance.addTransientModifier(modifier);
-        }
+    public void applyAttributes(LivingEntity player) {
     }
 
     public int getHUDViewerScale() {

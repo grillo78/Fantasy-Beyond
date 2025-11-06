@@ -13,9 +13,10 @@ import net.minecraft.world.entity.player.Player;
 public abstract class CustomizationModel<T extends Entity> extends EntityModel<T> {
     public abstract void setupModel(HumanoidModel bipedModel);
 
-    public void setupModel(HumanoidModel bipedModel, Player player, float partialTick){
+    public void setupModel(HumanoidModel bipedModel, LivingEntity player, float partialTick){
         setupModel(bipedModel);
     }
+    public abstract ModelPart getRoot();
 
     public void setModelProperties(LivingEntity pLivingEntity) {
         if(RenderUtils.renderingFirstPersonModel)

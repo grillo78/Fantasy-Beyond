@@ -1,20 +1,16 @@
 package grillo78.fantasy_beyond.character.customization.race.orc;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
+import grillo78.fantasy_beyond.Util;
 import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.character.customization.race.Race;
-import grillo78.fantasy_beyond.client.entity.ModModelLayers;
-import grillo78.fantasy_beyond.client.entity.race.orc.FemaleOrcModel;
-import grillo78.fantasy_beyond.client.entity.race.orc.MaleOrcModel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.loading.FMLLoader;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 
 public class Orc extends Race {
@@ -47,11 +43,16 @@ public class Orc extends Race {
     }
 
     @Override
-    public void applyAttributes(Player player) {
+    public void applyAttributes(LivingEntity player) {
         super.applyAttributes(player);
-        setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "health"), Attributes.MAX_HEALTH, 20, AttributeModifier.Operation.ADD_VALUE);
-        setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "speed"), Attributes.KNOCKBACK_RESISTANCE, 3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+        Util.setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "health"), Attributes.MAX_HEALTH, 20, AttributeModifier.Operation.ADD_VALUE);
+        Util.setAttribute(player, ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "speed"), Attributes.KNOCKBACK_RESISTANCE, 3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
         player.setHealth(player.getHealth()*player.getMaxHealth()/20);
+    }
+
+    @Override
+    public Vec3 getArmOffset() {
+        return new Vec3(-1/16F,15/16F,-2/16F);
     }
 
     @Override

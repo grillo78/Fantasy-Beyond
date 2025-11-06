@@ -2,36 +2,17 @@ package grillo78.fantasy_beyond.character.customization.race.tiefling;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
-import grillo78.fantasy_beyond.character.customization.race.tiefling.horns.BigHorns;
-import grillo78.fantasy_beyond.character.customization.race.tiefling.horns.Horn;
-import grillo78.fantasy_beyond.character.customization.race.tiefling.horns.MediumHorns;
-import grillo78.fantasy_beyond.character.customization.race.tiefling.horns.TallHorns;
-import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.world.entity.LivingEntity;
 
 public class TieflingHornsCharacteristic extends TieflingCharacteristic {
 
-    private List<Horn> horns = new ArrayList<>();
-
-    public TieflingHornsCharacteristic(PlayerCustomization playerCustomization, String name) {
-        super(playerCustomization,name, 0);
-        horns.add(new BigHorns());
-        horns.add(new MediumHorns());
-        horns.add(new TallHorns());
-
-        setMaxVariant(horns.size());
+    public TieflingHornsCharacteristic(PlayerCustomization playerCustomization, String name, int maxVariant) {
+        super(playerCustomization, name, maxVariant);
     }
 
     @Override
-    public CustomizationModel getModel() {
-        return horns.get(getVariant()).getModel();
-    }
-
-    public ResourceLocation getTexture(Player player) {
+    public ResourceLocation getTexture(LivingEntity player) {
         ResourceLocation baseTexture = ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/entity/customization/race/tiefling/horns/" + getVariant() + ".png");
 
 //        List<ResourceLocation> masks = new ArrayList<>();

@@ -41,12 +41,13 @@ public class MaleHumanModel<T extends Entity> extends CustomizationModel<T> {
         left_arm.copyFrom(((MaleHumanModel) model).left_arm);
         right_arm.copyFrom(((MaleHumanModel) model).right_arm);
     }
-
     @Override
     public ModelPart getArmPart(HumanoidArm arm) {
         return arm == HumanoidArm.RIGHT? right_arm : left_arm;
     }
 
+
+    @Override
     public ModelPart getRoot() {
         return root;
     }

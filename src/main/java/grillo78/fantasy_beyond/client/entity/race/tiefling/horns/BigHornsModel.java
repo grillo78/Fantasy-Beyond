@@ -93,10 +93,16 @@ public class BigHornsModel<T extends Entity> extends CustomizationModel<T> {
 		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 	}
 
-	@Override
-	public ModelPart getArmPart(HumanoidArm arm) {
-		return arm == HumanoidArm.RIGHT? right_arm : left_arm;
-	}
+    @Override
+    public ModelPart getArmPart(HumanoidArm arm) {
+        return arm == HumanoidArm.RIGHT? right_arm : left_arm;
+    }
+
+
+    @Override
+    public ModelPart getRoot() {
+        return root;
+    }
 
 	@Override
 	public void setupModel(HumanoidModel bipedModel) {
