@@ -40,7 +40,7 @@
 		},
 		"thirdperson_lefthand": {
 			"rotation": [90, 0, 0],
-			"translation": [0.5, -1.5, 4]
+			"translation": [-0.5, -1.5, 4]
 		}
 	},
 	"groups": [

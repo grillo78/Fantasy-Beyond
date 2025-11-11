@@ -4,11 +4,17 @@ import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.blocks.ModBlocks;
 import grillo78.fantasy_beyond.character.CharacterData;
 import grillo78.fantasy_beyond.character.customization.race.RaceType;
+import grillo78.fantasy_beyond.character.level.classes.PlayerClassType;
 import grillo78.fantasy_beyond.items.ModItems;
-import grillo78.fantasy_beyond.network.OpenCharacterCreationScreen;
-import grillo78.fantasy_beyond.network.SyncCharacterData;
+import grillo78.fantasy_beyond.items.QuiverItem;
+import grillo78.fantasy_beyond.items.components.ArrowItemCodec;
+import grillo78.fantasy_beyond.items.components.ItemContents;
+import grillo78.fantasy_beyond.items.components.ModDataComponents;
+import grillo78.fantasy_beyond.items.components.QuiverContents;
+import grillo78.fantasy_beyond.network.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -19,13 +25,20 @@ import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingBreatheEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.entity.living.LivingGetProjectileEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mod(FantasyBeyond.MOD_ID)
 public class FantasyBeyond {
@@ -33,12 +46,14 @@ public class FantasyBeyond {
     private static final GameRules.Key<GameRules.BooleanValue> KEEP_CHARACTER = GameRules.register("keepCharacter", GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
 
     public FantasyBeyond(IEventBus modEventBus, ModContainer modContainer) {
+        ModDataComponents.DATA_COMPONENTS.register(modEventBus);
         RaceType.RACE_TYPES.register(modEventBus);
+        PlayerClassType.PLAYER_CLASS_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
-        modEventBus.addListener(this::register);
+        modEventBus.addListener(this::registerPackets);
         NeoForge.EVENT_BUS.addListener(this::livingFall);
 //        NeoForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         NeoForge.EVENT_BUS.addListener(this::entityJoin);
@@ -49,6 +64,51 @@ public class FantasyBeyond {
         NeoForge.EVENT_BUS.addListener(this::onPlayerClone);
         NeoForge.EVENT_BUS.addListener(this::onHurt);
         NeoForge.EVENT_BUS.addListener(this::canBreath);
+        NeoForge.EVENT_BUS.addListener(this::getProjectile);
+        NeoForge.EVENT_BUS.addListener(this::shrinkArrows);
+    }
+
+    public void getProjectile(LivingGetProjectileEvent event) {
+        List<SlotResult> slots = CuriosApi.getCuriosInventory(event.getEntity()).get().findCurios("back");
+        boolean notObtained = true;
+        for (int i = 0; i < slots.size() && notObtained; i++) {
+            SlotResult slot = slots.get(i);
+            ItemStack stack = slot.stack();
+            if (stack.getItem() instanceof QuiverItem) {
+                notObtained = false;
+                QuiverContents quiverContents = stack.get(ModDataComponents.QUIVER_CONTENTS);
+                int index = quiverContents.getIndex();
+                if (index >= quiverContents.getItems().size())
+                    index = quiverContents.getItems().size() - 1;
+                if (index < quiverContents.getItems().size())
+                    event.setProjectileItemStack(quiverContents.getItems().get(index).getItems().getLast().copy());
+            }
+        }
+    }
+
+    public void shrinkArrows(ArrowLooseEvent event) {
+        List<SlotResult> slots = CuriosApi.getCuriosInventory(event.getEntity()).get().findCurios("back");
+        boolean notObtained = true;
+        for (int i = 0; i < slots.size() && notObtained; i++) {
+            SlotResult slot = slots.get(i);
+            ItemStack stack = slot.stack();
+            if (stack.getItem() instanceof QuiverItem) {
+                notObtained = false;
+                QuiverContents quiverContents = stack.get(ModDataComponents.QUIVER_CONTENTS);
+                int index = quiverContents.getIndex();
+                List<ArrowItemCodec> list = new ArrayList<>(quiverContents.getItems());
+                if (index >= list.size())
+                    index = list.size() - 1;
+                List<ItemStack> items = new ArrayList<>(list.get(index).getItems());
+                ItemStack stack1 = items.getLast();
+                stack1.shrink(1);
+                if (stack.isEmpty())
+                    items.removeLast();
+                if (items.isEmpty())
+                    list.remove(index);
+                stack.set(ModDataComponents.QUIVER_CONTENTS, new QuiverContents(List.copyOf(list), index));
+            }
+        }
     }
 
     public void canBreath(LivingBreatheEvent event) {
@@ -115,9 +175,12 @@ public class FantasyBeyond {
         }
     }
 
-    private void register(RegisterPayloadHandlersEvent event) {
+    private void registerPackets(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(MOD_ID);
         registrar.commonToClient(OpenCharacterCreationScreen.TYPE, OpenCharacterCreationScreen.STREAM_CODEC, FMLLoader.getDist().isClient() ? OpenCharacterCreationScreen::handle : OpenCharacterCreationScreen::handleServer);
         registrar.commonBidirectional(SyncCharacterData.TYPE, SyncCharacterData.STREAM_CODEC, SyncCharacterData::handle);
+        registrar.commonToServer(IncreaseStat.TYPE, IncreaseStat.STREAM_CODEC, IncreaseStat::handle);
+        registrar.commonToServer(UpdateQuiverIndex.TYPE, UpdateQuiverIndex.STREAM_CODEC, UpdateQuiverIndex::handle);
+        registrar.commonToServer(UpdateItemContainerItem.TYPE, UpdateItemContainerItem.STREAM_CODEC, UpdateItemContainerItem::handle);
     }
 }

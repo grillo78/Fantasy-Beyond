@@ -6,7 +6,6 @@ import grillo78.fantasy_beyond.items.RacistClothItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -28,14 +27,23 @@ public class ModTabs {
         output.accept(ModItems.GAUNTLET_1.get());
         output.accept(ModItems.GREATHAMMER_1.get());
         output.accept(ModItems.BATTLEAXE_1.get());
+        output.accept(ModItems.HALBERD_1.get());
         output.accept(ModItems.STAFF_1.get());
         output.accept(ModItems.GRIMOIRE_1.get());
+        output.accept(ModItems.QUIVER.get());
     }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_blocks", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_blocks")).icon(() -> ModBlocks.END_PILAR.get().asItem().getDefaultInstance()).displayItems((parameters, output) -> {
         output.accept(ModBlocks.BASE_PILAR.get());
         output.accept(ModBlocks.PILAR.get());
         output.accept(ModBlocks.END_PILAR.get());
+    }).build());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ITEMS = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_items", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_items")).icon(() -> ModItems.GOLD_COIN.get().asItem().getDefaultInstance()).displayItems((parameters, output) -> {
+        output.accept(ModItems.GOLD_COIN.get());
+        output.accept(ModItems.SILVER_COIN.get());
+        output.accept(ModItems.BRONZE_COIN.get());
+        output.accept(ModItems.COIN_BUNDLE.get());
     }).build());
 
 }

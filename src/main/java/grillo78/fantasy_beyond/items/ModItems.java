@@ -3,6 +3,9 @@ package grillo78.fantasy_beyond.items;
 import com.google.common.collect.Lists;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.character.customization.race.RaceType;
+import grillo78.fantasy_beyond.items.components.ItemContents;
+import grillo78.fantasy_beyond.items.components.ModDataComponents;
+import grillo78.fantasy_beyond.items.components.QuiverContents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
@@ -20,17 +23,24 @@ public class ModItems {
 ////            SpellType.SHIELD_SPELL, SpellType.SWORD_INVOKE_SPELL,
 //            SpellType.FIREBALL_SPELL, SpellType.LIGHT_SPELL)));
 
-    public static final DeferredHolder<Item,Item> KATANA_1 = register("katana_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
-    public static final DeferredHolder<Item,Item> SWORD_1 = register("sword_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
-    public static final DeferredHolder<Item,Item> SPEAR_1 = register("spear_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
-    public static final DeferredHolder<Item,Item> SCYTHE_1 = register("scythe_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
-    public static final DeferredHolder<Item,Item> GREATSWORD_1 = register("greatsword_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
-    public static final DeferredHolder<Item,Item> GAUNTLET_1 = register("gauntlet_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
-    public static final DeferredHolder<Item,Item> GREATHAMMER_1 = register("greathammer_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
-    public static final DeferredHolder<Item,Item> BATTLEAXE_1 = register("battleaxe_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
+    public static final DeferredHolder<Item,Item> KATANA_1 = register("katana_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.KATANA, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 2, -2F))));
+    public static final DeferredHolder<Item,Item> SWORD_1 = register("sword_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.SWORD, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
+    public static final DeferredHolder<Item,Item> SPEAR_1 = register("spear_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.SPEAR, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 2, -1F))));
+    public static final DeferredHolder<Item,Item> SCYTHE_1 = register("scythe_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.SCYTHE, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
+    public static final DeferredHolder<Item,Item> GREATSWORD_1 = register("greatsword_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.GREAT_SWORD, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
+    public static final DeferredHolder<Item,Item> GAUNTLET_1 = register("gauntlet_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.GAUNTLET, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 1.5F, -1F))));
+    public static final DeferredHolder<Item,Item> GREATHAMMER_1 = register("greathammer_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.GREAT_HAMMER, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
+    public static final DeferredHolder<Item,Item> BATTLEAXE_1 = register("battleaxe_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.BATTLE_AXE, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
+    public static final DeferredHolder<Item,Item> HALBERD_1 = register("halberd_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.HALBERD, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
 
-    public static final DeferredHolder<Item,Item> STAFF_1 = register("staff_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
-    public static final DeferredHolder<Item,Item> GRIMOIRE_1 = register("grimoire_1", ()-> new SwordItem(Tiers.DIAMOND, new Item.Properties()));
+    public static final DeferredHolder<Item,Item> STAFF_1 = register("staff_1", ()-> new Item(new Item.Properties().stacksTo(1).attributes(SwordItem.createAttributes(Tiers.WOOD, 2, -2.4F))));
+    public static final DeferredHolder<Item,Item> GRIMOIRE_1 = register("grimoire_1", ()-> new Item(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredHolder<Item,Item> GOLD_COIN = register("gold_coin", ()-> new CoinItem(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> SILVER_COIN = register("silver_coin", ()-> new CoinItem(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> BRONZE_COIN = register("bronze_coin", ()-> new CoinItem(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> COIN_BUNDLE = register("coin_bundle", ()-> new CoinBundleItem(new Item.Properties().stacksTo(1).component(ModDataComponents.ITEM_CONTENTS.get(), ItemContents.EMPTY)));
+    public static final DeferredHolder<Item,Item> QUIVER = register("quiver", ()-> new QuiverItem(new Item.Properties().stacksTo(1).component(ModDataComponents.QUIVER_CONTENTS.get(), QuiverContents.EMPTY)));
 
     public static final DeferredHolder<Item,Item> DWARF_SHIRT_1 = register("dwarf_shirt_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));
     public static final DeferredHolder<Item,Item> DWARF_PANTS_1 = register("dwarf_pants_1", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.DWARF)));

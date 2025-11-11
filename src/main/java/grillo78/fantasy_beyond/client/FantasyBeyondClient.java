@@ -25,11 +25,21 @@ import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.TallHornsModel;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail1Model;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail2Model;
 import grillo78.fantasy_beyond.client.screen.CharacterScreen;
+import grillo78.fantasy_beyond.items.ItemContainer;
+import grillo78.fantasy_beyond.items.QuiverItem;
 import grillo78.fantasy_beyond.items.RacistClothItem;
+import grillo78.fantasy_beyond.items.components.ItemContents;
+import grillo78.fantasy_beyond.items.components.ModDataComponents;
+import grillo78.fantasy_beyond.items.components.QuiverContents;
+import grillo78.fantasy_beyond.network.UpdateItemContainerItem;
+import grillo78.fantasy_beyond.network.UpdateQuiverIndex;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.ModContainer;
@@ -37,9 +47,12 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.PacketDistributor;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
-import static net.neoforged.neoforge.client.event.EntityRenderersEvent.*;
+import java.util.List;
+
+import static net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
 
 @Mod(value = FantasyBeyond.MOD_ID, dist = Dist.CLIENT)
 public class FantasyBeyondClient {
@@ -53,6 +66,72 @@ public class FantasyBeyondClient {
         NeoForge.EVENT_BUS.addListener(this::onClientTick);
         NeoForge.EVENT_BUS.addListener(this::renderLevelLast);
         NeoForge.EVENT_BUS.addListener(this::renderHUD);
+        NeoForge.EVENT_BUS.addListener(this::scrollMouseScreen);
+    }
+
+    private void scrollMouseScreen(ScreenEvent.MouseScrolled.Pre event) {
+        if (event.getScreen() instanceof AbstractContainerScreen && ((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse() != null && ((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().hasItem()) {
+            if (((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().getItem().getItem() instanceof ItemContainer) {
+                event.setCanceled(true);
+                ItemContents itemContents = ((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().getItem().get(ModDataComponents.ITEM_CONTENTS);
+                List<Item> containedItems = itemContents.getContainedItems();
+                if (!containedItems.isEmpty()) {
+                    int index = containedItems.contains(itemContents.getSelectedItem()) ? getIndex(containedItems, itemContents, (int) -(event.getScrollDeltaY())) : containedItems.size() - 1;
+                    itemContents.setSelectedItem(containedItems.get(index));
+                }
+                ((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().getItem().set(ModDataComponents.ITEM_CONTENTS, new ItemContents(List.copyOf(itemContents.getItems()), itemContents.getSelectedItem()));
+                ((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().setChanged();
+                boolean otherContainer = ((AbstractContainerScreen<?>) event.getScreen()).getSlotUnderMouse().container == Minecraft.getInstance().player.containerMenu.slots.get(0).container;
+                PacketDistributor.sendToServer(new UpdateItemContainerItem(((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().getContainerSlot(), otherContainer, BuiltInRegistries.ITEM.getKey(itemContents.getSelectedItem()).toString()));
+            }
+            if (((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().getItem().getItem() instanceof QuiverItem) {
+                event.setCanceled(true);
+                QuiverContents itemContents = ((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().getItem().get(ModDataComponents.QUIVER_CONTENTS);
+                int index = itemContents.getIndex() >= itemContents.getItems().size() ? itemContents.getItems().size() - 1 : getIndex(itemContents, (int) -(event.getScrollDeltaY()));
+                ((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().getItem().set(ModDataComponents.QUIVER_CONTENTS, new QuiverContents(List.copyOf(itemContents.getItems()), index));
+                ((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().setChanged();
+                boolean otherContainer = ((AbstractContainerScreen<?>) event.getScreen()).getSlotUnderMouse().container == Minecraft.getInstance().player.containerMenu.slots.get(0).container;
+                PacketDistributor.sendToServer(new UpdateQuiverIndex(((AbstractContainerScreen) event.getScreen()).getSlotUnderMouse().getContainerSlot(), otherContainer, index));
+            }
+        }
+    }
+
+    private static int getIndex(List<Item> containedItems, ItemContents itemContents, int direction) {
+        int index = containedItems.indexOf(itemContents.getSelectedItem());
+        for (int i = 0; i < Math.abs(direction); i++) {
+            if (direction > 0) {
+                if (index < containedItems.size() - 1)
+                    index++;
+                else
+                    index = 0;
+            } else {
+                if (index > 0)
+                    index--;
+                else
+                    index = containedItems.size() - 1;
+            }
+        }
+
+        return index;
+    }
+
+    private static int getIndex(QuiverContents itemContents, int direction) {
+        int index = itemContents.getIndex();
+        for (int i = 0; i < Math.abs(direction); i++) {
+            if (direction > 0) {
+                if (index < itemContents.getItems().size() - 1)
+                    index++;
+                else
+                    index = 0;
+            } else {
+                if (index > 0)
+                    index--;
+                else
+                    index = itemContents.getItems().size() - 1;
+            }
+        }
+
+        return index;
     }
 
     private void onClientTick(ClientTickEvent.Post event) {
@@ -66,6 +145,7 @@ public class FantasyBeyondClient {
             RenderUtils.renderFirstPersonModel(event);
         }
     }
+
     @OnlyIn(Dist.CLIENT)
     private void renderHUD(RenderGuiLayerEvent.Pre event) {
         if (!Minecraft.getInstance().player.isCreative() && !Minecraft.getInstance().player.isSpectator()) {
@@ -95,7 +175,7 @@ public class FantasyBeyondClient {
         event.setCanceled(true);
     }
 
-    private void clientSetup(FMLClientSetupEvent  event) {
+    private void clientSetup(FMLClientSetupEvent event) {
         for (int i = 0; i < RacistClothItem.CLOTHES.size(); i++) {
             CuriosRendererRegistry.register(RacistClothItem.CLOTHES.get(i), () -> new RacistClothItemRenderer());
         }

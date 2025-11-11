@@ -167,12 +167,7 @@ public class RenderUtils {
             poseStack.pushPose();
             part.translateAndRotate(poseStack);
             Matrix4f matrix = poseStack.last().pose();
-//            matrix.invert();
-//            Vector4f vector4f = new Vector4f(0, 0, 0, 1);
-//            vector4f.mulProject(matrix);
-//            System.out.println(vector4f);
             RenderUtils.headPosition = new Vec3(matrix.m30(), matrix.m31(), matrix.m32()).add(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition());
-//            RenderUtils.headPosition = new Vec3(vector4f.x(), vector4f.y(), vector4f.z()).subtract(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition());
             poseStack.popPose();
         }
     }

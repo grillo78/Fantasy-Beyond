@@ -76,10 +76,14 @@ public class AlphaMaskTexture extends SimpleTexture {
     public static ResourceLocation getTexture(ResourceLocation base, ResourceLocation outputTex, List<ResourceLocation> mask) {
         ResourceLocation output = ResourceLocation.fromNamespaceAndPath(outputTex.getNamespace(), String.format("%s_alpha_mask_%d", outputTex.getPath(), mask.hashCode()));
 
-        if (!(Minecraft.getInstance().getTextureManager().getTexture(output, MissingTextureAtlasSprite.getTexture()) instanceof AlphaMaskTexture)) {
-            Minecraft.getInstance().getTextureManager().register(output, new AlphaMaskTexture(base, mask, base));
-        }
+        try {
 
+            if (!(Minecraft.getInstance().getTextureManager().getTexture(output, MissingTextureAtlasSprite.getTexture()) instanceof AlphaMaskTexture)) {
+                Minecraft.getInstance().getTextureManager().register(output, new AlphaMaskTexture(base, mask, base));
+            }
+        }catch (Exception e){
+            output = base;
+        }
         return output;
     }
 }

@@ -1,6 +1,7 @@
 package grillo78.fantasy_beyond.character.level;
 
 import grillo78.fantasy_beyond.character.CharacterData;
+import grillo78.fantasy_beyond.character.level.classes.PlayerClass;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,9 +14,14 @@ public class Level implements INBTSerializable<CompoundTag> {
     private double experience = 0;
     private double expToNextLevel = calcExpToNextLevel();
     private CharacterData data;
+    private PlayerClass playerClass;
 
     public Level(CharacterData data) {
         this.data = data;
+    }
+
+    public Level(PlayerClass playerClass) {
+        this.playerClass = playerClass;
     }
 
     public int getLevel() {
@@ -37,8 +43,13 @@ public class Level implements INBTSerializable<CompoundTag> {
             experience = experience - expToNextLevel;
             level++;
             expToNextLevel = calcExpToNextLevel();
-            data.increaseStatPoints();
-            data.applyStats(player);
+            if(data != null) {
+                data.increaseStatPoints();
+                data.applyStats(player);
+            }
+            if(playerClass != null) {
+                playerClass.onIncreaseLevel();
+            }
             updateXP(player);
         }
     }
