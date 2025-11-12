@@ -5,7 +5,9 @@ import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
 import grillo78.fantasy_beyond.character.customization.race.RaceType;
 import grillo78.fantasy_beyond.client.screen.widget.CustomImageButton;
+import grillo78.fantasy_beyond.client.screen.widget.ImageButtonWithText;
 import grillo78.fantasy_beyond.client.screen.widget.StatsList;
+import grillo78.fantasy_beyond.network.SyncCharacterData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -15,13 +17,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.joml.Quaternionf;
 
 import java.awt.*;
 
 public class CharacterScreen extends Screen {
 
-    private static final ResourceLocation CHARACTER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/stats/character_background.png");
     private static final ResourceLocation EXPERIENCE_BAR_BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("hud/experience_bar_background");
     private static final ResourceLocation EXPERIENCE_BAR_PROGRESS_SPRITE = ResourceLocation.withDefaultNamespace("hud/experience_bar_progress");
     private static final WidgetSprites PAUSE_BUTTON_TEXTURE = new WidgetSprites(
@@ -36,6 +38,9 @@ public class CharacterScreen extends Screen {
             ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "customization/reset_button"),
             ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "customization/reset_button_selected")
     );
+    public static final WidgetSprites SCROLL_BUTTON_TEXTURE = new WidgetSprites(
+            ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "customization/scroll_entry"),
+            ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "customization/scroll_entry_selected"));
     private int angleO = 0;
     private int angle = 0;
     private boolean paused = true;
@@ -62,6 +67,10 @@ public class CharacterScreen extends Screen {
         StatsList statsList = new StatsList(this,data);
         statsList.fillCharacteristics();
         addRenderableWidget(statsList);
+        width = this.width/3-30;
+        addRenderableWidget(new ImageButtonWithText(this.width / 2-width/2, height - 55, width, 22, 0, 0, 22, SCROLL_BUTTON_TEXTURE, width / 3 - 30, 66, (pButton -> {
+            Minecraft.getInstance().setScreen(new AbilitiesScreen(this));
+        }), Component.translatable("fantasy_beyond.character.abilities")));
     }
 
     @Override

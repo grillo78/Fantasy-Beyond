@@ -31,8 +31,7 @@ import grillo78.fantasy_beyond.items.RacistClothItem;
 import grillo78.fantasy_beyond.items.components.ItemContents;
 import grillo78.fantasy_beyond.items.components.ModDataComponents;
 import grillo78.fantasy_beyond.items.components.QuiverContents;
-import grillo78.fantasy_beyond.network.UpdateItemContainerItem;
-import grillo78.fantasy_beyond.network.UpdateQuiverIndex;
+import grillo78.fantasy_beyond.network.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -137,12 +136,22 @@ public class FantasyBeyondClient {
     private void onClientTick(ClientTickEvent.Post event) {
         if (ModKeybinds.OPEN_CHARACTER_SCREEN.get().consumeClick())
             Minecraft.getInstance().setScreen(new CharacterScreen());
+        if (ModKeybinds.NEXT_QUIVER_INDEX.get().consumeClick())
+            PacketDistributor.sendToServer(new ChangeQuiverIndex(1));
+        if (ModKeybinds.PREVIOUS_QUIVER_INDEX.get().consumeClick())
+            PacketDistributor.sendToServer(new ChangeQuiverIndex(-1));
+        if (ModKeybinds.NEXT_ABILITY_INDEX.get().consumeClick())
+            PacketDistributor.sendToServer(new ChangeAbilityIndex(1));
+        if (ModKeybinds.PREVIOUS_ABILITY_INDEX.get().consumeClick())
+            PacketDistributor.sendToServer(new ChangeAbilityIndex(-1));
+        if (ModKeybinds.ACTIVATE_ABILITY.get().consumeClick())
+            PacketDistributor.sendToServer(new ActivateAbility(Minecraft.getInstance().player.getId()));
     }
 
     @OnlyIn(Dist.CLIENT)
     private void renderLevelLast(final RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES && Minecraft.getInstance().options.getCameraType().isFirstPerson() && Minecraft.getInstance().player != null && Minecraft.getInstance().player.hasData(ModAttachments.CHARACTER_DATA)) {
-            RenderUtils.renderFirstPersonModel(event);
+            ClientUtils.renderFirstPersonModel(event);
         }
     }
 
@@ -152,7 +161,7 @@ public class FantasyBeyondClient {
             ResourceLocation type = event.getName();
             switch (type.getPath()) {
                 case "player_health":
-                    RenderUtils.renderHealth(event);
+                    ClientUtils.renderHealth(event);
 //                case "crosshair":
                 case "boss_event_progress":
                 case "armor_level":
@@ -169,6 +178,11 @@ public class FantasyBeyondClient {
 
     private void registerBindings(RegisterKeyMappingsEvent event) {
         event.register(ModKeybinds.OPEN_CHARACTER_SCREEN.get());
+        event.register(ModKeybinds.NEXT_QUIVER_INDEX.get());
+        event.register(ModKeybinds.PREVIOUS_QUIVER_INDEX.get());
+        event.register(ModKeybinds.NEXT_ABILITY_INDEX.get());
+        event.register(ModKeybinds.PREVIOUS_ABILITY_INDEX.get());
+        event.register(ModKeybinds.ACTIVATE_ABILITY.get());
     }
 
     private void renderFirstPersonHand(RenderHandEvent event) {

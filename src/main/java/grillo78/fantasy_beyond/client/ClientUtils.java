@@ -18,24 +18,22 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
-import org.joml.Vector4f;
 
 import java.awt.*;
 import java.math.BigDecimal;
 
 
-public class RenderUtils {
+public class ClientUtils {
 
     public static boolean renderingFirstPersonModel = false;
     public static Vec3 headPosition = null;
@@ -124,23 +122,23 @@ public class RenderUtils {
 
 
     public static void renderFirstPersonModel(RenderLevelStageEvent event) {
-            PoseStack matrixStack = event.getPoseStack();
-            matrixStack.pushPose();
-            MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+        PoseStack matrixStack = event.getPoseStack();
+        matrixStack.pushPose();
+        MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
 
-            Vec3 view = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-            matrixStack.translate(-view.x(), -view.y(), -view.z());
-            AbstractClientPlayer player = Minecraft.getInstance().player;
-            Vec3 lookVector = new Vec3(0,0,-0.25).yRot((float) Math.toRadians(-player.getViewYRot(Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime())));
-            Vec3 playerPosition = player.getPosition(Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime()).add(lookVector);
+        Vec3 view = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        matrixStack.translate(-view.x(), -view.y(), -view.z());
+        AbstractClientPlayer player = Minecraft.getInstance().player;
+        Vec3 lookVector = new Vec3(0, 0, -0.25).yRot((float) Math.toRadians(-player.getViewYRot(Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime())));
+        Vec3 playerPosition = player.getPosition(Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime()).add(lookVector);
 
-            renderingFirstPersonModel = true;
-            Minecraft.getInstance().getEntityRenderDispatcher().render(player, playerPosition.x, playerPosition.y, playerPosition.z, Minecraft.getInstance().player.yBodyRot, Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime(), event.getPoseStack(), buffers, Minecraft.getInstance().getEntityRenderDispatcher().getPackedLightCoords(Minecraft.getInstance().player, Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime()));
-            renderingFirstPersonModel = false;
+        renderingFirstPersonModel = true;
+        Minecraft.getInstance().getEntityRenderDispatcher().render(player, playerPosition.x, playerPosition.y, playerPosition.z, Minecraft.getInstance().player.yBodyRot, Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime(), event.getPoseStack(), buffers, Minecraft.getInstance().getEntityRenderDispatcher().getPackedLightCoords(Minecraft.getInstance().player, Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime()));
+        renderingFirstPersonModel = false;
 
-            matrixStack.popPose();
-            buffers.endBatch();
-            RenderSystem.disableDepthTest();
+        matrixStack.popPose();
+        buffers.endBatch();
+        RenderSystem.disableDepthTest();
     }
 
     public static void moveCamera(Camera instance, double x, double y, double z, float partialTickTime, Entity entity) {
@@ -152,8 +150,8 @@ public class RenderUtils {
 
         if (entity.hasData(ModAttachments.CHARACTER_DATA) && !instance.isDetached() && !entity.isSpectator()) {
             CharacterData data = entity.getData(ModAttachments.CHARACTER_DATA);
-            if (data.getPlayerCustomization().isFinished() && RenderUtils.headPosition != null) {
-                position = new Vec3(headPosition.x, headPosition.y+0.25, headPosition.z).add(new Vec3(0,0,0.25).yRot((float) Math.toRadians(-entity.getViewYRot(partialTickTime))));
+            if (data.getPlayerCustomization().isFinished() && ClientUtils.headPosition != null) {
+                position = new Vec3(headPosition.x, headPosition.y + 0.25, headPosition.z).add(new Vec3(0, 0, 0.25).yRot((float) Math.toRadians(-entity.getViewYRot(partialTickTime))));
             }
         } else {
             position = position.add(0, (double) Mth.lerp(partialTickTime, instance.eyeHeightOld, instance.eyeHeight), 0);
@@ -167,8 +165,20 @@ public class RenderUtils {
             poseStack.pushPose();
             part.translateAndRotate(poseStack);
             Matrix4f matrix = poseStack.last().pose();
-            RenderUtils.headPosition = new Vec3(matrix.m30(), matrix.m31(), matrix.m32()).add(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition());
+            ClientUtils.headPosition = new Vec3(matrix.m30(), matrix.m31(), matrix.m32()).add(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition());
             poseStack.popPose();
         }
+    }
+
+    public static void startAttack() {
+        if (Minecraft.getInstance().player != null && Minecraft.getInstance().hitResult != null && (Minecraft.getInstance().hitResult != null && Minecraft.getInstance().hitResult.getType() == HitResult.Type.MISS || Minecraft.getInstance().hitResult.getType() == HitResult.Type.ENTITY)) {
+            Minecraft.getInstance().startAttack();
+            Minecraft.getInstance().continueAttack(false);
+        }
+    }
+
+    public static void continueAttack() {
+        if (Minecraft.getInstance().player != null && Minecraft.getInstance().hitResult != null && (Minecraft.getInstance().hitResult.getType() == HitResult.Type.MISS || Minecraft.getInstance().hitResult.getType() == HitResult.Type.ENTITY))
+            Minecraft.getInstance().continueAttack(false);
     }
 }

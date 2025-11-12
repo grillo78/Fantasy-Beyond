@@ -1,7 +1,6 @@
 package grillo78.fantasy_beyond.character.level.classes;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
-import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -13,12 +12,12 @@ public class PlayerClassType {
     public static DeferredRegister<PlayerClassType> PLAYER_CLASS_TYPES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "player_class_type"), FantasyBeyond.MOD_ID);
     public static Registry<PlayerClassType> PLAYER_CLASS_TYPES_REGISTRY = PLAYER_CLASS_TYPES.makeRegistry(raceTypeRegistryBuilder -> {});
 
-    public static PlayerClassType ARCHER = register("archer", new PlayerClassType(Archer::new));
+    public static PlayerClassType TANK = register("tank", new PlayerClassType(Tank::new));
 
-    private Supplier<PlayerClass> raceFunction;
+    private Supplier<PlayerClass> playerClassSupplier;
 
-    public PlayerClassType(Supplier<PlayerClass> raceFunction) {
-        this.raceFunction = raceFunction;
+    public PlayerClassType(Supplier<PlayerClass> playerClassSupplier) {
+        this.playerClassSupplier = playerClassSupplier;
     }
 
     private static <T extends PlayerClassType> T register(String name, T abilityType) {
@@ -27,7 +26,7 @@ public class PlayerClassType {
     }
 
     public PlayerClass createPlayerClass() {
-        PlayerClass race = raceFunction.get();
+        PlayerClass race = playerClassSupplier.get();
         race.setType(this);
         return race;
     }

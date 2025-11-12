@@ -2,7 +2,6 @@ package grillo78.fantasy_beyond.character;
 
 import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.character.level.Level;
-import grillo78.fantasy_beyond.character.level.classes.Archer;
 import grillo78.fantasy_beyond.character.level.classes.PlayerClass;
 import grillo78.fantasy_beyond.character.level.classes.PlayerClassType;
 import grillo78.fantasy_beyond.character.level.stats.Stat;
@@ -27,7 +26,7 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
     private LinkedHashMap<String, Stat> stats = new LinkedHashMap<>();
     private int statPoints = 4;
     private Level level = new Level(this);
-    private PlayerClass playerClass = PlayerClassType.ARCHER.createPlayerClass();
+    private PlayerClass playerClass = PlayerClassType.TANK.createPlayerClass();
 
     public CharacterData() {
         HashMap<Holder<Attribute>, Float> map = new HashMap();
@@ -53,8 +52,13 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
     public void tick(EntityTickEvent event) {
         if (event.getEntity().level().isClientSide)
             this.clientTick();
-        if (playerCustomization.isFinished())
+        if (playerCustomization.isFinished()) {
             playerCustomization.getRace().tick(event);
+            if (playerClass != null)
+                for (int i = 0; i < playerClass.getAbilities().size(); i++) {
+                    playerClass.getAbilities().get(i).tick((LivingEntity) event.getEntity());
+                }
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -2,7 +2,7 @@
   "required": true,
   "package": "grillo78.fantasy_beyond.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": ["better_combat.PlayerAttackHelperMixin"],
   "client": [
     "client.LivingEntityRendererMixin",
     "client.ItemInHandLayerMixin",

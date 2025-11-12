@@ -15,4 +15,39 @@ public class ModKeybinds {
             GLFW.GLFW_KEY_I,
             "key.categories." + FantasyBeyond.MOD_ID
     ));
+    public static final Lazy<KeyMapping> NEXT_QUIVER_INDEX = Lazy.of(() -> new KeyMapping(
+            "key." + FantasyBeyond.MOD_ID + ".next_quiver_index",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_UP,
+            "key.categories." + FantasyBeyond.MOD_ID
+    ));
+    public static final Lazy<KeyMapping> PREVIOUS_QUIVER_INDEX = Lazy.of(() -> new KeyMapping(
+            "key." + FantasyBeyond.MOD_ID + ".previous_quiver_index",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_DOWN,
+            "key.categories." + FantasyBeyond.MOD_ID
+    ));
+    public static final Lazy<KeyMapping> NEXT_ABILITY_INDEX = Lazy.of(() -> new KeyMapping(
+            "key." + FantasyBeyond.MOD_ID + ".next_ability_index",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_RIGHT,
+            "key.categories." + FantasyBeyond.MOD_ID
+    ));
+    public static final Lazy<KeyMapping> PREVIOUS_ABILITY_INDEX = Lazy.of(() -> new KeyMapping(
+            "key." + FantasyBeyond.MOD_ID + ".previous_ability_index",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_LEFT,
+            "key.categories." + FantasyBeyond.MOD_ID
+    ));
+    public static final Lazy<KeyMapping> ACTIVATE_ABILITY = Lazy.of(() -> new KeyMapping(
+            "key." + FantasyBeyond.MOD_ID + ".activate_ability",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_GRAVE_ACCENT,
+            "key.categories." + FantasyBeyond.MOD_ID
+    ));
 }

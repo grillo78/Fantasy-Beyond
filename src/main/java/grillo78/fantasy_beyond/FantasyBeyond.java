@@ -182,5 +182,9 @@ public class FantasyBeyond {
         registrar.commonToServer(IncreaseStat.TYPE, IncreaseStat.STREAM_CODEC, IncreaseStat::handle);
         registrar.commonToServer(UpdateQuiverIndex.TYPE, UpdateQuiverIndex.STREAM_CODEC, UpdateQuiverIndex::handle);
         registrar.commonToServer(UpdateItemContainerItem.TYPE, UpdateItemContainerItem.STREAM_CODEC, UpdateItemContainerItem::handle);
+        registrar.commonToServer(ChangeQuiverIndex.TYPE, ChangeQuiverIndex.STREAM_CODEC, ChangeQuiverIndex::handle);
+        registrar.commonToServer(ChangeAbilityIndex.TYPE, ChangeAbilityIndex.STREAM_CODEC, ChangeAbilityIndex::handle);
+        registrar.commonToServer(ActivateAbility.TYPE, ActivateAbility.STREAM_CODEC, ActivateAbility::handle);
+        registrar.commonToServer(UnlockAbility.TYPE, UnlockAbility.STREAM_CODEC, UnlockAbility::handle);
     }
 }
