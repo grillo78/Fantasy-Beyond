@@ -3,7 +3,7 @@ package grillo78.fantasy_beyond.client.screen;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
-import grillo78.fantasy_beyond.character.level.classes.abilities.Ability;
+import grillo78.fantasy_beyond.character.classes.abilities.Ability;
 import grillo78.fantasy_beyond.client.screen.widget.AbilityButton;
 import grillo78.fantasy_beyond.client.screen.widget.ImageButtonWithText;
 import grillo78.fantasy_beyond.network.UnlockAbility;
@@ -26,6 +26,7 @@ public class AbilitiesScreen extends Screen {
             ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "customization/scroll_entry_selected"));
     private Screen parent;
     private Vector2i offset = new Vector2i(this.width / 2, this.height / 2);
+    private boolean dragged = false;
 
     public AbilitiesScreen(Screen parent) {
         super(Component.empty());
@@ -56,9 +57,24 @@ public class AbilitiesScreen extends Screen {
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), 10, 20, 0, 0, 12, 11, 140, 203);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), 10, 31, 0, 11, 12, height - 51, 140, height - 30);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), 10, height - 20, 0, 192, 12, 11, 140, 203);
+
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), width - 22, 20, 128, 0, 12, 11, 140, 203);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), width - 22, 31, 128, 11, 12, height - 51, 140, height - 30);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), width - 22, height - 20, 128, 192, 12, 11, 140, 203);
+
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), 22, 20, width - 44, 11, 10, 0, 122, 11, 140, 203);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), 22, height - 20, width - 44, 11, 11, 192, 120, 11, 140, 203);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), 22, 31, width - 44, height - 51, 12, 11, 140 - 21, 203 - 13, 140, 203);
+
         CharacterData data = Minecraft.getInstance().player.getData(ModAttachments.CHARACTER_DATA);
         Component text = Component.translatable("fantasy_beyond.ability.points", data.getPlayerClass().getAbilityPoints()).withColor(Color.ORANGE.hashCode());
         guiGraphics.drawString(font, text, width / 2 - font.width(text) / 2, 10, Color.WHITE.hashCode());
+
+        guiGraphics.enableScissor(12, 22, width - 12, height - 11);
         for (int i = 0; i < renderables.size(); i++) {
             Renderable renderable = renderables.get(i);
             if (renderable instanceof AbilityButton abilityButton && abilityButton.getAbility().getParents() != null) {
@@ -70,6 +86,16 @@ public class AbilitiesScreen extends Screen {
                 }
             }
         }
+        guiGraphics.disableScissor();
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        boolean released = true;
+        if (!this.dragged)
+            released = super.mouseReleased(mouseX, mouseY, button);
+        dragged = false;
+        return released;
     }
 
     @Override
@@ -80,6 +106,7 @@ public class AbilitiesScreen extends Screen {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         int scale = 50;
+        dragged = true;
         int dragScale = 1;
         offset.add((int) (dragX * dragScale), (int) (dragY * dragScale));
         for (int i = 0; i < renderables.size(); i++) {
@@ -92,7 +119,13 @@ public class AbilitiesScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+
+        for (Renderable renderable : this.renderables) {
+            if (renderable instanceof AbilityButton)
+                guiGraphics.enableScissor(12, 22, width - 12, height - 11);
+            renderable.render(guiGraphics, mouseX, mouseY, partialTick);
+        }
     }
 
     @Override

@@ -2,10 +2,9 @@ package grillo78.fantasy_beyond.mixin.better_combat;
 
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
-import grillo78.fantasy_beyond.character.level.classes.abilities.Ability;
-import grillo78.fantasy_beyond.character.level.classes.abilities.AttackAbility;
+import grillo78.fantasy_beyond.character.classes.abilities.Ability;
+import grillo78.fantasy_beyond.character.classes.abilities.AttackAbility;
 import net.bettercombat.api.AttackHand;
-import net.bettercombat.api.ComboState;
 import net.bettercombat.api.WeaponAttributes;
 import net.bettercombat.logic.PlayerAttackHelper;
 import net.bettercombat.logic.WeaponRegistry;
@@ -21,7 +20,7 @@ import java.util.List;
 @Mixin(PlayerAttackHelper.class)
 public class PlayerAttackHelperMixin {
 
-    @Inject(method = "getCurrentAttack", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getCurrentAttack", at = @At("HEAD"), cancellable = true, remap = false)
     private static void getCurrentAttack(Player player, int comboCount, CallbackInfoReturnable<AttackHand> cir){
         CharacterData data = player.getData(ModAttachments.CHARACTER_DATA);
         if (data.getPlayerClass() != null){

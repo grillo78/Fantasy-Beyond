@@ -1,7 +1,7 @@
-package grillo78.fantasy_beyond.character.level.classes.abilities;
+package grillo78.fantasy_beyond.character.classes.abilities;
 
 import grillo78.fantasy_beyond.attachment.ModAttachments;
-import grillo78.fantasy_beyond.character.level.classes.PlayerClass;
+import grillo78.fantasy_beyond.character.classes.PlayerClass;
 import grillo78.fantasy_beyond.client.ClientUtils;
 import grillo78.fantasy_beyond.network.SyncCharacterData;
 import net.bettercombat.api.ComboState;
@@ -60,7 +60,6 @@ public class AttackAbility extends Ability {
                     PacketDistributor.sendToServer(new SyncCharacterData(entity.getId(), entity.getData(ModAttachments.CHARACTER_DATA).serializeNBT(null)));
                 } else {
                     ClientUtils.startAttack();
-                    System.out.println(comboIndex);
                 }
             }
             tick++;

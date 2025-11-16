@@ -1,11 +1,10 @@
 package grillo78.fantasy_beyond.character.level;
 
 import grillo78.fantasy_beyond.character.CharacterData;
-import grillo78.fantasy_beyond.character.level.classes.PlayerClass;
+import grillo78.fantasy_beyond.character.classes.PlayerClass;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Level implements INBTSerializable<CompoundTag> {

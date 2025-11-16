@@ -1,4 +1,4 @@
-package grillo78.fantasy_beyond.character.level.classes;
+package grillo78.fantasy_beyond.character.classes;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
 import net.minecraft.core.Registry;

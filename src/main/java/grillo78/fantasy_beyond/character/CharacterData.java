@@ -2,8 +2,8 @@ package grillo78.fantasy_beyond.character;
 
 import grillo78.fantasy_beyond.character.customization.PlayerCustomization;
 import grillo78.fantasy_beyond.character.level.Level;
-import grillo78.fantasy_beyond.character.level.classes.PlayerClass;
-import grillo78.fantasy_beyond.character.level.classes.PlayerClassType;
+import grillo78.fantasy_beyond.character.classes.PlayerClass;
+import grillo78.fantasy_beyond.character.classes.PlayerClassType;
 import grillo78.fantasy_beyond.character.level.stats.Stat;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;

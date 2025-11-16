@@ -1,12 +1,7 @@
-package grillo78.fantasy_beyond.character.level.classes.abilities;
+package grillo78.fantasy_beyond.character.classes.abilities;
 
-import grillo78.fantasy_beyond.attachment.ModAttachments;
-import grillo78.fantasy_beyond.character.level.classes.PlayerClass;
-import grillo78.fantasy_beyond.character.level.classes.PlayerClassType;
-import grillo78.fantasy_beyond.client.ClientUtils;
-import grillo78.fantasy_beyond.network.SyncCharacterData;
-import net.bettercombat.api.ComboState;
-import net.bettercombat.api.WeaponAttributes;
+import grillo78.fantasy_beyond.character.classes.PlayerClass;
+import grillo78.fantasy_beyond.character.classes.PlayerClassType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -16,7 +11,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec2;
 import net.neoforged.neoforge.common.util.INBTSerializable;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.awt.*;

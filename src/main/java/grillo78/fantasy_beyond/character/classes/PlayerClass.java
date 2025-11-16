@@ -1,7 +1,7 @@
-package grillo78.fantasy_beyond.character.level.classes;
+package grillo78.fantasy_beyond.character.classes;
 
 import grillo78.fantasy_beyond.character.level.Level;
-import grillo78.fantasy_beyond.character.level.classes.abilities.Ability;
+import grillo78.fantasy_beyond.character.classes.abilities.Ability;
 import grillo78.fantasy_beyond.items.CustomWeapon;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

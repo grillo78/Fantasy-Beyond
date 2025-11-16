@@ -1,7 +1,7 @@
-package grillo78.fantasy_beyond.character.level.classes;
+package grillo78.fantasy_beyond.character.classes;
 
-import grillo78.fantasy_beyond.character.level.classes.abilities.Ability;
-import grillo78.fantasy_beyond.character.level.classes.abilities.AttackAbility;
+import grillo78.fantasy_beyond.character.classes.abilities.Ability;
+import grillo78.fantasy_beyond.character.classes.abilities.AttackAbility;
 import grillo78.fantasy_beyond.items.CustomWeapon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
