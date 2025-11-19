@@ -26,7 +26,7 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
     private LinkedHashMap<String, Stat> stats = new LinkedHashMap<>();
     private int statPoints = 4;
     private Level level = new Level(this);
-    private PlayerClass playerClass = PlayerClassType.TANK.createPlayerClass();
+    private PlayerClass playerClass = null;
 
     public CharacterData() {
         HashMap<Holder<Attribute>, Float> map = new HashMap();
@@ -63,6 +63,10 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
 
     @OnlyIn(Dist.CLIENT)
     private void clientTick() {
+    }
+
+    public void setPlayerClass(PlayerClass playerClass) {
+        this.playerClass = playerClass;
     }
 
     @Override
@@ -112,7 +116,7 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
     }
 
     public void increaseStatPoints() {
-        statPoints += 3;
+        statPoints += 1;
     }
 
     public void decreaseStatPoint() {

@@ -3,6 +3,7 @@ package grillo78.fantasy_beyond.client.screen;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
+import grillo78.fantasy_beyond.character.classes.PlayerClass;
 import grillo78.fantasy_beyond.character.customization.race.RaceType;
 import grillo78.fantasy_beyond.client.screen.widget.CustomImageButton;
 import grillo78.fantasy_beyond.client.screen.widget.ImageButtonWithText;
@@ -53,24 +54,29 @@ public class CharacterScreen extends Screen {
     protected void init() {
         super.init();
         int width = 150;
-        int x = this.width / 3 -width / 2;
+        int x = this.width / 3 - width / 2;
         addRenderableWidget(new CustomImageButton(x + 1, height - 22, 16, 16, RESET_BUTTON_TEXTURE, (pButton -> {
             angleO = 0;
             angle = 0;
         })));
-        addRenderableWidget(new CustomImageButton(x-17, height - 22, 16, 16, PLAY_BUTTON_TEXTURE, (pButton -> {
+        addRenderableWidget(new CustomImageButton(x - 17, height - 22, 16, 16, PLAY_BUTTON_TEXTURE, (pButton -> {
             paused = !paused;
             ((CustomImageButton) pButton).setSprites(paused ? PLAY_BUTTON_TEXTURE : PAUSE_BUTTON_TEXTURE);
             pButton.setFocused(false);
         })));
         CharacterData data = minecraft.player.getData(ModAttachments.CHARACTER_DATA);
-        StatsList statsList = new StatsList(this,data);
+        StatsList statsList = new StatsList(this, data);
         statsList.fillCharacteristics();
         addRenderableWidget(statsList);
-        width = this.width/3-30;
-        addRenderableWidget(new ImageButtonWithText(this.width / 2-width/2, height - 55, width, 22, 0, 0, 22, SCROLL_BUTTON_TEXTURE, width / 3 - 30, 66, (pButton -> {
-            Minecraft.getInstance().setScreen(new AbilitiesScreen(this));
-        }), Component.translatable("fantasy_beyond.character.abilities")));
+        width = this.width / 3 - 30;
+        if (data.getPlayerClass() != null)
+            addRenderableWidget(new ImageButtonWithText(this.width / 2 - width / 2, height - 55, width, 22, 0, 0, 22, SCROLL_BUTTON_TEXTURE, width / 3 - 30, 66, (pButton -> {
+                Minecraft.getInstance().setScreen(new AbilitiesScreen(this));
+            }), Component.translatable("fantasy_beyond.character.abilities")));
+        else if (data.getLevel().getLevel() >= PlayerClass.UNLOCK_LEVEL)
+            addRenderableWidget(new ImageButtonWithText(this.width / 2 - width / 2, height - 55, width, 22, 0, 0, 22, SCROLL_BUTTON_TEXTURE, width / 3 - 30, 66, (pButton -> {
+                Minecraft.getInstance().setScreen(new ChooseClassScreen(this));
+            }), Component.translatable("fantasy_beyond.character.select_class")));
     }
 
     @Override
@@ -92,16 +98,16 @@ public class CharacterScreen extends Screen {
         CharacterData data = minecraft.player.getData(ModAttachments.CHARACTER_DATA);
         int y = 20;
         int width = 150;
-        int x = this.width / 3 -width;
+        int x = this.width / 3 - width;
         guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), x, y, 0, 0, width, height - 40, width, height - 40);
 
-        x = this.width/2-width/2;
+        x = this.width / 2 - width / 2;
 
         guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), x, y, 0, 0, width, height - 40, width, height - 40);
 
         width = 300;
-        guiGraphics.blitSprite(EXPERIENCE_BAR_BACKGROUND_SPRITE, this.width/2-width/2, 10, width, 7);
-        guiGraphics.blitSprite(EXPERIENCE_BAR_PROGRESS_SPRITE, width, 7, 0, 0, this.width/2-width/2, 10, (int) (width*data.getLevel().getExperience()/data.getLevel().getExpToNextLevel()), 7);
+        guiGraphics.blitSprite(EXPERIENCE_BAR_BACKGROUND_SPRITE, this.width / 2 - width / 2, 10, width, 7);
+        guiGraphics.blitSprite(EXPERIENCE_BAR_PROGRESS_SPRITE, width, 7, 0, 0, this.width / 2 - width / 2, 10, (int) (width * data.getLevel().getExperience() / data.getLevel().getExpToNextLevel()), 7);
     }
 
     @Override
@@ -109,7 +115,7 @@ public class CharacterScreen extends Screen {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         int y = 20;
         int width = 144;
-        int x = this.width / 3 -width-3;
+        int x = this.width / 3 - width - 3;
         CharacterData data = minecraft.player.getData(ModAttachments.CHARACTER_DATA);
         pGuiGraphics.enableScissor(x, y, x + width, height - y);
         float oldYRot = minecraft.player.getYHeadRot();
@@ -129,7 +135,7 @@ public class CharacterScreen extends Screen {
         text = Component.translatable("fantasy_beyond.character.name", minecraft.player.getDisplayName().getString());
         pGuiGraphics.drawString(font, text, this.width / 3 + 10, y, Color.WHITE.hashCode());
         y += font.lineHeight + 5;
-        text = Component.translatable("fantasy_beyond.character.gender").append( Component.literal((data.getPlayerCustomization().isMale()? "♂": "♀")).withColor(data.getPlayerCustomization().isMale()? Color.CYAN.hashCode() : Color.MAGENTA.hashCode()));
+        text = Component.translatable("fantasy_beyond.character.gender").append(Component.literal((data.getPlayerCustomization().isMale() ? "♂" : "♀")).withColor(data.getPlayerCustomization().isMale() ? Color.CYAN.hashCode() : Color.MAGENTA.hashCode()));
         pGuiGraphics.drawString(font, text, this.width / 3 + 10, y, Color.WHITE.hashCode());
         y += font.lineHeight + 5;
         text = Component.translatable("fantasy_beyond.character.race", Component.translatable("race.name." + RaceType.RACE_TYPES_REGISTRY.getKey(data.getPlayerCustomization().getRace().getType()).getPath()).getString());
@@ -137,13 +143,13 @@ public class CharacterScreen extends Screen {
         y += font.lineHeight + 5;
         text = Component.translatable("fantasy_beyond.character.health", minecraft.player.getMaxHealth());
         pGuiGraphics.drawString(font, text, this.width / 3 + 10, y, Color.WHITE.hashCode());
-        if(data.getPlayerClass() != null){
+        if (data.getPlayerClass() != null) {
             y += font.lineHeight + 5;
             text = Component.translatable("fantasy_beyond.character.player_class", data.getPlayerClass().getDisplayName());
             pGuiGraphics.drawString(font, text, this.width / 3 + 10, y, Color.WHITE.hashCode());
-            y += font.lineHeight + 5;
-            text = Component.translatable("fantasy_beyond.character.player_class_level", data.getPlayerClass().getLevel().getLevel());
-            pGuiGraphics.drawString(font, text, this.width / 3 + 20, y, Color.WHITE.hashCode());
+//            y += font.lineHeight + 5;
+//            text = Component.translatable("fantasy_beyond.character.player_class_level", data.getPlayerClass().getLevel().getLevel());
+//            pGuiGraphics.drawString(font, text, this.width / 3 + 20, y, Color.WHITE.hashCode());
         }
     }
 }

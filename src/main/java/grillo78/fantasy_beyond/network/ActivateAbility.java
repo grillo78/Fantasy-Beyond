@@ -34,7 +34,7 @@ public record ActivateAbility(int entityId) implements CustomPacketPayload {
         if (entity instanceof LivingEntity) {
             CharacterData characterData = entity.getData(ModAttachments.CHARACTER_DATA);
             if (characterData.getPlayerClass() != null && characterData.getPlayerClass().getUnlockedAbilities().get(characterData.getPlayerClass().getSelectedAbilityIndex()).isUnlocked() && characterData.getPlayerClass().getUnlockedAbilities().get(characterData.getPlayerClass().getSelectedAbilityIndex()).canActivate(entity)) {
-                characterData.getPlayerClass().getUnlockedAbilities().get(characterData.getPlayerClass().getSelectedAbilityIndex()).activate();
+                characterData.getPlayerClass().getUnlockedAbilities().get(characterData.getPlayerClass().getSelectedAbilityIndex()).activate((LivingEntity) entity);
                 if (entity instanceof Player player) {
                     Component abilityComponent = characterData.getPlayerClass().getUnlockedAbilities().get(characterData.getPlayerClass().getSelectedAbilityIndex()).getDisplayName();
                     player.displayClientMessage(Component.translatable("activate_ability.message", abilityComponent), true);

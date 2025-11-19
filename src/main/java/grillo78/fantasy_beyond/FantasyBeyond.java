@@ -1,5 +1,8 @@
 package grillo78.fantasy_beyond;
 
+import com.google.common.eventbus.DeadEvent;
+import com.mojang.datafixers.util.Pair;
+import grillo78.fantasy_beyond.attachment.DamageManager;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.blocks.ModBlocks;
 import grillo78.fantasy_beyond.character.CharacterData;
@@ -11,7 +14,9 @@ import grillo78.fantasy_beyond.items.components.ArrowItemCodec;
 import grillo78.fantasy_beyond.items.components.ModDataComponents;
 import grillo78.fantasy_beyond.items.components.QuiverContents;
 import grillo78.fantasy_beyond.network.*;
+import net.minecraft.nbt.FloatTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
@@ -22,10 +27,7 @@ import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingBreatheEvent;
-import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
-import net.neoforged.neoforge.event.entity.living.LivingGetProjectileEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -35,9 +37,12 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Mod(FantasyBeyond.MOD_ID)
 public class FantasyBeyond {
@@ -65,22 +70,41 @@ public class FantasyBeyond {
         NeoForge.EVENT_BUS.addListener(this::canBreath);
         NeoForge.EVENT_BUS.addListener(this::getProjectile);
         NeoForge.EVENT_BUS.addListener(this::shrinkArrows);
+        NeoForge.EVENT_BUS.addListener(this::onDead);
+    }
+
+    public void onDead(LivingDeathEvent event) {
+        if(!event.getEntity().level().isClientSide){
+            List<Pair<String, Float>> damageManager = event.getEntity().getData(ModAttachments.DAMAGE_MANAGER);
+            for (int i = 0; i < damageManager.size(); i++) {
+                Pair<String, Float> damage = damageManager.get(i);
+                Player player = event.getEntity().level().getPlayerByUUID(UUID.fromString(damage.getFirst()));
+                if (player != null) {
+                    CharacterData data = player.getData(ModAttachments.CHARACTER_DATA);
+                    data.getLevel().increaseXP(player, damage.getSecond());
+                    PacketDistributor.sendToAllPlayers(new SyncCharacterData(player.getId(), data.serializeNBT(null)));
+                }
+            }
+        }
     }
 
     public void getProjectile(LivingGetProjectileEvent event) {
-        List<SlotResult> slots = CuriosApi.getCuriosInventory(event.getEntity()).get().findCurios("back");
-        boolean notObtained = true;
-        for (int i = 0; i < slots.size() && notObtained; i++) {
-            SlotResult slot = slots.get(i);
-            ItemStack stack = slot.stack();
-            if (stack.getItem() instanceof QuiverItem) {
-                notObtained = false;
-                QuiverContents quiverContents = stack.get(ModDataComponents.QUIVER_CONTENTS);
-                int index = quiverContents.getIndex();
-                if (index >= quiverContents.getItems().size())
-                    index = quiverContents.getItems().size() - 1;
-                if (index < quiverContents.getItems().size())
-                    event.setProjectileItemStack(quiverContents.getItems().get(index).getItems().getLast().copy());
+        Optional<ICuriosItemHandler> inventory = CuriosApi.getCuriosInventory(event.getEntity());
+        if(inventory.isPresent()){
+            List<SlotResult> slots = inventory.get().findCurios("back");
+            boolean notObtained = true;
+            for (int i = 0; i < slots.size() && notObtained; i++) {
+                SlotResult slot = slots.get(i);
+                ItemStack stack = slot.stack();
+                if (stack.getItem() instanceof QuiverItem) {
+                    notObtained = false;
+                    QuiverContents quiverContents = stack.get(ModDataComponents.QUIVER_CONTENTS);
+                    int index = quiverContents.getIndex();
+                    if (index >= quiverContents.getItems().size())
+                        index = quiverContents.getItems().size() - 1;
+                    if (index < quiverContents.getItems().size())
+                        event.setProjectileItemStack(quiverContents.getItems().get(index).getItems().getLast().copy());
+                }
             }
         }
     }

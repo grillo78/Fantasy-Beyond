@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "better_combat.PlayerAttackHelperMixin",
-    "EntityMixin"
+    "entity.EntityMixin",
+    "entity.LivingEntityMixin"
   ],
   "client": [
     "client.LivingEntityRendererMixin",

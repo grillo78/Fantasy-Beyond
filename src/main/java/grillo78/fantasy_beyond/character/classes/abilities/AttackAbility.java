@@ -83,9 +83,9 @@ public class AttackAbility extends Ability {
     }
 
     @Override
-    public void activate() {
+    public void activate(LivingEntity entity) {
         if (!active)
             comboIndex = 0;
-        super.activate();
+        super.activate(entity);
     }
 }

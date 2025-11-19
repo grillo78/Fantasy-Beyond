@@ -60,25 +60,25 @@ public class MaleDwarfModel<T extends Entity> extends CustomizationModel<T> {
 
 		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, -1.0F));
 
-		PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(16, 33).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.25F))
-				.texOffs(16, 26).addBox(-3.5F, 6.0F, -1.5F, 7.0F, 4.0F, 3.0F, new CubeDeformation(0.1F))
-				.texOffs(16, 43).addBox(-3.5F, 6.0F, -1.5F, 7.0F, 4.0F, 3.0F, new CubeDeformation(0.35F)), PartPose.offset(0.0F, -20.0F, 1.0F));
+		PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 6.0F, 4.0F, cubeDeformation)
+				.texOffs(16, 33).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 6.0F, 4.0F, cubeDeformation.extend(0.25F))
+				.texOffs(16, 26).addBox(-3.5F, 6.0F, -1.5F, 7.0F, 4.0F, 3.0F, cubeDeformation.extend(0.1F))
+				.texOffs(16, 43).addBox(-3.5F, 6.0F, -1.5F, 7.0F, 4.0F, 3.0F, cubeDeformation.extend(0.35F)), PartPose.offset(0.0F, -20.0F, 1.0F));
 
-		PartDefinition left_leg = root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 30).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-2.0F, -10.0F, 1.0F));
+		PartDefinition left_leg = root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, cubeDeformation)
+				.texOffs(0, 30).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, cubeDeformation.extend(0.25F)), PartPose.offset(-2.0F, -10.0F, 1.0F));
 
-		PartDefinition right_leg = root.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(16, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(2.0F, -10.0F, 1.0F));
+		PartDefinition right_leg = root.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(16, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, cubeDeformation)
+				.texOffs(0, 50).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, cubeDeformation.extend(0.25F)), PartPose.offset(2.0F, -10.0F, 1.0F));
 
-		PartDefinition right_arm = root.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(32, 50).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(48, 50).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(5.0F, -18.0F, 1.0F));
+		PartDefinition right_arm = root.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(32, 50).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, cubeDeformation)
+				.texOffs(48, 50).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, cubeDeformation.extend(0.25F)), PartPose.offset(5.0F, -18.0F, 1.0F));
 
-		PartDefinition left_arm = root.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(40, 30).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-5.0F, -18.0F, 1.0F));
+		PartDefinition left_arm = root.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, cubeDeformation)
+				.texOffs(40, 30).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, cubeDeformation.extend(0.25F)), PartPose.offset(-5.0F, -18.0F, 1.0F));
 
-		PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
-				.texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -20.0F, 1.0F));
+		PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, cubeDeformation)
+				.texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, cubeDeformation.extend(0.5F)), PartPose.offset(0.0F, -20.0F, 1.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

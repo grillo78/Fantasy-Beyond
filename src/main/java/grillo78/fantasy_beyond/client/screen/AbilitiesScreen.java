@@ -34,6 +34,11 @@ public class AbilitiesScreen extends Screen {
     }
 
     @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
     protected void init() {
         super.init();
         offset = new Vector2i(this.width / 2, this.height / 2);

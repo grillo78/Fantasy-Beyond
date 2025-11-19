@@ -109,6 +109,7 @@ public class Ability implements INBTSerializable<CompoundTag> {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putBoolean("unlocked", unlocked);
         compoundTag.putBoolean("active", active);
+        compoundTag.putInt("tick", tick);
         return compoundTag;
     }
 
@@ -116,9 +117,10 @@ public class Ability implements INBTSerializable<CompoundTag> {
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
         unlocked = nbt.getBoolean("unlocked");
         active = nbt.getBoolean("active");
+        tick = nbt.getInt("tick");
     }
 
-    public void activate() {
+    public void activate(LivingEntity entity) {
         if (!active) {
             active = true;
             tick = 0;

@@ -4,8 +4,12 @@ import grillo78.fantasy_beyond.character.CharacterData;
 import grillo78.fantasy_beyond.character.classes.PlayerClass;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class Level implements INBTSerializable<CompoundTag> {
 
@@ -28,8 +32,8 @@ public class Level implements INBTSerializable<CompoundTag> {
     }
 
     private double calcExpToNextLevel() {
-//        return 100+Math.pow(1.005, level);
-        return (level * 2 - 1) * 400;
+        return -900+Math.pow(1.0001, level)*1000;
+//        return (level * 2 - 1) * 400;
     }
 
     public void increaseXP(LivingEntity player, double exp) {
@@ -45,6 +49,10 @@ public class Level implements INBTSerializable<CompoundTag> {
             if(data != null) {
                 data.increaseStatPoints();
                 data.applyStats(player);
+                if (level == PlayerClass.UNLOCK_LEVEL && player instanceof Player)
+                    ((Player) player).displayClientMessage(Component.translatable("select_class.alert"), true);
+                if(data.getPlayerClass() != null)
+                    data.getPlayerClass().onIncreaseLevel();
             }
             if(playerClass != null) {
                 playerClass.onIncreaseLevel();

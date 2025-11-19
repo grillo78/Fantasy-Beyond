@@ -1,4 +1,4 @@
-package grillo78.fantasy_beyond.mixin;
+package grillo78.fantasy_beyond.mixin.entity;
 
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
@@ -26,12 +26,14 @@ public abstract class EntityMixin {
     public void onPick(double hitDistance, float partialTicks, boolean hitFluids, CallbackInfoReturnable<HitResult> cir) {
         if (((Entity) (Object) this) instanceof Player){
             CharacterData data = ((Player) (Object) this).getData(ModAttachments.CHARACTER_DATA);
-            boolean activeAttack = data.getPlayerClass().getUnlockedAbilities().size()>data.getPlayerClass().getSelectedAbilityIndex() && data.getPlayerClass().getUnlockedAbilities().get(data.getPlayerClass().getSelectedAbilityIndex()).isActive();
-            if(activeAttack){
-                Vec3 vec3 = this.getEyePosition(partialTicks);
-                Vec3 vec31 = this.getViewVector(partialTicks);
-                Vec3 vec32 = vec3.add(vec31.x * hitDistance, vec31.y * hitDistance, vec31.z * hitDistance);
-                cir.setReturnValue(BlockHitResult.miss(vec32, Direction.getNearest(vec31.subtract(vec32)), BlockPos.containing(vec32)));
+            if(data.getPlayerClass() != null){
+                boolean activeAttack = data.getPlayerClass().getUnlockedAbilities().size() > data.getPlayerClass().getSelectedAbilityIndex() && data.getPlayerClass().getUnlockedAbilities().get(data.getPlayerClass().getSelectedAbilityIndex()).isActive();
+                if (activeAttack) {
+                    Vec3 vec3 = this.getEyePosition(partialTicks);
+                    Vec3 vec31 = this.getViewVector(partialTicks);
+                    Vec3 vec32 = vec3.add(vec31.x * hitDistance, vec31.y * hitDistance, vec31.z * hitDistance);
+                    cir.setReturnValue(BlockHitResult.miss(vec32, Direction.getNearest(vec31.subtract(vec32)), BlockPos.containing(vec32)));
+                }
             }
         }
     }

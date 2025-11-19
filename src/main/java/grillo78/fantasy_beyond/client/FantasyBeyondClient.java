@@ -66,6 +66,10 @@ public class FantasyBeyondClient {
         NeoForge.EVENT_BUS.addListener(this::renderLevelLast);
         NeoForge.EVENT_BUS.addListener(this::renderHUD);
         NeoForge.EVENT_BUS.addListener(this::scrollMouseScreen);
+        NeoForge.EVENT_BUS.addListener(this::inputUpdate);
+    }
+
+    public void inputUpdate(MovementInputUpdateEvent event){
     }
 
     private void scrollMouseScreen(ScreenEvent.MouseScrolled.Pre event) {

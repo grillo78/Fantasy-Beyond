@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class PlayerClass implements INBTSerializable<CompoundTag> {
-    private Level level = new Level(this);
+    public static final int UNLOCK_LEVEL = 5;
+
+//    private Level level = new Level(this);
     private PlayerClassType type;
     private List<Ability> abilities = new ArrayList<>();
-    private int abilityPoints = 100;
+    private int abilityPoints = 0;
     private int selectedAbilityIndex = 0;
 
     public PlayerClass() {
@@ -39,18 +41,19 @@ public abstract class PlayerClass implements INBTSerializable<CompoundTag> {
     public abstract Component getDisplayName();
 
     public void onIncreaseLevel(){
+        abilityPoints++;
     }
 
-    public Level getLevel() {
-        return level;
-    }
+//    public Level getLevel() {
+//        return level;
+//    }
 
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
 
         tag.putString("type", PlayerClassType.PLAYER_CLASS_TYPES_REGISTRY.getKey(type).toString());
-        tag.put("level", level.serializeNBT(provider));
+//        tag.put("level", level.serializeNBT(provider));
         tag.putInt("abilityPoints", abilityPoints);
 
         CompoundTag abilities = new CompoundTag();
@@ -64,7 +67,7 @@ public abstract class PlayerClass implements INBTSerializable<CompoundTag> {
 
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
-        level.deserializeNBT(provider, nbt.getCompound("level"));
+//        level.deserializeNBT(provider, nbt.getCompound("level"));
         abilityPoints = nbt.getInt("abilityPoints");
         CompoundTag abilities = nbt.getCompound("abilities");
 
