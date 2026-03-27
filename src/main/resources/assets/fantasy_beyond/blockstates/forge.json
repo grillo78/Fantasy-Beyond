@@ -1,0 +1,73 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/center"
+      }
+    },
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/north"
+      },
+      "when": {
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/east"
+      },
+      "when": {
+        "east": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/south"
+      },
+      "when": {
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/west"
+      },
+      "when": {
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/north_west"
+      },
+      "when": {
+        "north_west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/north_east"
+      },
+      "when": {
+        "north_east": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/south_east"
+      },
+      "when": {
+        "south_east": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fantasy_beyond:block/forge/south_west"
+      },
+      "when": {
+        "south_west": "false"
+      }
+    }
+  ]
+}

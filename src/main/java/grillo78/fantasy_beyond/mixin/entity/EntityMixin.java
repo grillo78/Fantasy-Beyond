@@ -5,7 +5,9 @@ import grillo78.fantasy_beyond.character.CharacterData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -21,6 +23,8 @@ public abstract class EntityMixin {
     @Shadow public abstract Vec3 getEyePosition(float partialTicks);
 
     @Shadow public abstract Vec3 getViewVector(float partialTicks);
+
+    @Shadow private Level level;
 
     @Inject(method = "pick", at = @At("HEAD"), cancellable = true)
     public void onPick(double hitDistance, float partialTicks, boolean hitFluids, CallbackInfoReturnable<HitResult> cir) {

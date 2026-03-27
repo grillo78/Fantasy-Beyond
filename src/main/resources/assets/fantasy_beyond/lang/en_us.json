@@ -105,6 +105,7 @@
   "fantasy_beyond.tooltip.can_be_unlocked": "This ability can be unlocked",
   "fantasy_beyond.tooltip.weapon": "Required Weapon: %s",
   "fantasy_beyond.tooltip.katana": "Katana",
+  "fantasy_beyond.tooltip.temperature": "Temperature: %sºC",
   "itemGroup.fantasy_beyond_blocks": "Fantasy Beyond: Blocks",
   "itemGroup.fantasy_beyond_clothes": "Fantasy Beyond: Clothes",
   "itemGroup.fantasy_beyond_items": "Fantasy Beyond: Items",
@@ -115,8 +116,10 @@
   "cant_activate_ability.message": "Can't activate the ability",
   "no_ability.message": "You have no abilities",
   "fantasy_beyond.ability.points": "Available Points: %s",
+  "fantasy_beyond.ability.battle_roar": "Battle Roar",
+  "fantasy_beyond.ability.battle_roar.description": "The player roar strongly giving resistance to all players in a the area.",
   "fantasy_beyond.ability.test": "Test Ability",
-  "fantasy_beyond.ability.test.description": "This is just a test ability made\nwith testings purposes in mind,\nif you are seeing this on a public\nversion you should report it.",
+  "fantasy_beyond.ability.test.description": "This is just a test ability made with testings purposes in mind, if you are seeing this on a public version you should report it.",
   "fantasy_beyond.ability.test_attack": "Test Melee Attack Ability",
-  "fantasy_beyond.ability.test_attack.description": "This is just a test melee attack\nability made with testings\npurposes in mind, if you are\nseeing this ona public version\nyou should report it."
+  "fantasy_beyond.ability.test_attack.description": "This is just a test melee attack ability made with testings purposes in mind, if you are seeing this ona public version you should report it."
 }

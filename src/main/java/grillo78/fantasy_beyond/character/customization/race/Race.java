@@ -104,4 +104,12 @@ public abstract class Race implements INBTSerializable<CompoundTag> {
     public void livingFall(LivingFallEvent event) {
 
     }
+
+    public Vec3 quiverOffset() {
+        return new Vec3(0,0,4F/16F);
+    }
+
+    public Vec3 quiverAngles() {
+        return new Vec3(0,0, Math.toRadians(45));
+    }
 }

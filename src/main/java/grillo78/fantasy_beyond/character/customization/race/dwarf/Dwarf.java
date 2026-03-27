@@ -48,4 +48,14 @@ public class Dwarf extends Race {
     public int getHUDViewerScale() {
         return 25;
     }
+
+    @Override
+    public Vec3 quiverOffset() {
+        return super.quiverOffset().add(0,8/16F,0);
+    }
+
+    @Override
+    public Vec3 quiverAngles() {
+        return super.quiverAngles();
+    }
 }

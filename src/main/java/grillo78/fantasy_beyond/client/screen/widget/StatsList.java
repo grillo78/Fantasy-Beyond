@@ -21,7 +21,8 @@ public class StatsList extends ObjectSelectionList<StatsList.StatEntry> {
 
     //Minecraft pMinecraft, int pWidth, int pHeight, int pY0, int pY1, int pItemHeight
     public StatsList(CharacterScreen parent, CharacterData data) {
-        super(parent.getMinecraft(), 150, parent.height - 60,
+        super(parent.getMinecraft(),
+        parent.width/3-6, parent.height - 60,
                 35, parent.getMinecraft().font.lineHeight * 2 + 8);
         this.setX(2 * parent.width / 3);
         this.data = data;

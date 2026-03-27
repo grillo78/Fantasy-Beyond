@@ -20,6 +20,7 @@ import grillo78.fantasy_beyond.character.customization.race.orc.OrcCharacteristi
 import grillo78.fantasy_beyond.character.customization.race.orc.OrcColoreableCharacteristic;
 import grillo78.fantasy_beyond.character.customization.race.orc.OrcEyes;
 import grillo78.fantasy_beyond.character.customization.race.tiefling.*;
+import grillo78.fantasy_beyond.client.ClientUtils;
 import grillo78.fantasy_beyond.client.entity.race.RaceCharacteristicRenderer;
 import grillo78.fantasy_beyond.client.entity.race.RaceEyesCharacteristicRenderer;
 import grillo78.fantasy_beyond.client.entity.race.dwarf.FemaleDwarfModel;
@@ -41,8 +42,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.resources.ResourceLocation;
 import oshi.util.tuples.Pair;
 
 public class CustomizationLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
@@ -61,8 +64,8 @@ public class CustomizationLayer extends RenderLayer<AbstractClientPlayer, Player
                 new MaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_TIEFLING)),
                 new FemaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_TIEFLING)))));
         RaceCharacteristicRenderer.registerRenderer(TieflingEyes.class, new RaceEyesCharacteristicRenderer(new Pair<>(
-                new MaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_TIEFLING)),
-                new FemaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_TIEFLING)))));
+                new MaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_SECOND_TIEFLING)),
+                new FemaleTieflingModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_SECOND_TIEFLING)))));
         RaceCharacteristicRenderer.registerRenderer(TieflingHornsCharacteristic.class, new TieflingHornsCharacteristicRenderer());
         RaceCharacteristicRenderer.registerRenderer(TieflingTailCharacteristic.class, new TieflingTailCharacteristicRenderer());
 
@@ -74,8 +77,8 @@ public class CustomizationLayer extends RenderLayer<AbstractClientPlayer, Player
                 new MaleHumanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_HUMAN)),
                 new FemaleHumanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_HUMAN)))));
         RaceCharacteristicRenderer.registerRenderer(HumanEyes.class, new RaceEyesCharacteristicRenderer(new Pair<>(
-                new MaleHumanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_HUMAN)),
-                new FemaleHumanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_HUMAN)))));
+                new MaleHumanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_SECOND_HUMAN)),
+                new FemaleHumanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_SECOND_HUMAN)))));
 
         //Orc
         RaceCharacteristicRenderer.registerRenderer(OrcCharacteristic.class, new RaceCharacteristicRenderer(new Pair<>(
@@ -85,8 +88,8 @@ public class CustomizationLayer extends RenderLayer<AbstractClientPlayer, Player
                 new MaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_ORC)),
                 new FemaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_ORC)))));
         RaceCharacteristicRenderer.registerRenderer(OrcEyes.class, new RaceEyesCharacteristicRenderer(new Pair<>(
-                new MaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_ORC)),
-                new FemaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_ORC)))));
+                new MaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_SECOND_ORC)),
+                new FemaleOrcModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_SECOND_ORC)))));
 
         //Dwarf
         RaceCharacteristicRenderer.registerRenderer(DwarfCharacteristic.class, new RaceCharacteristicRenderer(new Pair<>(
@@ -96,8 +99,8 @@ public class CustomizationLayer extends RenderLayer<AbstractClientPlayer, Player
                 new MaleDwarfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_DWARF)),
                 new FemaleDwarfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_DWARF)))));
         RaceCharacteristicRenderer.registerRenderer(DwarfEyes.class, new RaceEyesCharacteristicRenderer(new Pair<>(
-                new MaleDwarfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_DWARF)),
-                new FemaleDwarfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_DWARF)))));
+                new MaleDwarfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_SECOND_DWARF)),
+                new FemaleDwarfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_SECOND_DWARF)))));
 
         //Elf
         RaceCharacteristicRenderer.registerRenderer(ElfCharacteristic.class, new RaceCharacteristicRenderer(new Pair<>(
@@ -107,8 +110,8 @@ public class CustomizationLayer extends RenderLayer<AbstractClientPlayer, Player
                 new MaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_ELF)),
                 new FemaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_ELF)))));
         RaceCharacteristicRenderer.registerRenderer(ElfEyes.class, new RaceEyesCharacteristicRenderer(new Pair<>(
-                new MaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_ELF)),
-                new FemaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_ELF)))));
+                new MaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_SECOND_ELF)),
+                new FemaleElfModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_SECOND_ELF)))));
 
         //Merfolk
         RaceCharacteristicRenderer.registerRenderer(MerfolkCharacteristic.class, new RaceCharacteristicRenderer(new Pair<>(
@@ -118,8 +121,8 @@ public class CustomizationLayer extends RenderLayer<AbstractClientPlayer, Player
                 new MaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_MERFOLK)),
                 new FemaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_MERFOLK)))));
         RaceCharacteristicRenderer.registerRenderer(MerfolkEyes.class, new RaceEyesCharacteristicRenderer(new Pair<>(
-                new MaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_MERFOLK)),
-                new FemaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_MERFOLK)))));
+                new MaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.MALE_SECOND_MERFOLK)),
+                new FemaleMerfolkModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.FEMALE_SECOND_MERFOLK)))));
         RaceCharacteristicRenderer.registerRenderer(MerfolkTailCharacteristic.class, new MerfolkTailCharacteristicRenderer());
     }
 

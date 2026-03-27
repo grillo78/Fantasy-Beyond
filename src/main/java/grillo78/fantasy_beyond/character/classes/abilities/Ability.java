@@ -65,7 +65,7 @@ public class Ability implements INBTSerializable<CompoundTag> {
 
     public ResourceLocation getTexture() {
         ResourceLocation classRegistryName = PlayerClassType.PLAYER_CLASS_TYPES_REGISTRY.getKey(playerClass.getType());
-        return ResourceLocation.fromNamespaceAndPath(classRegistryName.getNamespace(), "textures/ability/" + name);
+        return ResourceLocation.fromNamespaceAndPath(classRegistryName.getNamespace(), "textures/ability/" + name + ".png");
     }
 
     public Component getDisplayName() {

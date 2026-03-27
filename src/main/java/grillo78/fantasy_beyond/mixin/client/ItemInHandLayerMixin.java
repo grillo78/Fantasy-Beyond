@@ -32,10 +32,14 @@ public abstract class ItemInHandLayerMixin {
             CharacterData data = pLivingEntity.getData(ModAttachments.CHARACTER_DATA);
             Characteristic characteristic = data.getPlayerCustomization().getRace().getCharacteristics().get(0);
             RaceCharacteristicRenderer.getRenderer(characteristic.getClass()).translateToArm(poseStack, humanoidArm, characteristic, instance, pLivingEntity);
-        }
+        } else
+            instance.translateToHand(humanoidArm, poseStack);
     }
 
     @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"))
-    public void translate(PoseStack instance, float x, float y, float z) {
+    public void translate(PoseStack instance, float x, float y, float z, LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm arm, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        boolean flag = arm == HumanoidArm.LEFT;
+        if (!(livingEntity instanceof Player))
+            instance.translate((float) (flag ? -1 : 1) / 16.0F, 0.125F, -0.625F);
     }
 }

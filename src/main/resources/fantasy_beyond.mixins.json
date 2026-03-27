@@ -5,13 +5,17 @@
   "mixins": [
     "better_combat.PlayerAttackHelperMixin",
     "entity.EntityMixin",
-    "entity.LivingEntityMixin"
+    "entity.LivingEntityMixin",
+    "entity.ItemEntityMixin",
+    "inventory.ArmorSlotMixin"
   ],
   "client": [
     "client.LivingEntityRendererMixin",
     "client.ItemInHandLayerMixin",
     "client.CameraMixin",
-    "client.ModelPartMixin"
+    "client.ModelPartMixin",
+    "client.ItemRendererMixin",
+    "client.ArmorLayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

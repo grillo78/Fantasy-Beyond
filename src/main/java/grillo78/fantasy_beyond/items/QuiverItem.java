@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionContents;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.awt.*;
 import java.util.ArrayList;

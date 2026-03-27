@@ -1,0 +1,78 @@
+{
+  "values": {
+    "#fantasy_beyond:copper": {
+      "ranges": [
+        {
+          "minTemp": 0,
+          "maxTemp": 200,
+          "startColorRed": 1,
+          "startColorGreen": 1,
+          "startColorBlue": 1,
+          "endColorRed": 1,
+          "endColorGreen": 1,
+          "endColorBlue": 1
+        },
+        {
+          "minTemp": 200,
+          "maxTemp": 300,
+          "startColorRed": 1,
+          "startColorGreen": 1,
+          "startColorBlue": 1,
+          "endColorRed": 1,
+          "endColorGreen": 0,
+          "endColorBlue": 0
+        }
+      ],
+      "workableAt": 1,
+      "breakAt": 1000,
+      "heatingSpeed": 0.5
+    },
+    "#fantasy_beyond:iron": {
+      "ranges": [
+        {
+          "minTemp": 0,
+          "maxTemp": 200,
+          "startColorRed": 1,
+          "startColorGreen": 1,
+          "startColorBlue": 1,
+          "endColorRed": 1,
+          "endColorGreen": 1,
+          "endColorBlue": 1
+        },
+        {
+          "minTemp": 200,
+          "maxTemp": 300,
+          "startColorRed": 1,
+          "startColorGreen": 1,
+          "startColorBlue": 1,
+          "endColorRed": 1,
+          "endColorGreen": 1,
+          "endColorBlue": 0
+        },
+        {
+          "minTemp": 300,
+          "maxTemp": 500,
+          "startColorRed": 1,
+          "startColorGreen": 1,
+          "startColorBlue": 0,
+          "endColorRed": 1,
+          "endColorGreen": 0,
+          "endColorBlue": 0
+        },
+        {
+          "minTemp": 500,
+          "maxTemp": 800,
+          "startColorRed": 1,
+          "startColorGreen": 0,
+          "startColorBlue": 0,
+          "endColorRed": 1,
+          "endColorGreen": 0.9,
+          "endColorBlue": 0.75
+        }
+      ],
+      "workableAt": 1,
+      "breakAt": 1000,
+      "heatingSpeed": 0.5
+    }
+  }
+}

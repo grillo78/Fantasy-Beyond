@@ -97,7 +97,7 @@ public class CharacterScreen extends Screen {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         CharacterData data = minecraft.player.getData(ModAttachments.CHARACTER_DATA);
         int y = 20;
-        int width = 150;
+        int width = this.width / 3 - 6;
         int x = this.width / 3 - width;
         guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "textures/gui/customization/scrolls.png"), x, y, 0, 0, width, height - 40, width, height - 40);
 
@@ -114,7 +114,7 @@ public class CharacterScreen extends Screen {
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         int y = 20;
-        int width = 144;
+        int width = this.width / 3 - 6;
         int x = this.width / 3 - width - 3;
         CharacterData data = minecraft.player.getData(ModAttachments.CHARACTER_DATA);
         pGuiGraphics.enableScissor(x, y, x + width, height - y);

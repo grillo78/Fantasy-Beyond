@@ -52,11 +52,21 @@ public class Orc extends Race {
 
     @Override
     public Vec3 getArmOffset() {
-        return new Vec3(-1/16F,15/16F,-2/16F);
+        return new Vec3(-1.5/16F,15/16F,-2/16F);
     }
 
     @Override
     public int getHUDViewerScale() {
         return 15;
+    }
+
+    @Override
+    public Vec3 quiverOffset() {
+        return super.quiverOffset().add(0,-6/16F,0);
+    }
+
+    @Override
+    public Vec3 quiverAngles() {
+        return super.quiverAngles();
     }
 }

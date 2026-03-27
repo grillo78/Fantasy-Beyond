@@ -7,6 +7,10 @@ import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
 import grillo78.fantasy_beyond.client.entity.race.RaceCharacteristicRenderer;
+import grillo78.fantasy_beyond.data_map.ModDataMaps;
+import grillo78.fantasy_beyond.data_map.forging.HeatableMaterial;
+import grillo78.fantasy_beyond.items.components.ModDataComponents;
+import grillo78.fantasy_beyond.data_map.forging.HeatRange;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -19,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -39,11 +44,11 @@ public class ClientUtils {
     public static Vec3 headPosition = null;
 
     @OnlyIn(Dist.CLIENT)
-    public static void renderHealth(RenderGuiLayerEvent.Pre event) {
+    public static void renderHUD(RenderGuiLayerEvent.Pre event) {
 
-        CharacterData playerData = Minecraft.getInstance().player.getData(ModAttachments.CHARACTER_DATA);
         GuiGraphics graphics = event.getGuiGraphics();
         Player player = Minecraft.getInstance().player;
+        CharacterData playerData = player.getData(ModAttachments.CHARACTER_DATA);
 
         int offset = 10;
         double factor = Minecraft.getInstance().getWindow().getGuiScale();
@@ -54,33 +59,61 @@ public class ClientUtils {
         InventoryScreen.renderEntityInInventory(graphics, offset + 35, 60, playerData.getPlayerCustomization().getRace().getHUDViewerScale(), Vec3.ZERO.toVector3f(), new Quaternionf().rotateX((float) Math.PI).rotateY((float) Math.toRadians(player.yBodyRot)), new Quaternionf().rotationX((float) 0), Minecraft.getInstance().player);
         RenderSystem.disableScissor();
 
-        graphics.fillGradient(offset + 70, 11, offset + (int) (70 + (56 * Minecraft.getInstance().player.getHealth() / Minecraft.getInstance().player.getMaxHealth())), 16, new Color(250, 100, 100).hashCode(), Color.RED.hashCode());
+        graphics.fillGradient(offset + 70, 11, offset + (int) (70 + (56 * (player.getHealth() + player.getAbsorptionAmount()) / (player.getMaxHealth() + player.getMaxAbsorption()))), 16, new Color(250, 100, 100).hashCode(), Color.RED.hashCode());
 
-        graphics.fillGradient(offset + 70, 19, offset + (int) (70 + (56 * Minecraft.getInstance().player.getArmorCoverPercentage())), 24, Color.LIGHT_GRAY.hashCode(), Color.GRAY.hashCode());
+        graphics.fillGradient(offset + 70, 19, offset + (int) (70 + (56 * player.getArmorCoverPercentage())), 24, Color.LIGHT_GRAY.hashCode(), Color.GRAY.hashCode());
 
-        graphics.fillGradient(offset + 70, 27, offset + 70 + (56 * Minecraft.getInstance().player.getFoodData().getFoodLevel() / 20), 32, Color.GREEN.hashCode(), new Color(0, 200, 0).hashCode());
+        graphics.fillGradient(offset + 70, 27, offset + 70 + (56 * player.getFoodData().getFoodLevel() / 20), 32, Color.GREEN.hashCode(), new Color(0, 200, 0).hashCode());
 
-        graphics.fillGradient(offset + 70, 35, offset + 70 + Mth.clamp((56 * Minecraft.getInstance().player.getAirSupply() / Minecraft.getInstance().player.getMaxAirSupply()), 0, 56), 40, new Color(100, 100, 250).hashCode(), Color.BLUE.hashCode());
+        graphics.fillGradient(offset + 70, 35, offset + 70 + Mth.clamp((56 * player.getAirSupply() / player.getMaxAirSupply()), 0, 56), 40, new Color(100, 100, 250).hashCode(), Color.BLUE.hashCode());
 
-        graphics.fillGradient(offset, (int) (61 - (50 * Minecraft.getInstance().player.experienceProgress)), offset + 7, 60, new Color(0, 150, 10).hashCode(), new Color(0, 200, 10).hashCode());
+        graphics.fillGradient(offset, (int) (61 - (50 * player.experienceProgress)), offset + 7, 60, new Color(0, 150, 10).hashCode(), new Color(0, 200, 10).hashCode());
 
-        Component text = Component.literal(String.valueOf(Minecraft.getInstance().player.experienceLevel));
+        Component text = Component.literal(String.valueOf(player.experienceLevel));
         graphics.drawString(Minecraft.getInstance().font, Component.translatable(FantasyBeyond.MOD_ID + ".hud.level"), offset + 63, 42, new Color(0, 150, 10).hashCode());
         graphics.drawString(Minecraft.getInstance().font, text, offset + 63, 52, new Color(0, 150, 10).hashCode());
 
         graphics.pose().pushPose();
         graphics.pose().scale(0.5F, 0.5F, 0.5F);
 
-        text = Component.literal(round(Minecraft.getInstance().player.getHealth(), 2) + " / " + Minecraft.getInstance().player.getMaxHealth());
+        text = Component.literal(round(player.getHealth() + player.getAbsorptionAmount(), 2) + " / " + (player.getMaxHealth() + player.getMaxAbsorption()));
 
         graphics.drawString(Minecraft.getInstance().font, text, (offset + 96) * 2 - (Minecraft.getInstance().font.width(text) / 2), 24, Color.WHITE.hashCode(), false);
-        text = Component.literal(String.valueOf(Minecraft.getInstance().player.getArmorCoverPercentage()));
+        text = Component.literal(String.valueOf(player.getArmorCoverPercentage()));
         graphics.drawString(Minecraft.getInstance().font, text, (offset + 96) * 2 - (Minecraft.getInstance().font.width(text) / 2), 40, Color.WHITE.hashCode(), false);
-        text = Component.literal(Minecraft.getInstance().player.getFoodData().getFoodLevel() + "/ 20");
+        text = Component.literal(player.getFoodData().getFoodLevel() + "/ 20");
         graphics.drawString(Minecraft.getInstance().font, text, (int) ((offset + 93.5) * 2 - (Minecraft.getInstance().font.width(text) / 2)), 56, Color.WHITE.hashCode(), false);
-        text = Component.literal(Minecraft.getInstance().player.getAirSupply() + " / " + Minecraft.getInstance().player.getMaxAirSupply());
+        text = Component.literal(player.getAirSupply() + " / " + player.getMaxAirSupply());
         graphics.drawString(Minecraft.getInstance().font, text, (int) ((offset + 93.5) * 2 - (Minecraft.getInstance().font.width(text) / 2)), 72, Color.WHITE.hashCode(), false);
         graphics.pose().popPose();
+
+        int width = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        int height = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+        int abilityScale = 25;
+        if (playerData.getPlayerClass() != null) {
+//            if (playerData.getPlayerClass().getUnlockedAbilities().size() < 4)
+//                for (int i = 0; i < playerData.getPlayerClass().getUnlockedAbilities().size(); i++) {
+//                    graphics.blit(playerData.getPlayerClass().getUnlockedAbilities().get(i).getTexture(), width - (abilityScale + 5) * (i + 1), height - abilityScale - 5, 0, 0, abilityScale, abilityScale, abilityScale, abilityScale);
+//                }
+//            else
+//            int i = 3;
+            if (!playerData.getPlayerClass().getUnlockedAbilities().isEmpty())
+                for (int i = 0; i < 3; i++) {
+                    graphics.blit(playerData.getPlayerClass().getUnlockedAbilities().get(getAbilityIndex(playerData.getPlayerClass().getUnlockedAbilities().size(), i, playerData.getPlayerClass().getSelectedAbilityIndex())).getTexture(), width - (abilityScale + 5) * (i + 1), height - abilityScale - 5, 0, 0, abilityScale, abilityScale, abilityScale, abilityScale);
+                }
+        }
+    }
+
+    private static int getAbilityIndex(int size, int loopIndex, int selectedIndex) {
+        int index = selectedIndex + loopIndex - 1;
+
+        if (index > size - 1)
+            index -= size;
+        if (index < 0)
+            index += size;
+
+
+        return index;
     }
 
     public static float round(float d, int decimalPlace) {
@@ -125,10 +158,10 @@ public class ClientUtils {
         PoseStack matrixStack = event.getPoseStack();
         matrixStack.pushPose();
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+        AbstractClientPlayer player = Minecraft.getInstance().player;
 
         Vec3 view = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStack.translate(-view.x(), -view.y(), -view.z());
-        AbstractClientPlayer player = Minecraft.getInstance().player;
         Vec3 lookVector = new Vec3(0, 0, -0.25).yRot((float) Math.toRadians(-player.getViewYRot(Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime())));
         Vec3 playerPosition = player.getPosition(Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime()).add(lookVector);
 
@@ -180,5 +213,26 @@ public class ClientUtils {
     public static void continueAttack() {
         if (Minecraft.getInstance().player != null && Minecraft.getInstance().hitResult != null && (Minecraft.getInstance().hitResult.getType() == HitResult.Type.MISS || Minecraft.getInstance().hitResult.getType() == HitResult.Type.ENTITY))
             Minecraft.getInstance().continueAttack(false);
+    }
+
+    public static Color getStackColor(ItemStack itemStack) {
+        Color color = null;
+        HeatableMaterial heatableMaterial = itemStack.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS);
+        if (itemStack.has(ModDataComponents.TEMPERATURE_MANAGER) && heatableMaterial != null) {
+            float temperature = itemStack.get(ModDataComponents.TEMPERATURE_MANAGER).getTemperature();
+            color = heatableMaterial.getRanges().getLast().getEndColor();
+            for (int i = 0; i < heatableMaterial.getRanges().size(); i++) {
+                HeatRange range = heatableMaterial.getRanges().get(i);
+                if(temperature >= range.getMinTemp() && temperature < range.getMaxTemp()){
+                    float lerpProgress = (temperature-range.getMinTemp())/(range.getMaxTemp()-range.getMinTemp());
+                    lerpProgress = Mth.clamp(lerpProgress, 0,1);
+                    float r = Mth.lerp(lerpProgress,range.getStartColor().getRed()/255F, range.getEndColor().getRed()/255F);
+                    float g = Mth.lerp(lerpProgress,range.getStartColor().getGreen()/255F, range.getEndColor().getGreen()/255F);
+                    float b = Mth.lerp(lerpProgress,range.getStartColor().getBlue()/255F, range.getEndColor().getBlue()/255F);
+                    color = new Color(r,g,b);
+                }
+            }
+        }
+        return color;
     }
 }

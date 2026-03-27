@@ -11,6 +11,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -20,6 +22,10 @@ public class ModBlocks {
     // Create a Deferred Register to hold Blocks which will all be registered under the "wizarding_magic" namespace
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, FantasyBeyond.MOD_ID);
 
+    public static final DeferredHolder<Block, Block> FORGE = register("forge", () -> new ForgeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.5F, 6.0F)), new Item.Properties());
+    public static final DeferredHolder<Block, Block> BLACKSMITH_TABLE = register("blacksmith_table", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.5F, 6.0F)), new Item.Properties());
+    public static final DeferredHolder<Block, Block> ANVIL = register("anvil", () -> new AnvilBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.5F, 6.0F)), new Item.Properties());
+    public static final DeferredHolder<Block, Block> IRON_BUCKET = register("iron_bucket", () -> new BucketBlock(BlockBehaviour.Properties.of()));
     public static DeferredHolder<Block, Block> BASE_PILAR = register("base_pilar", ()-> new BasePilar(BlockBehaviour.Properties.of()), new Item.Properties());
     public static DeferredHolder<Block, Block> PILAR = register("pilar", ()-> new Pilar(BlockBehaviour.Properties.of()), new Item.Properties());
     public static DeferredHolder<Block, Block> END_PILAR = register("end_pilar", ()-> new EndPilar(BlockBehaviour.Properties.of()), new Item.Properties());

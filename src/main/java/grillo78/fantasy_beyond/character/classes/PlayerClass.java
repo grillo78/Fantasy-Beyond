@@ -55,6 +55,7 @@ public abstract class PlayerClass implements INBTSerializable<CompoundTag> {
         tag.putString("type", PlayerClassType.PLAYER_CLASS_TYPES_REGISTRY.getKey(type).toString());
 //        tag.put("level", level.serializeNBT(provider));
         tag.putInt("abilityPoints", abilityPoints);
+        tag.putInt("selectedAbilityIndex", selectedAbilityIndex);
 
         CompoundTag abilities = new CompoundTag();
         for (int i = 0; i < this.abilities.size(); i++) {
@@ -69,6 +70,7 @@ public abstract class PlayerClass implements INBTSerializable<CompoundTag> {
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
 //        level.deserializeNBT(provider, nbt.getCompound("level"));
         abilityPoints = nbt.getInt("abilityPoints");
+        selectedAbilityIndex = nbt.getInt("selectedAbilityIndex");
         CompoundTag abilities = nbt.getCompound("abilities");
 
         for (int i = 0; i < abilities.size(); i++) {

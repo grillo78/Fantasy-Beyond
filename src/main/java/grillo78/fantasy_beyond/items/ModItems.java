@@ -102,6 +102,9 @@ public class ModItems {
     public static final DeferredHolder<Item,Item> MULTI_PANTS_4 = register("multi_pants_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
     public static final DeferredHolder<Item,Item> MULTI_BOOTS_4 = register("multi_boots_4", ()-> new RacistClothItem(new Item.Properties(), Lists.newArrayList(RaceType.ELF, RaceType.TIEFLING, RaceType.MERFOLKF)));
 
+    public static final DeferredHolder<Item,Item> FORGING_HAMMER = register("forging_hammer", ()-> new Item(new Item.Properties().stacksTo(1).durability(1000)));
+    public static final DeferredHolder<Item,Item> FORGING_TONGS = register("forging_tongs", ()-> new TongsItem(new Item.Properties().stacksTo(1).durability(1000)));
+
 //    public static final DeferredHolder<Item, Item> GOBLIN_SPAWN_EGG = register("goblin_spawn_egg", ()-> new ForgeSpawnEggItem(()-> ModEntities.GOBLIN.get(), Color.GREEN.hashCode(), Color.GRAY.hashCode(),new Item.Properties()));
 
     public static <T extends Item, V extends Supplier<T>> DeferredHolder<Item, T> register(String name, V itemSupplier) {

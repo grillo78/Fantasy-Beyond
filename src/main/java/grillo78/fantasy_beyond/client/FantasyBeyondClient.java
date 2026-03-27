@@ -2,6 +2,10 @@ package grillo78.fantasy_beyond.client;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
+import grillo78.fantasy_beyond.block_entities.ModBlockEntities;
+import grillo78.fantasy_beyond.client.block.AnvilBlockEntityRenderer;
+import grillo78.fantasy_beyond.client.block.ForgeBlockEntityRenderer;
+import grillo78.fantasy_beyond.client.clothes.QuiverRenderer;
 import grillo78.fantasy_beyond.client.clothes.RacistClothItemRenderer;
 import grillo78.fantasy_beyond.client.entity.CustomizationLayer;
 import grillo78.fantasy_beyond.client.entity.ModModelLayers;
@@ -25,18 +29,24 @@ import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.TallHornsModel;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail1Model;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail2Model;
 import grillo78.fantasy_beyond.client.screen.CharacterScreen;
+import grillo78.fantasy_beyond.data_map.ModDataMaps;
+import grillo78.fantasy_beyond.data_map.forging.HeatableMaterial;
 import grillo78.fantasy_beyond.items.ItemContainer;
+import grillo78.fantasy_beyond.items.ModItems;
 import grillo78.fantasy_beyond.items.QuiverItem;
 import grillo78.fantasy_beyond.items.RacistClothItem;
 import grillo78.fantasy_beyond.items.components.ItemContents;
 import grillo78.fantasy_beyond.items.components.ModDataComponents;
 import grillo78.fantasy_beyond.items.components.QuiverContents;
+import grillo78.fantasy_beyond.items.components.TemperatureManager;
 import grillo78.fantasy_beyond.network.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
@@ -46,9 +56,11 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
+import java.awt.*;
 import java.util.List;
 
 import static net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
@@ -67,9 +79,10 @@ public class FantasyBeyondClient {
         NeoForge.EVENT_BUS.addListener(this::renderHUD);
         NeoForge.EVENT_BUS.addListener(this::scrollMouseScreen);
         NeoForge.EVENT_BUS.addListener(this::inputUpdate);
+        NeoForge.EVENT_BUS.addListener(this::getTooltips);
     }
 
-    public void inputUpdate(MovementInputUpdateEvent event){
+    public void inputUpdate(MovementInputUpdateEvent event) {
     }
 
     private void scrollMouseScreen(ScreenEvent.MouseScrolled.Pre event) {
@@ -145,9 +158,9 @@ public class FantasyBeyondClient {
         if (ModKeybinds.PREVIOUS_QUIVER_INDEX.get().consumeClick())
             PacketDistributor.sendToServer(new ChangeQuiverIndex(-1));
         if (ModKeybinds.NEXT_ABILITY_INDEX.get().consumeClick())
-            PacketDistributor.sendToServer(new ChangeAbilityIndex(1));
-        if (ModKeybinds.PREVIOUS_ABILITY_INDEX.get().consumeClick())
             PacketDistributor.sendToServer(new ChangeAbilityIndex(-1));
+        if (ModKeybinds.PREVIOUS_ABILITY_INDEX.get().consumeClick())
+            PacketDistributor.sendToServer(new ChangeAbilityIndex(1));
         if (ModKeybinds.ACTIVATE_ABILITY.get().consumeClick())
             PacketDistributor.sendToServer(new ActivateAbility(Minecraft.getInstance().player.getId()));
     }
@@ -165,15 +178,12 @@ public class FantasyBeyondClient {
             ResourceLocation type = event.getName();
             switch (type.getPath()) {
                 case "player_health":
-                    ClientUtils.renderHealth(event);
-//                case "crosshair":
-                case "boss_event_progress":
+                    ClientUtils.renderHUD(event);
                 case "armor_level":
                 case "experience_bar":
                 case "experience_level":
                 case "food_level":
                 case "air_level":
-                case "potion_icons":
                     event.setCanceled(true);
                     break;
             }
@@ -197,9 +207,12 @@ public class FantasyBeyondClient {
         for (int i = 0; i < RacistClothItem.CLOTHES.size(); i++) {
             CuriosRendererRegistry.register(RacistClothItem.CLOTHES.get(i), () -> new RacistClothItemRenderer());
         }
+        CuriosRendererRegistry.register(ModItems.QUIVER.get(), () -> new QuiverRenderer());
     }
 
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(ModBlockEntities.FORGE.get(), ForgeBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.ANVIL.get(), AnvilBlockEntityRenderer::new);
     }
 
     private void addLayers(EntityRenderersEvent.AddLayers event) {
@@ -208,35 +221,59 @@ public class FantasyBeyondClient {
         });
     }
 
+    private void getTooltips(ItemTooltipEvent event) {
+        TemperatureManager temperatureManager;
+        if (event.getItemStack().has(ModDataComponents.TEMPERATURE_MANAGER) && (temperatureManager = event.getItemStack().get(ModDataComponents.TEMPERATURE_MANAGER)).getTemperature() > TemperatureManager.AMBIENT_TEMP) {
+            event.getToolTip().add(
+                    Component.translatable(
+                                    "fantasy_beyond.tooltip.temperature",
+                                    String.valueOf(temperatureManager.getTemperature()).replace(".", ","))
+                            .setStyle(Style.EMPTY.withColor(ClientUtils.getStackColor(event.getItemStack()).getRGB())));
+        }
+    }
+
     @OnlyIn(Dist.CLIENT)
     public void registerLayerDefinitions(RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.MALE_HUMAN, () -> MaleHumanModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_HUMAN, () -> MaleHumanModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.MALE_SECOND_HUMAN, () -> MaleHumanModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_HUMAN, () -> MaleHumanModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_HUMAN, () -> FemaleHumanModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_HUMAN, () -> FemaleHumanModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.FEMALE_SECOND_HUMAN, () -> FemaleHumanModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_HUMAN, () -> FemaleHumanModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.MALE_ELF, () -> MaleElfModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_ELF, () -> MaleElfModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.MALE_SECOND_ELF, () -> MaleElfModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_ELF, () -> MaleElfModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_ELF, () -> FemaleElfModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_ELF, () -> FemaleElfModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.FEMALE_SECOND_ELF, () -> FemaleElfModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_ELF, () -> FemaleElfModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.MALE_MERFOLK, () -> MaleMerfolkModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_MERFOLK, () -> MaleMerfolkModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.MALE_SECOND_MERFOLK, () -> MaleMerfolkModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_MERFOLK, () -> MaleMerfolkModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_MERFOLK, () -> FemaleMerfolkModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_MERFOLK, () -> FemaleMerfolkModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.FEMALE_SECOND_MERFOLK, () -> FemaleMerfolkModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_MERFOLK, () -> FemaleMerfolkModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.MALE_ORC, () -> MaleOrcModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_ORC, () -> MaleOrcModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.MALE_SECOND_ORC, () -> MaleOrcModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_ORC, () -> MaleOrcModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_ORC, () -> FemaleOrcModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_ORC, () -> FemaleOrcModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.FEMALE_SECOND_ORC, () -> FemaleOrcModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_ORC, () -> FemaleOrcModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.MALE_DWARF, () -> MaleDwarfModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_DWARF, () -> MaleDwarfModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.MALE_SECOND_DWARF, () -> MaleDwarfModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_DWARF, () -> MaleDwarfModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_DWARF, () -> FemaleDwarfModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_DWARF, () -> FemaleDwarfModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.FEMALE_SECOND_DWARF, () -> FemaleDwarfModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_DWARF, () -> FemaleDwarfModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.AUTOMATON, () -> AutomatonModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_AUTOMATON, () -> AutomatonModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.AUTOMATON_SECOND, () -> AutomatonModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_AUTOMATON, () -> AutomatonModel.createBodyLayer(new CubeDeformation(0.2F)));
 
         event.registerLayerDefinition(ModModelLayers.MALE_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.MALE_SECOND_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_MALE_TIEFLING, () -> MaleTieflingModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.FEMALE_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.FEMALE_SECOND_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0.1F)));
+        event.registerLayerDefinition(ModModelLayers.CLOTH_FEMALE_TIEFLING, () -> FemaleTieflingModel.createBodyLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(ModModelLayers.BIG_HORNS, () -> BigHornsModel.createBodyLayer());
         event.registerLayerDefinition(ModModelLayers.MEDIUM_HORNS, () -> MediumHornsModel.createBodyLayer());
         event.registerLayerDefinition(ModModelLayers.TALL_HORNS, () -> TallHornsModel.createBodyLayer());

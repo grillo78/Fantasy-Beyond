@@ -10,6 +10,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record ChangeAbilityIndex(int amount) implements CustomPacketPayload {
@@ -39,6 +40,7 @@ public record ChangeAbilityIndex(int amount) implements CustomPacketPayload {
                     index = 0;
             }
             characterData.getPlayerClass().setSelectedAbilityIndex(index);
+            PacketDistributor.sendToAllPlayers(new SyncCharacterData(entity.getId(), characterData.serializeNBT(null)));
             Component abilityComponent = characterData.getPlayerClass().getUnlockedAbilities().get(characterData.getPlayerClass().getSelectedAbilityIndex()).getDisplayName();
             entity.displayClientMessage(Component.translatable("set_ability.message", abilityComponent), true);
         } else {

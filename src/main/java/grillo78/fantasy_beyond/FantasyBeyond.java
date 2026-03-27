@@ -1,40 +1,46 @@
 package grillo78.fantasy_beyond;
 
-import com.google.common.eventbus.DeadEvent;
 import com.mojang.datafixers.util.Pair;
-import grillo78.fantasy_beyond.attachment.DamageManager;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
+import grillo78.fantasy_beyond.block_entities.AnvilBlockEntity;
+import grillo78.fantasy_beyond.block_entities.ModBlockEntities;
 import grillo78.fantasy_beyond.blocks.ModBlocks;
 import grillo78.fantasy_beyond.character.CharacterData;
-import grillo78.fantasy_beyond.character.customization.race.RaceType;
 import grillo78.fantasy_beyond.character.classes.PlayerClassType;
+import grillo78.fantasy_beyond.character.customization.race.RaceType;
+import grillo78.fantasy_beyond.data_map.ModDataMaps;
 import grillo78.fantasy_beyond.items.ModItems;
 import grillo78.fantasy_beyond.items.QuiverItem;
 import grillo78.fantasy_beyond.items.components.ArrowItemCodec;
 import grillo78.fantasy_beyond.items.components.ModDataComponents;
 import grillo78.fantasy_beyond.items.components.QuiverContents;
 import grillo78.fantasy_beyond.network.*;
-import net.minecraft.nbt.FloatTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -55,9 +61,12 @@ public class FantasyBeyond {
         PlayerClassType.PLAYER_CLASS_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
         modEventBus.addListener(this::registerPackets);
+        modEventBus.addListener(this::registerDataMapTypes);
+        modEventBus.addListener(this::registerCapabilities);
         NeoForge.EVENT_BUS.addListener(this::livingFall);
 //        NeoForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         NeoForge.EVENT_BUS.addListener(this::entityJoin);
@@ -71,6 +80,20 @@ public class FantasyBeyond {
         NeoForge.EVENT_BUS.addListener(this::getProjectile);
         NeoForge.EVENT_BUS.addListener(this::shrinkArrows);
         NeoForge.EVENT_BUS.addListener(this::onDead);
+        NeoForge.EVENT_BUS.addListener(this::onLeftClickInteract);
+        NeoForge.EVENT_BUS.addListener(this::onBlockInteract);
+    }
+
+    public void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                Capabilities.FluidHandler.BLOCK, // capability to register for
+                ModBlockEntities.BUCKET.get(),
+        (be, side) -> be.getFluidHandler()
+    );
+    }
+
+    public void registerDataMapTypes(RegisterDataMapTypesEvent event) {
+        event.register(ModDataMaps.HEATABLE_MATERIALS);
     }
 
     public void onDead(LivingDeathEvent event) {
@@ -85,6 +108,41 @@ public class FantasyBeyond {
                     PacketDistributor.sendToAllPlayers(new SyncCharacterData(player.getId(), data.serializeNBT(null)));
                 }
             }
+        }
+    }
+
+    public void onLeftClickInteract(PlayerInteractEvent.LeftClickBlock event) {
+        if(event.getEntity().getMainHandItem().is(ModItems.FORGING_HAMMER.get()) && event.getLevel().getBlockEntity(event.getPos()) instanceof AnvilBlockEntity){
+            event.setCanceled(true);
+            ((AnvilBlockEntity) event.getLevel().getBlockEntity(event.getPos())).hitWithHammer(event.getEntity());
+        }
+    }
+
+    public void onBlockInteract(PlayerInteractEvent.RightClickBlock event) {
+        if(!event.getEntity().level().isClientSide && event.getEntity().isShiftKeyDown() && event.getEntity().getItemInHand(event.getHand()).getItem() == Items.BUCKET){
+            switch (event.getFace()){
+                case UP:
+                    event.getLevel().setBlock(event.getPos().above(), ModBlocks.IRON_BUCKET.get().defaultBlockState(), 3);
+                    break;
+                case DOWN:
+                    event.getLevel().setBlock(event.getPos().below(), ModBlocks.IRON_BUCKET.get().defaultBlockState(), 3);
+                    break;
+                case NORTH:
+                    event.getLevel().setBlock(event.getPos().north(), ModBlocks.IRON_BUCKET.get().defaultBlockState(), 3);
+                    break;
+                case SOUTH:
+                    event.getLevel().setBlock(event.getPos().south(), ModBlocks.IRON_BUCKET.get().defaultBlockState(), 3);
+                    break;
+                case EAST:
+                    event.getLevel().setBlock(event.getPos().east(), ModBlocks.IRON_BUCKET.get().defaultBlockState(), 3);
+                    break;
+                case WEST:
+                    event.getLevel().setBlock(event.getPos().west(), ModBlocks.IRON_BUCKET.get().defaultBlockState(), 3);
+                    break;
+            }
+            event.getLevel().playSound(null, event.getPos(), SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 1, 1);
+            if(!event.getEntity().isCreative())
+                event.getEntity().getItemInHand(event.getHand()).shrink(1);
         }
     }
 

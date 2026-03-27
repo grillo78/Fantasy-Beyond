@@ -1,0 +1,73 @@
+{
+  "variants": {
+    "north=false,south=false,west=false,east=false,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/full"
+    },
+    "north=true,south=true,west=true,east=true,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_center"
+    },
+    "north=true,south=true,west=true,east=true,north_west=true,north_east=true,south_west=true,south_east=true": {
+      "model": "fantasy_beyond:block/forge/center"
+    },
+    "north=true,south=false,west=false,east=false,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/3_side"
+    },
+    "north=false,south=true,west=false,east=false,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/3_side",
+      "y": 180
+    },
+    "north=false,south=false,west=true,east=false,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/3_side",
+      "y": 270
+    },
+    "north=false,south=false,west=false,east=true,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/3_side",
+      "y": 90
+    },
+    "north=true,south=false,west=true,east=false,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_l",
+      "y": 180
+    },
+    "north=true,south=false,west=false,east=true,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_l",
+      "y": 270
+    },
+    "north=false,south=true,west=false,east=true,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_l"
+    },
+    "north=false,south=true,west=true,east=false,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_l",
+      "y": 90
+    },
+    "north=true,south=false,west=true,east=false,north_west=true,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/l",
+      "y": 180
+    },
+    "north=true,south=false,west=false,east=true,north_west=false,north_east=true,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/l",
+      "y": 270
+    },
+    "north=false,south=true,west=false,east=true,north_west=false,north_east=false,south_west=false,south_east=true": {
+      "model": "fantasy_beyond:block/forge/l"
+    },
+    "north=false,south=true,west=true,east=false,north_west=false,north_east=false,south_west=true,south_east=false": {
+      "model": "fantasy_beyond:block/forge/l",
+      "y": 90
+    },
+    "north=true,south=true,west=true,east=false,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_t",
+      "y": 180
+    },
+    "north=true,south=false,west=true,east=true,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_t",
+      "y": 270
+    },
+    "north=true,south=true,west=false,east=true,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_t"
+    },
+    "north=false,south=true,west=true,east=true,north_west=false,north_east=false,south_west=false,south_east=false": {
+      "model": "fantasy_beyond:block/forge/cornered_t",
+      "y": 90
+    }
+  }
+}

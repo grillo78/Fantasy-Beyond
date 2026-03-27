@@ -44,6 +44,7 @@ public class RaceCharacteristicRenderer<T extends CustomizationModel, R extends 
         getModel(characteristic).getArmPart(arm).translateAndRotate(poseStack);
         boolean flag = arm == HumanoidArm.LEFT;
         poseStack.translate((float) (flag ? -race.getArmOffset().x : race.getArmOffset().x) , race.getArmOffset().y, race.getArmOffset().z);
+        poseStack.scale(1.1F,1.1F,1.1F);
     }
 
     @OnlyIn(Dist.CLIENT)

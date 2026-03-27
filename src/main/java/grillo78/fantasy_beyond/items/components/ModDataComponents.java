@@ -17,4 +17,10 @@ public class ModDataComponents {
     public static final Supplier<DataComponentType<QuiverContents>> QUIVER_CONTENTS = DATA_COMPONENTS.registerComponentType(
             "quiver_contents", p_341857_ -> p_341857_.persistent(QuiverContents.CODEC).networkSynchronized(QuiverContents.STREAM_CODEC).cacheEncoding()
     );
+    public static final Supplier<DataComponentType<TemperatureManager>> TEMPERATURE_MANAGER = DATA_COMPONENTS.registerComponentType(
+            "temperature_manager", p_341857_ -> p_341857_.persistent(TemperatureManager.CODEC).networkSynchronized(TemperatureManager.STREAM_CODEC).cacheEncoding()
+    );
+    public static final Supplier<DataComponentType<TongsContent>> TONGS_CONTENT = DATA_COMPONENTS.registerComponentType(
+            "tongs_content", p_341857_ -> p_341857_.persistent(TongsContent.CODEC).networkSynchronized(TongsContent.STREAM_CODEC).cacheEncoding()
+    );
 }

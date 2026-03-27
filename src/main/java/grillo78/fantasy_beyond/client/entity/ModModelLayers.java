@@ -6,27 +6,38 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ModModelLayers {
     public static final ModelLayerLocation MALE_HUMAN = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_human"), "main");
+    public static final ModelLayerLocation MALE_SECOND_HUMAN = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_second_human"), "main");
     public static final ModelLayerLocation CLOTH_MALE_HUMAN = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "clothes_male_human"), "main");
-    public static final ModelLayerLocation FEMALE_HUMAN = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_human"), "main");
+    public static final ModelLayerLocation FEMALE_HUMAN = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_human"), "main");
+    public static final ModelLayerLocation FEMALE_SECOND_HUMAN = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_human"), "main");
     public static final ModelLayerLocation CLOTH_FEMALE_HUMAN = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_female_human"), "main");
     public static final ModelLayerLocation MALE_ELF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_elf"), "main");
+    public static final ModelLayerLocation MALE_SECOND_ELF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_second_elf"), "main");
     public static final ModelLayerLocation CLOTH_MALE_ELF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_male_elf"), "main");
-    public static final ModelLayerLocation FEMALE_ELF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_elf"), "main");
+    public static final ModelLayerLocation FEMALE_ELF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_elf"), "main");
+    public static final ModelLayerLocation FEMALE_SECOND_ELF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_elf"), "main");
     public static final ModelLayerLocation CLOTH_FEMALE_ELF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_female_elf"), "main");
     public static final ModelLayerLocation MALE_ORC = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_orc"), "main");
+    public static final ModelLayerLocation MALE_SECOND_ORC = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_second_orc"), "main");
     public static final ModelLayerLocation CLOTH_MALE_ORC = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_male_orc"), "main");
-    public static final ModelLayerLocation FEMALE_ORC = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_orc"), "main");
+    public static final ModelLayerLocation FEMALE_ORC = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_orc"), "main");
+    public static final ModelLayerLocation FEMALE_SECOND_ORC = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_orc"), "main");
     public static final ModelLayerLocation CLOTH_FEMALE_ORC = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_female_orc"), "main");
     public static final ModelLayerLocation MALE_DWARF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_dwarf"), "main");
+    public static final ModelLayerLocation MALE_SECOND_DWARF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_second_dwarf"), "main");
     public static final ModelLayerLocation CLOTH_MALE_DWARF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_male_dwarf"), "main");
-    public static final ModelLayerLocation FEMALE_DWARF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_dwarf"), "main");
+    public static final ModelLayerLocation FEMALE_DWARF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_dwarf"), "main");
+    public static final ModelLayerLocation FEMALE_SECOND_DWARF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_dwarf"), "main");
     public static final ModelLayerLocation CLOTH_FEMALE_DWARF = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_female_dwarf"), "main");
     public static final ModelLayerLocation AUTOMATON = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "automaton"), "main");
+    public static final ModelLayerLocation AUTOMATON_SECOND = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "automaton"), "main");
     public static final ModelLayerLocation CLOTH_AUTOMATON = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_automaton"), "main");
 
     public static final ModelLayerLocation MALE_TIEFLING = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_tiefling"), "main");
+    public static final ModelLayerLocation MALE_SECOND_TIEFLING = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_second_tiefling"), "main");
     public static final ModelLayerLocation CLOTH_MALE_TIEFLING = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_male_tiefling"), "main");
-    public static final ModelLayerLocation FEMALE_TIEFLING = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_tiefling"), "main");
+    public static final ModelLayerLocation FEMALE_TIEFLING = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_tiefling"), "main");
+    public static final ModelLayerLocation FEMALE_SECOND_TIEFLING = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_tiefling"), "main");
     public static final ModelLayerLocation CLOTH_FEMALE_TIEFLING = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_female_tiefling"), "main");
     public static final ModelLayerLocation BIG_HORNS = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "big_horns"), "main");
     public static final ModelLayerLocation MEDIUM_HORNS = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "medium_horns"), "main");
@@ -35,8 +46,10 @@ public class ModModelLayers {
     public static final ModelLayerLocation TIEFLING_TAIL_2 = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "tiefling_tail_2"), "main");
 
     public static final ModelLayerLocation MALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_merfolk"), "main");
+    public static final ModelLayerLocation MALE_SECOND_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "male_second_merfolk"), "main");
     public static final ModelLayerLocation CLOTH_MALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_male_merfolk"), "main");
-    public static final ModelLayerLocation FEMALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_merfolk"), "main");
+    public static final ModelLayerLocation FEMALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_merfolk"), "main");
+    public static final ModelLayerLocation FEMALE_SECOND_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "female_second_merfolk"), "main");
     public static final ModelLayerLocation CLOTH_FEMALE_MERFOLK = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "cloth_female_merfolk"), "main");
     public static final ModelLayerLocation MERFOLK_TAIL_1 = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "merfolk_tail_1"), "main");
 

@@ -75,4 +75,14 @@ public class Human extends Race {
     public int getHUDViewerScale() {
         return 21;
     }
+
+    @Override
+    public Vec3 quiverOffset() {
+        return super.quiverOffset().add(0,5/16F,0);
+    }
+
+    @Override
+    public Vec3 quiverAngles() {
+        return super.quiverAngles();
+    }
 }

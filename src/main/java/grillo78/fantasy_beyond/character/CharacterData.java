@@ -36,8 +36,8 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
         map.put(Attributes.ATTACK_DAMAGE, 2F);
         stats.put("strength", new Stat(map));
         map = new HashMap();
-        map.put(Attributes.MOVEMENT_SPEED, 0.001F);
-        map.put(Attributes.ATTACK_SPEED, 0.001F);
+        map.put(Attributes.MOVEMENT_SPEED, 0.0001F);
+        map.put(Attributes.ATTACK_SPEED, 0.0001F);
         stats.put("agility", new Stat(map));
     }
 
