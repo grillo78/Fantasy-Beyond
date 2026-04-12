@@ -1,0 +1,17 @@
+{
+  "name": "The Anvil",
+  "icon": "fantasy_beyond:forging_tongs",
+  "category": "fantasy_beyond:tools",
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "name": "Forging Tongs",
+      "text": "You can take hot items from the forge and/or anvil with right click.",
+      "entity": "minecraft:item{Item:{id:'fantasy_beyond:forging_tongs'}}"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "fantasy_beyond:forging_tongs"
+    }
+  ]
+}

@@ -5,6 +5,8 @@ import grillo78.fantasy_beyond.character.level.Level;
 import grillo78.fantasy_beyond.character.classes.PlayerClass;
 import grillo78.fantasy_beyond.character.classes.PlayerClassType;
 import grillo78.fantasy_beyond.character.level.stats.Stat;
+import grillo78.fantasy_beyond.magic.spell.Spell;
+import grillo78.fantasy_beyond.magic.spell.SpellType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -12,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -27,6 +30,7 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
     private int statPoints = 4;
     private Level level = new Level(this);
     private PlayerClass playerClass = null;
+    private Spell activeSpell = null;
 
     public CharacterData() {
         HashMap<Holder<Attribute>, Float> map = new HashMap();
@@ -41,14 +45,6 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
         stats.put("agility", new Stat(map));
     }
 
-    public PlayerClass getPlayerClass() {
-        return playerClass;
-    }
-
-    public PlayerCustomization getPlayerCustomization() {
-        return playerCustomization;
-    }
-
     public void tick(EntityTickEvent event) {
         if (event.getEntity().level().isClientSide)
             this.clientTick();
@@ -58,6 +54,8 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
                 for (int i = 0; i < playerClass.getAbilities().size(); i++) {
                     playerClass.getAbilities().get(i).tick((LivingEntity) event.getEntity());
                 }
+            if (activeSpell != null)
+                activeSpell.tick((LivingEntity) event.getEntity());
         }
     }
 
@@ -65,12 +63,8 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
     private void clientTick() {
     }
 
-    public void setPlayerClass(PlayerClass playerClass) {
-        this.playerClass = playerClass;
-    }
-
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.put("customization", playerCustomization.serializeNBT(provider));
 
@@ -83,6 +77,8 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
         compoundTag.put("level", level.serializeNBT(provider));
         if (playerClass != null)
             compoundTag.put("playerClass", playerClass.serializeNBT(provider));
+        if(activeSpell!= null)
+            compoundTag.put("spell", activeSpell.serializeNBT(provider));
         return compoundTag;
     }
 
@@ -102,6 +98,12 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
                 playerClass = PlayerClassType.PLAYER_CLASS_TYPES_REGISTRY.get(ResourceLocation.parse(raceCompound.getString("type"))).createPlayerClass();
             playerClass.deserializeNBT(provider, tag.getCompound("playerClass"));
         }
+        if(tag.contains("spell")){
+            if(activeSpell == null)
+                activeSpell = SpellType.SPELL_TYPES_REGISTRY.get(ResourceLocation.parse(tag.getCompound("spell").getString("type"))).createSpell();
+            activeSpell.deserializeNBT(provider,tag);
+        } else
+            activeSpell = null;
     }
 
     public void applyStats(LivingEntity player) {
@@ -125,6 +127,26 @@ public class CharacterData implements INBTSerializable<CompoundTag> {
 
     public LinkedHashMap<String, Stat> getStats() {
         return stats;
+    }
+
+    public PlayerClass getPlayerClass() {
+        return playerClass;
+    }
+
+    public PlayerCustomization getPlayerCustomization() {
+        return playerCustomization;
+    }
+
+    public void setPlayerClass(PlayerClass playerClass) {
+        this.playerClass = playerClass;
+    }
+
+    public void setActiveSpell(Spell activeSpell) {
+        this.activeSpell = activeSpell;
+    }
+
+    public Spell getActiveSpell() {
+        return activeSpell;
     }
 
     public Level getLevel() {

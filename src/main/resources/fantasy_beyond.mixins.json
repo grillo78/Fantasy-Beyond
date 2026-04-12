@@ -7,7 +7,8 @@
     "entity.EntityMixin",
     "entity.LivingEntityMixin",
     "entity.ItemEntityMixin",
-    "inventory.ArmorSlotMixin"
+    "inventory.ArmorSlotMixin",
+    "item.ItemStackMixin"
   ],
   "client": [
     "client.LivingEntityRendererMixin",
@@ -22,5 +23,6 @@
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "plugin": "com.moulberry.mixinconstraints.ConstraintsMixinPlugin"
 }

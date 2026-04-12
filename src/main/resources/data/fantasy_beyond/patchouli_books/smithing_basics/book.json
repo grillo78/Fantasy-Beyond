@@ -1,0 +1,7 @@
+{
+  "name": "books.name.smithing_basics",
+  "landing_text": "books.landing_text.smithing_basics",
+  "version": 1,
+  "creative_tab": "fantasy_beyond:fantasy_beyond_items",
+  "use_resource_pack": true
+}

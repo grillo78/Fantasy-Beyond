@@ -1,0 +1,14 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "fantasy_beyond:iron_axe_eye"
+  },
+  "require_borax": false,
+  "hits": 10,
+  "required_tool": {
+    "item":"fantasy_beyond:iron_stick"
+  }
+}

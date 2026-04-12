@@ -1,0 +1,24 @@
+{
+  "name": "The Basic Axes",
+  "icon": "minecraft:iron_axe",
+  "category": "fantasy_beyond:processes",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "In this chapter you will learn how to build a basic axe from ingots.$(br2)Ingredients:$(li)2xMetal Ingots$(li)1xBorax$(li)1xStick$(li)2xPapers$(li)2xBlack Dyes"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)1st Step:$()$(br)Go to your blacksmith table, put your ingot inside and set the recipe to the Axe Eye.$(br)$(bold)2nd Step:$()$(br)Put your other ingot inside and set the recipe to the Axe Edge.$(br)$(bold)3rd Step:$()$(br)Heat both ingots in the forge.$(br)$(bold)4th Step:$()$(br)Place one of them in the anvil with the tongs and start hitting it with the hammer until it turns in the selected piece and repeat with the other piece."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)5th Step:$()$(br)When both pieces are cold, place them in a crafting grid with borax to merge them.$(br)$(bold)6th Step:$()$(br)Heat the new piece in the forge again.$(br)$(bold)7th Step:$()$(br)When it's hot, place it in the anvil and hammer it again until it turns in the finished head (you will listen a sound when completed).$(br)$(bold)8th Step:$()$(br)Once the piece it's cold again combine it with a stick in a crafting grid."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "fantasy_beyond:unweld_iron_axe_head",
+      "recipe2": "minecraft:iron_axe"
+    }
+  ]
+}

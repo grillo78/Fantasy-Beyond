@@ -28,5 +28,7 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(AnvilBlockEntity::new, ModBlocks.ANVIL.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BucketBlockEntity>> BUCKET = BLOCK_ENTITIES.register("bucket",
             () -> BlockEntityType.Builder.of(BucketBlockEntity::new, ModBlocks.IRON_BUCKET.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlacksmithTableBlockEntity>> BLACKSMITH_TABLE = BLOCK_ENTITIES.register("blacksmith_table",
+            () -> BlockEntityType.Builder.of(BlacksmithTableBlockEntity::new, ModBlocks.BLACKSMITH_TABLE.get()).build(null));
 
 }

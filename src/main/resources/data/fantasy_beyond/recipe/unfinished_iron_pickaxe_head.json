@@ -1,0 +1,16 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "fantasy_beyond:unfinished_iron_pickaxe_head",
+    "components": {
+      "fantasy_beyond:current_recipe": {
+        "recipe": "fantasy_beyond:iron_pickaxe_head",
+        "hits": 0
+      }
+    }
+  },
+  "hits": 10
+}

@@ -17,6 +17,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class ForgeBlockEntity extends BlockEntity {
 
@@ -60,12 +62,14 @@ public class ForgeBlockEntity extends BlockEntity {
 
     public static void tick(Level level, BlockPos pos, BlockState state, ForgeBlockEntity blockEntity) {
         if (!level.isClientSide && blockEntity.lit) {
+            level.getEntities((Entity) null, new AABB(pos), entity -> entity instanceof LivingEntity).forEach(entity ->
+                    entity.setRemainingFireTicks(200));
             ItemStack item = blockEntity.heatingItem;
-            if(item.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS) != null){
+            if (item.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS) != null) {
                 if (!item.has(ModDataComponents.TEMPERATURE_MANAGER))
                     item.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager());
                 TemperatureManager temperatureManager = item.get(ModDataComponents.TEMPERATURE_MANAGER);
-                temperatureManager.increaseTemperature(item);
+                if (temperatureManager.getTemperature() < 900) temperatureManager.increaseTemperature(item);
                 blockEntity.fuelTime -= RandomSource.create().nextInt(1, 10);
             }
             if (blockEntity.fuelTime <= 0) {
@@ -74,6 +78,14 @@ public class ForgeBlockEntity extends BlockEntity {
             }
             level.sendBlockUpdated(pos, state, state, 3);
             blockEntity.setChanged();
+        } else {
+            ItemStack item = blockEntity.heatingItem;
+            if (item.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS) != null) {
+                if (!item.has(ModDataComponents.TEMPERATURE_MANAGER))
+                    item.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager());
+                TemperatureManager temperatureManager = item.get(ModDataComponents.TEMPERATURE_MANAGER);
+                temperatureManager.decreaseTemperature(item);
+            }
         }
     }
 
@@ -120,9 +132,10 @@ public class ForgeBlockEntity extends BlockEntity {
     public void setHeatingItem(ItemStack heatingItem) {
         setHeatingItem(heatingItem, true);
     }
+
     public void setHeatingItem(ItemStack heatingItem, boolean dropItem) {
-        if(!this.heatingItem.isEmpty() && dropItem)
-            Containers.dropItemStack(level,worldPosition.getX(), worldPosition.getY()+0.5F, worldPosition.getZ(), this.heatingItem);
+        if (!this.heatingItem.isEmpty() && dropItem)
+            Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY() + 0.5F, worldPosition.getZ(), this.heatingItem);
         this.heatingItem = heatingItem;
         setChanged();
         level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);

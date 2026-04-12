@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "FANTASY_BEYOND_GRIMOIRE",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "grillo78/fantasy_beyond/client/ClientUtils",
+        "method": "getGrimoireArmPoseParameters"
+      }
+    }
+  ]
+}

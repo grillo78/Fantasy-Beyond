@@ -1,6 +1,11 @@
 {
   "values": [
     "minecraft:raw_iron",
-    "minecraft:iron_ingot"
+    "minecraft:iron_ingot",
+    "fantasy_beyond:iron_axe_eye",
+    "fantasy_beyond:iron_axe_edge",
+    "fantasy_beyond:iron_axe_head",
+    "fantasy_beyond:unweld_iron_axe_head",
+    "fantasy_beyond:iron_stick"
   ]
 }

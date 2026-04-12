@@ -5,6 +5,8 @@ import grillo78.fantasy_beyond.block_entities.ForgeBlockEntity;
 import grillo78.fantasy_beyond.block_entities.ModBlockEntities;
 import grillo78.fantasy_beyond.data_map.ModDataMaps;
 import grillo78.fantasy_beyond.data_map.forging.HeatableMaterial;
+import grillo78.fantasy_beyond.items.ModItems;
+import grillo78.fantasy_beyond.items.components.ModDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.ContainerHelper;
@@ -35,11 +37,15 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class AnvilBlock extends Block implements EntityBlock {
-    private static VoxelShape X_SHAPE = Shapes.join(Shapes.box(6F / 16, 0, 6F / 16, 10F / 16, 1, 10F / 16).move(1, 0, 0),
-            Shapes.box(6F / 16, 0, 6F / 16, 10F / 16, 1, 10F / 16).move(-1, 0, 0), BooleanOp.OR);
-    ;
-    private static VoxelShape Z_SHAPE = Shapes.join(Shapes.box(6F / 16, 0, 6F / 16, 10F / 16, 1, 10F / 16).move(0, 0, 1),
-            Shapes.box(6F / 16, 0, 6F / 16, 10F / 16, 1, 10F / 16).move(0, 0, -1), BooleanOp.OR);
+    private static final VoxelShape BASE = Block.box(2.0, 0.0, 2.0, 14.0, 4.0, 14.0);
+    private static final VoxelShape X_LEG1 = Block.box(3.0, 4.0, 4.0, 13.0, 5.0, 12.0);
+    private static final VoxelShape X_LEG2 = Block.box(4.0, 5.0, 6.0, 12.0, 10.0, 10.0);
+    private static final VoxelShape X_TOP = Block.box(0.0, 10.0, 3.0, 16.0, 16.0, 13.0);
+    private static final VoxelShape Z_LEG1 = Block.box(4.0, 4.0, 3.0, 12.0, 5.0, 13.0);
+    private static final VoxelShape Z_LEG2 = Block.box(6.0, 5.0, 4.0, 10.0, 10.0, 12.0);
+    private static final VoxelShape Z_TOP = Block.box(3.0, 10.0, 0.0, 13.0, 16.0, 16.0);
+    private static final VoxelShape X_AXIS_AABB = Shapes.or(BASE, X_LEG1, X_LEG2, X_TOP);
+    private static final VoxelShape Z_AXIS_AABB = Shapes.or(BASE, Z_LEG1, Z_LEG2, Z_TOP);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public AnvilBlock(Properties properties) {
@@ -49,12 +55,8 @@ public class AnvilBlock extends Block implements EntityBlock {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        Direction facing = state.getValue(FACING);
-//        return facing.getAxis() == Direction.Axis.X ? X_SHAPE : Z_SHAPE;
-        return Shapes.join(Shapes.join(
-                        Shapes.box(6F / 16, 0, 6F / 16, 10F / 16, 1, 10F / 16),
-                        Shapes.box(0, 10 / 16F, 2F / 16, 1, 1, 14F / 16), BooleanOp.OR),
-                Shapes.box(0, 10 / 16F, 2F / 16, 1, 1, 14F / 16), BooleanOp.OR);
+        Direction direction = state.getValue(FACING);
+        return direction.getAxis() == Direction.Axis.X ? X_AXIS_AABB : Z_AXIS_AABB;
     }
 
     @Override
@@ -71,13 +73,20 @@ public class AnvilBlock extends Block implements EntityBlock {
         HeatableMaterial heatableMaterial = stack.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS);
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if ((heatableMaterial != null || stack.isEmpty()) && blockEntity instanceof AnvilBlockEntity) {
-            if (!level.isClientSide) {
-                AnvilBlockEntity anvilBlockEntity = (AnvilBlockEntity) blockEntity;
-                anvilBlockEntity.setPiece(stack.copyWithCount(1));
-                stack.shrink(1);
+        boolean validItem = heatableMaterial != null || stack.isEmpty() || stack.is(ModItems.FORGING_HAMMER);
+
+        if(blockEntity instanceof AnvilBlockEntity) {
+            if (stack.is(ModItems.FORGING_TONGS) && !stack.has(ModDataComponents.TONGS_CONTENT)) {
+                validItem = ((AnvilBlockEntity) blockEntity).getPiece().isEmpty();
             }
-            result = ItemInteractionResult.SUCCESS;
+            if ((validItem)) {
+                if (!level.isClientSide) {
+                    AnvilBlockEntity anvilBlockEntity = (AnvilBlockEntity) blockEntity;
+                    anvilBlockEntity.setPiece(stack.copyWithCount(1));
+                    stack.shrink(1);
+                }
+                result = ItemInteractionResult.SUCCESS;
+            }
         }
 
         return result;

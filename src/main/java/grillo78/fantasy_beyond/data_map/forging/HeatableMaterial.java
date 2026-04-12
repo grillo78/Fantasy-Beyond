@@ -12,19 +12,26 @@ public class HeatableMaterial {
            Codec.list(HeatRange.CODEC).fieldOf("ranges").forGetter(HeatableMaterial::getRanges),
             Codec.INT.fieldOf("workableAt").forGetter(HeatableMaterial::getWorkableAt),
             Codec.INT.fieldOf("breakAt").forGetter(HeatableMaterial::getBreakAt),
-            Codec.FLOAT.fieldOf("heatingSpeed").forGetter(HeatableMaterial::getHeatingSpeed)
+            Codec.FLOAT.fieldOf("heatingSpeed").forGetter(HeatableMaterial::getHeatingSpeed),
+            Codec.FLOAT.fieldOf("coolingSpeed").forGetter(HeatableMaterial::getHeatingSpeed)
     ).apply(instance, HeatableMaterial::new));
 
     private List<HeatRange> ranges;
     private int workableAt;
     private int breakAt;
     private float heatingSpeed;
+    private float coolingSpeed;
 
-    public HeatableMaterial(List<HeatRange> ranges, int workableAt, int breakAt, float heatingSpeed) {
+    public HeatableMaterial(List<HeatRange> ranges, int workableAt, int breakAt, float heatingSpeed, float coolingSpeed) {
         this.ranges = ranges;
         this.workableAt = workableAt;
         this.breakAt = breakAt;
         this.heatingSpeed = heatingSpeed;
+        this.coolingSpeed = coolingSpeed;
+    }
+
+    public float getCoolingSpeed() {
+        return coolingSpeed;
     }
 
     public float getHeatingSpeed() {

@@ -26,6 +26,7 @@ import grillo78.fantasy_beyond.client.texture.AlphaMaskTexture;
 import grillo78.fantasy_beyond.items.RacistClothItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -63,9 +64,8 @@ public class RacistClothItemRenderer implements ICurioRenderer {
                 CustomizationModel model = data.getPlayerCustomization().isMale() ? RACE_MODELS.get(race.getType()).getA() : RACE_MODELS.get(race.getType()).getB();
                 model.young = data.getPlayerCustomization().isYoung();
                 model.setModelProperties(slotContext.entity());
+                model.setupModel((HumanoidModel) renderLayerParent.getModel(), slotContext.entity(), partialTicks);
                 Characteristic characteristic = data.getPlayerCustomization().getRace().getCharacteristics().get(0);
-                if (RaceCharacteristicRenderer.getRenderer(characteristic.getClass()).getModel(characteristic).getClass() == model.getClass())
-                    model.copyFrom(RaceCharacteristicRenderer.getRenderer(characteristic.getClass()).getModel(characteristic));
                 model.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(getTexture(slotContext.entity(), (RacistClothItem) stack.getItem(), slotContext.identifier()))), pPackedLight, OverlayTexture.NO_OVERLAY, Color.WHITE.hashCode());
             }
         }

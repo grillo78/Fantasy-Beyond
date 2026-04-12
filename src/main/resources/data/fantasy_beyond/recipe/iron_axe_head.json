@@ -1,0 +1,10 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "fantasy_beyond:unweld_iron_axe_head"
+  },
+  "result": {
+    "id": "fantasy_beyond:iron_axe_head"
+  },
+  "hits": 10
+}

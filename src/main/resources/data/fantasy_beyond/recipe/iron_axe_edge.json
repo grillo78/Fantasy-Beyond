@@ -1,0 +1,11 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "fantasy_beyond:iron_axe_edge"
+  },
+  "require_borax": false,
+  "hits": 10
+}

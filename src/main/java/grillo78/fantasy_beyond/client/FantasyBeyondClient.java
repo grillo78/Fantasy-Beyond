@@ -2,8 +2,10 @@ package grillo78.fantasy_beyond.client;
 
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
+import grillo78.fantasy_beyond.block_entities.BlacksmithTableBlockEntity;
 import grillo78.fantasy_beyond.block_entities.ModBlockEntities;
 import grillo78.fantasy_beyond.client.block.AnvilBlockEntityRenderer;
+import grillo78.fantasy_beyond.client.block.BlacksmithTableBlockEntityRenderer;
 import grillo78.fantasy_beyond.client.block.ForgeBlockEntityRenderer;
 import grillo78.fantasy_beyond.client.clothes.QuiverRenderer;
 import grillo78.fantasy_beyond.client.clothes.RacistClothItemRenderer;
@@ -28,6 +30,8 @@ import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.MediumHornsMode
 import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.TallHornsModel;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail1Model;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail2Model;
+import grillo78.fantasy_beyond.client.item.GrimoireClientExtensions;
+import grillo78.fantasy_beyond.client.item.TongsClientExtensions;
 import grillo78.fantasy_beyond.client.screen.CharacterScreen;
 import grillo78.fantasy_beyond.data_map.ModDataMaps;
 import grillo78.fantasy_beyond.data_map.forging.HeatableMaterial;
@@ -35,15 +39,13 @@ import grillo78.fantasy_beyond.items.ItemContainer;
 import grillo78.fantasy_beyond.items.ModItems;
 import grillo78.fantasy_beyond.items.QuiverItem;
 import grillo78.fantasy_beyond.items.RacistClothItem;
-import grillo78.fantasy_beyond.items.components.ItemContents;
-import grillo78.fantasy_beyond.items.components.ModDataComponents;
-import grillo78.fantasy_beyond.items.components.QuiverContents;
-import grillo78.fantasy_beyond.items.components.TemperatureManager;
+import grillo78.fantasy_beyond.items.components.*;
 import grillo78.fantasy_beyond.network.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -55,6 +57,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -71,6 +74,8 @@ public class FantasyBeyondClient {
         container.getEventBus().addListener(this::clientSetup);
         container.getEventBus().addListener(this::registerLayerDefinitions);
         container.getEventBus().addListener(this::registerRenderers);
+        container.getEventBus().addListener(this::registerJSONModel);
+        container.getEventBus().addListener(this::registerClientExtensions);
         container.getEventBus().addListener(this::registerBindings);
         container.getEventBus().addListener(this::addLayers);
         NeoForge.EVENT_BUS.addListener(this::renderFirstPersonHand);
@@ -210,9 +215,19 @@ public class FantasyBeyondClient {
         CuriosRendererRegistry.register(ModItems.QUIVER.get(), () -> new QuiverRenderer());
     }
 
+    private void registerClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new TongsClientExtensions(), ModItems.FORGING_TONGS);
+        event.registerItem(new GrimoireClientExtensions(), ModItems.GRIMOIRE_1);
+    }
+
+    private void registerJSONModel(ModelEvent.RegisterAdditional event) {
+        event.register(new ModelResourceLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "item/forging_tongs_model"),"standalone"));
+    }
+
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.FORGE.get(), ForgeBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.ANVIL.get(), AnvilBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.BLACKSMITH_TABLE.get(), BlacksmithTableBlockEntityRenderer::new);
     }
 
     private void addLayers(EntityRenderersEvent.AddLayers event) {
@@ -227,8 +242,16 @@ public class FantasyBeyondClient {
             event.getToolTip().add(
                     Component.translatable(
                                     "fantasy_beyond.tooltip.temperature",
-                                    String.valueOf(temperatureManager.getTemperature()).replace(".", ","))
+                                    String.valueOf(Math.round(temperatureManager.getTemperature() * 100.0) / 100.0).replace(".", ","))
                             .setStyle(Style.EMPTY.withColor(ClientUtils.getStackColor(event.getItemStack()).getRGB())));
+        }
+        if (event.getItemStack().has(ModDataComponents.CURRENT_RECIPE)) {
+            CurrentRecipe currentRecipe = event.getItemStack().get(ModDataComponents.CURRENT_RECIPE);
+            event.getToolTip().add(
+                    Component.translatable(
+                                    "fantasy_beyond.tooltip.current_recipe",
+                                    Minecraft.getInstance().level.getRecipeManager().byKey(ResourceLocation.parse(currentRecipe.getRecipe())).get().value().getResultItem(Minecraft.getInstance().level.registryAccess()).getHoverName().copy().withColor(Color.GREEN.getRGB()))
+                            .withColor(Color.ORANGE.getRGB()));
         }
     }
 

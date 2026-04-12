@@ -39,6 +39,7 @@ public class TemperatureManager implements TooltipComponent {
     public TemperatureManager(float temperature) {
         this.temperature = temperature;
     }
+
     public TemperatureManager() {
         this(AMBIENT_TEMP);
     }
@@ -56,21 +57,27 @@ public class TemperatureManager implements TooltipComponent {
     }
 
     public void quench(Level level, BlockPos pos, ItemStack item) {
-        item.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager(AMBIENT_TEMP));
+        item.remove(ModDataComponents.TEMPERATURE_MANAGER);
         level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS);
         level.addAlwaysVisibleParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0);
     }
 
     public void decreaseTemperature(ItemStack stack) {
         if (temperature > AMBIENT_TEMP) {
-            HeatableMaterial heatableMaterial = stack.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS);
-            stack.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager(temperature - heatableMaterial.getHeatingSpeed() / 4));
+            if (stack.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS) != null) {
+                HeatableMaterial heatableMaterial = stack.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS);
+                stack.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager(temperature - heatableMaterial.getCoolingSpeed()));
+            } else
+                stack.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager(temperature - 0.01F));
         }
     }
 
     public void increaseTemperature(ItemStack stack) {
-        HeatableMaterial heatableMaterial = stack.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS);
-        stack.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager(temperature + heatableMaterial.getHeatingSpeed()));
+        if (stack.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS) != null) {
+            HeatableMaterial heatableMaterial = stack.getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS);
+            stack.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager(temperature + heatableMaterial.getHeatingSpeed()));
+        } else
+            stack.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager(temperature + 0.05F));
     }
 
     @Override

@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,part=left": {
+      "model": "fantasy_beyond:block/blacksmith_table_left",
+      "y": 180
+    },
+    "facing=east,part=left": {
+      "model": "fantasy_beyond:block/blacksmith_table_left",
+      "y": 270
+    },
+    "facing=south,part=left": {
+      "model": "fantasy_beyond:block/blacksmith_table_left"
+    },
+    "facing=west,part=left": {
+      "model": "fantasy_beyond:block/blacksmith_table_left",
+      "y": 90
+    },
+    "facing=north,part=right": {
+      "model": "fantasy_beyond:block/blacksmith_table_right",
+      "y": 180
+    },
+    "facing=east,part=right": {
+      "model": "fantasy_beyond:block/blacksmith_table_right",
+      "y": 270
+    },
+    "facing=south,part=right": {
+      "model": "fantasy_beyond:block/blacksmith_table_right"
+    },
+    "facing=west,part=right": {
+      "model": "fantasy_beyond:block/blacksmith_table_right",
+      "y": 90
+    }
+  }
+}

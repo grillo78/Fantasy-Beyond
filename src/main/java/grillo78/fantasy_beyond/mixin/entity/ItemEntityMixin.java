@@ -50,11 +50,8 @@ public abstract class ItemEntityMixin extends Entity {
     @Inject(method = "tick", at = @At("HEAD"))
     public void onTick(CallbackInfo ci) {
         if (!level().getBlockState(blockPosition()).is(ModBlocks.FORGE.get())) {
-            HeatableMaterial heatableMaterial = getItem().getItemHolder().getData(ModDataMaps.HEATABLE_MATERIALS);
-            if (heatableMaterial != null) {
+            if (getItem().has(ModDataComponents.TEMPERATURE_MANAGER)) {
                 ItemStack item = getItem().copy();
-                if (!item.has(ModDataComponents.TEMPERATURE_MANAGER))
-                    item.set(ModDataComponents.TEMPERATURE_MANAGER, new TemperatureManager());
                 TemperatureManager temperatureManager = item.get(ModDataComponents.TEMPERATURE_MANAGER);
                 if (temperatureManager.getTemperature() > TemperatureManager.AMBIENT_TEMP) {
                     temperatureManager.decreaseTemperature(item);

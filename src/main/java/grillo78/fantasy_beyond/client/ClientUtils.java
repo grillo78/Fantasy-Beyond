@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
+import grillo78.fantasy_beyond.client.entity.GrimoireArmPoseTransformer;
 import grillo78.fantasy_beyond.client.entity.race.RaceCharacteristicRenderer;
 import grillo78.fantasy_beyond.data_map.ModDataMaps;
 import grillo78.fantasy_beyond.data_map.forging.HeatableMaterial;
@@ -234,5 +235,13 @@ public class ClientUtils {
             }
         }
         return color;
+    }
+
+    public static Object getGrimoireArmPoseParameters(int idx, Class<?> type) {
+        return switch (idx) {
+            case 0 -> false;
+            case 1 -> new GrimoireArmPoseTransformer();
+            default -> throw new IllegalArgumentException("Unexpected parameter index: " + idx);
+        };
     }
 }

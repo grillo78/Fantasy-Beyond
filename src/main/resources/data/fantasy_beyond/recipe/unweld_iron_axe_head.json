@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "forging",
+  "ingredients": [
+    {
+      "item": "fantasy_beyond:iron_axe_eye"
+    },
+    {
+      "item": "fantasy_beyond:iron_axe_edge"
+    },
+    {
+      "item": "fantasy_beyond:borax"
+    }
+  ],
+  "result": {
+    "components": {
+      "fantasy_beyond:current_recipe": {
+        "recipe": "fantasy_beyond:iron_axe_head",
+        "hits": 0
+      }
+    },
+    "count": 1,
+    "id": "fantasy_beyond:unweld_iron_axe_head"
+  }
+}

@@ -18,6 +18,19 @@ public class ModTabs {
             output.accept(ModBlocks.BLACKSMITH_TABLE.get());
             output.accept(ModItems.FORGING_HAMMER.get());
             output.accept(ModItems.FORGING_TONGS.get());
+            output.accept(ModItems.IRON_STICK.get());
+            output.accept(ModItems.BORAX.get());
+    }).build());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FORGING_PARTS = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_forging_parts", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_forging_parts")).icon(() -> ModItems.IRON_AXE_HEAD.get().asItem().getDefaultInstance()).displayItems((parameters, output) -> {
+            output.accept(ModItems.IRON_AXE_EYE.get());
+            output.accept(ModItems.IRON_AXE_EDGE.get());
+            output.accept(ModItems.UNWELD_IRON_AXE_HEAD.get());
+            output.accept(ModItems.IRON_AXE_HEAD.get());
+            output.accept(ModItems.IRON_SHOVEL_HEAD.get());
+            output.accept(ModItems.UNFINISHED_IRON_SHOVEL_HEAD.get());
+            output.accept(ModItems.IRON_PICKAXE_HEAD.get());
+            output.accept(ModItems.UNFINISHED_IRON_PICKAXE_HEAD.get());
     }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CLOTHES = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_clothes", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_clothes")).icon(() -> ModItems.HUMAN_HOOD_2.get().getDefaultInstance()).displayItems((parameters, output) -> {

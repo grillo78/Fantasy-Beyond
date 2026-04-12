@@ -1,0 +1,23 @@
+{
+  "name": "The Basic Pickaxes",
+  "icon": "minecraft:iron_pickaxe",
+  "category": "fantasy_beyond:processes",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "In this chapter you will learn how to build a basic axe from ingots.$(br2)Ingredients:$(li)1xMetal Ingot$(li)1xStick$(li)1xPaper$(li)1xBlack Dye"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)1st Step:$()$(br)Go to your blacksmith table, put your ingot inside and set the recipe to the Unfinished Pickaxe Head.$(br)$(bold)2nd Step:$()$(br)Heat the ingot in the forge.$(br)$(bold)3rd Step:$()$(br)Place the ingot in the anvil with the tongs and start hitting it with the hammer until it turns in the selected piece."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)4th Step:$()$(br)Now take an Iron Stick in your offhand and hammer the piece again until it gets complete (you will listen a sound when completed).$(br)$(bold)5th Step:$()$(br)Once the piece it's cold   combine it with a stick in a crafting grid."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:iron_pickaxe"
+    }
+  ]
+}

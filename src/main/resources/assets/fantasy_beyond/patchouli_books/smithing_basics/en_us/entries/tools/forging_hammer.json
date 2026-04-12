@@ -1,0 +1,17 @@
+{
+  "name": "The Anvil",
+  "icon": "fantasy_beyond:forging_hammer",
+  "category": "fantasy_beyond:tools",
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "name": "Forging Hammer",
+      "text": "You can hit (Left Click) with it a metal piece on an anvil.",
+      "entity": "minecraft:item{Item:{id:'fantasy_beyond:forging_hammer'}}"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "fantasy_beyond:forging_hammer"
+    }
+  ]
+}

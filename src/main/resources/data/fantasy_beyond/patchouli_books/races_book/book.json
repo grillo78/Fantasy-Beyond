@@ -1,0 +1,9 @@
+{
+  "name": "books.name.races_book",
+  "landing_text": "books.landing_text.races_book",
+  "version": 1,
+  "creative_tab": "fantasy_beyond:fantasy_beyond_items",
+  "use_resource_pack": true,
+  "pamphlet": true,
+  "book_texture": "fantasy_beyond:textures/gui/races_book.png"
+}

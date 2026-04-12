@@ -1,0 +1,17 @@
+{
+  "name": "The Iron Stick",
+  "icon": "fantasy_beyond:iron_stick",
+  "category": "fantasy_beyond:tools",
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "name": "Iron Stick",
+      "text": "This tool is used to make holes in some pieces like axe eyes or pickaxes heads",
+      "entity": "minecraft:item{Item:{id:'fantasy_beyond:iron_stick'}}"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "This tool can be crafted in an anvil with an iron ingot."
+    }
+  ]
+}

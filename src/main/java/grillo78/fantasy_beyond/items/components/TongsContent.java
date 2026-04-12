@@ -48,6 +48,6 @@ public class TongsContent implements TooltipComponent {
 
     @Override
     public int hashCode() {
-        return item == null ? super.hashCode() : this.item.hashCode();
+        return super.hashCode();
     }
 }

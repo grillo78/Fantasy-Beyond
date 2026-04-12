@@ -1,0 +1,28 @@
+{
+  "name": "The Orcs",
+  "icon": "minecraft:air",
+  "category": "fantasy_beyond:races",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Orcs are known for being a strong race, with large lower fangs that protrude from their mouths like those of wild boars. You can identify an orc by their leathery, greenish skin and tall, stocky builds—which is no surprise, given that physical strength is highly valued in their society."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "They gather in small settlements that rarely stay in the same place; they are an exploratory race, and there are only a few cities where they have basic schools and training camps. Despite their bad reputation, they do not usually get into fights with other races unless provoked or acting in self-defense.$(br2)An orc can live among other races, but with difficulty; they rarely learn to interact with others, coming across as cold people who think only of war."
+    },
+    {
+      "type": "patchouli:image",
+      "text": "They have this long pointy ears.",
+      "images": [
+        "fantasy_beyond:textures/gui/entries/races/orc_ear.png"
+      ]
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "fantasy_beyond:textures/gui/entries/races/orc_size.png"
+      ]
+    }
+  ]
+}

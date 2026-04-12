@@ -1,0 +1,22 @@
+{
+  "name": "The Forge",
+  "icon": "fantasy_beyond:forge",
+  "category": "fantasy_beyond:blocks",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This block is used to heat up metals like iron or gold."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "Forge",
+      "enable_visualize": false,
+      "multiblock": {
+        "pattern": [["0"],[" "]],
+        "mapping": {
+          "0": "fantasy_beyond:forge[east=false,west=false,north=false,north_east=false,north_west=false,south=false,south_east=false,south_west=false]"
+        }
+      }
+    }
+  ]
+}

@@ -34,7 +34,7 @@ public class ModItems {
     public static final DeferredHolder<Item,Item> HALBERD_1 = register("halberd_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.HALBERD, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
 
     public static final DeferredHolder<Item,Item> STAFF_1 = register("staff_1", ()-> new Item(new Item.Properties().stacksTo(1).attributes(SwordItem.createAttributes(Tiers.WOOD, 2, -2.4F))));
-    public static final DeferredHolder<Item,Item> GRIMOIRE_1 = register("grimoire_1", ()-> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredHolder<Item,Item> GRIMOIRE_1 = register("grimoire_1", ()-> new GrimoireItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredHolder<Item,Item> GOLD_COIN = register("gold_coin", ()-> new CoinItem(new Item.Properties()));
     public static final DeferredHolder<Item,Item> SILVER_COIN = register("silver_coin", ()-> new CoinItem(new Item.Properties()));
@@ -104,6 +104,16 @@ public class ModItems {
 
     public static final DeferredHolder<Item,Item> FORGING_HAMMER = register("forging_hammer", ()-> new Item(new Item.Properties().stacksTo(1).durability(1000)));
     public static final DeferredHolder<Item,Item> FORGING_TONGS = register("forging_tongs", ()-> new TongsItem(new Item.Properties().stacksTo(1).durability(1000)));
+    public static final DeferredHolder<Item,Item> IRON_STICK = register("iron_stick", ()-> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredHolder<Item,Item> BORAX = register("borax", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> IRON_AXE_EYE = register("iron_axe_eye", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> IRON_AXE_EDGE = register("iron_axe_edge", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNWELD_IRON_AXE_HEAD = register("unweld_iron_axe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> IRON_AXE_HEAD = register("iron_axe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> IRON_SHOVEL_HEAD = register("iron_shovel_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNFINISHED_IRON_SHOVEL_HEAD = register("unfinished_iron_shovel_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> IRON_PICKAXE_HEAD = register("iron_pickaxe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNFINISHED_IRON_PICKAXE_HEAD = register("unfinished_iron_pickaxe_head", ()-> new Item(new Item.Properties()));
 
 //    public static final DeferredHolder<Item, Item> GOBLIN_SPAWN_EGG = register("goblin_spawn_egg", ()-> new ForgeSpawnEggItem(()-> ModEntities.GOBLIN.get(), Color.GREEN.hashCode(), Color.GRAY.hashCode(),new Item.Properties()));
 

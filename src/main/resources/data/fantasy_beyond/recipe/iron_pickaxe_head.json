@@ -1,0 +1,13 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "fantasy_beyond:unfinished_iron_pickaxe_head"
+  },
+  "result": {
+    "id": "fantasy_beyond:iron_pickaxe_head"
+  },
+  "hits": 10,
+  "required_tool": {
+    "item":"fantasy_beyond:iron_stick"
+  }
+}

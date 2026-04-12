@@ -1,0 +1,22 @@
+{
+  "name": "The Anvil",
+  "icon": "fantasy_beyond:anvil",
+  "category": "fantasy_beyond:blocks",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This block is used to hammer a metal piece."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "Forge",
+      "enable_visualize": false,
+      "multiblock": {
+        "pattern": [["0"],[" "]],
+        "mapping": {
+          "0": "fantasy_beyond:anvil"
+        }
+      }
+    }
+  ]
+}

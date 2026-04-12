@@ -14,10 +14,14 @@ import grillo78.fantasy_beyond.items.QuiverItem;
 import grillo78.fantasy_beyond.items.components.ArrowItemCodec;
 import grillo78.fantasy_beyond.items.components.ModDataComponents;
 import grillo78.fantasy_beyond.items.components.QuiverContents;
+import grillo78.fantasy_beyond.magic.spell.SpellType;
 import grillo78.fantasy_beyond.network.*;
+import grillo78.fantasy_beyond.recipes.ModRecipes;
+import grillo78.fantasy_beyond.recipes.serializers.ModRecipeSerializers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -58,12 +62,15 @@ public class FantasyBeyond {
     public FantasyBeyond(IEventBus modEventBus, ModContainer modContainer) {
         ModDataComponents.DATA_COMPONENTS.register(modEventBus);
         RaceType.RACE_TYPES.register(modEventBus);
+        SpellType.SPELL_TYPES.register(modEventBus);
         PlayerClassType.PLAYER_CLASS_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
+        ModRecipes.RECIPE_TYPES.register(modEventBus);
+        ModRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         modEventBus.addListener(this::registerPackets);
         modEventBus.addListener(this::registerDataMapTypes);
         modEventBus.addListener(this::registerCapabilities);
@@ -112,7 +119,7 @@ public class FantasyBeyond {
     }
 
     public void onLeftClickInteract(PlayerInteractEvent.LeftClickBlock event) {
-        if(event.getEntity().getMainHandItem().is(ModItems.FORGING_HAMMER.get()) && event.getLevel().getBlockEntity(event.getPos()) instanceof AnvilBlockEntity){
+        if(event.getAction() == PlayerInteractEvent.LeftClickBlock.Action.START && event.getHand() == InteractionHand.MAIN_HAND && event.getEntity().getMainHandItem().is(ModItems.FORGING_HAMMER.get()) && event.getLevel().getBlockEntity(event.getPos()) instanceof AnvilBlockEntity){
             event.setCanceled(true);
             ((AnvilBlockEntity) event.getLevel().getBlockEntity(event.getPos())).hitWithHammer(event.getEntity());
         }

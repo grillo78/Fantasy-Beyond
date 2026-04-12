@@ -23,4 +23,7 @@ public class ModDataComponents {
     public static final Supplier<DataComponentType<TongsContent>> TONGS_CONTENT = DATA_COMPONENTS.registerComponentType(
             "tongs_content", p_341857_ -> p_341857_.persistent(TongsContent.CODEC).networkSynchronized(TongsContent.STREAM_CODEC).cacheEncoding()
     );
+    public static final Supplier<DataComponentType<CurrentRecipe>> CURRENT_RECIPE = DATA_COMPONENTS.registerComponentType(
+            "current_recipe", p_341857_ -> p_341857_.persistent(CurrentRecipe.CODEC).networkSynchronized(CurrentRecipe.STREAM_CODEC).cacheEncoding()
+    );
 }
