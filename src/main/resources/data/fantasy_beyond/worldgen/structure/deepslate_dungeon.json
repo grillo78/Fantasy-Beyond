@@ -6,11 +6,10 @@
   "size": 20,
   "spawn_overrides": {},
   "start_height": {
-    "type": "minecraft:absolute",
-    "absolute": 1
+    "absolute": 0
   },
   "start_pool": "fantasy_beyond:deepslate_dungeon/entrance",
   "step": "surface_structures",
-  "terrain_adaptation": "none",
-  "use_expansion_hack": true
+  "terrain_adaptation": "beard_box",
+  "use_expansion_hack": false
 }
