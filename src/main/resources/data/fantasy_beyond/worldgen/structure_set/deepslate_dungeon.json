@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "fantasy_beyond:deepslate_dungeon",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 8641654,
+    "spacing": 200,
+    "separation": 60,
+    "type": "minecraft:random_spread"
+  }
+}

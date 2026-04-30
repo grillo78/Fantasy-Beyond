@@ -9,6 +9,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -49,6 +50,12 @@ public class ModBlocks {
                     .strength(1.5F, 6.0F)
                     .sound(SoundType.ANVIL)
                     .pushReaction(PushReaction.BLOCK)), new Item.Properties());
+
+
+    public static final DeferredHolder<Block, Block> MOSSY_DEEPSLATE_BRICKS = register(
+            "mossy_deepslate_bricks", ()-> new Block(BlockBehaviour.Properties.ofLegacyCopy(Blocks.COBBLED_DEEPSLATE).sound(SoundType.DEEPSLATE_BRICKS)),
+            new Item.Properties()
+    );
 
     private static Boolean never(BlockState state, BlockGetter level, BlockPos pos, EntityType<?> entityType) {
         return false;

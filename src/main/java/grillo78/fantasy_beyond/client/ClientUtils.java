@@ -165,8 +165,10 @@ public class ClientUtils {
         matrixStack.translate(-view.x(), -view.y(), -view.z());
         Vec3 lookVector = new Vec3(0, 0, -0.25).yRot((float) Math.toRadians(-player.getViewYRot(Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime())));
         Vec3 playerPosition = player.getPosition(Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime()).add(lookVector);
+//        Vec3 playerPosition = headPosition.add(0, player.getEyeHeight(),0).add(lookVector);
 
         renderingFirstPersonModel = true;
+//        Minecraft.getInstance().getEntityRenderDispatcher().render(player, 0,0,0, Minecraft.getInstance().player.yBodyRot, Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime(), event.getPoseStack(), buffers, Minecraft.getInstance().getEntityRenderDispatcher().getPackedLightCoords(Minecraft.getInstance().player, Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime()));
         Minecraft.getInstance().getEntityRenderDispatcher().render(player, playerPosition.x, playerPosition.y, playerPosition.z, Minecraft.getInstance().player.yBodyRot, Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime(), event.getPoseStack(), buffers, Minecraft.getInstance().getEntityRenderDispatcher().getPackedLightCoords(Minecraft.getInstance().player, Minecraft.getInstance().gameRenderer.getMainCamera().getPartialTickTime()));
         renderingFirstPersonModel = false;
 
@@ -182,7 +184,7 @@ public class ClientUtils {
                 Mth.lerp(partialTickTime, entity.zo, entity.getZ())
         );
 
-        if (entity.hasData(ModAttachments.CHARACTER_DATA) && !instance.isDetached() && !entity.isSpectator()) {
+        if (entity.hasData(ModAttachments.CHARACTER_DATA)&& !Minecraft.getInstance().gameRenderer.getMainCamera().isDetached() && !entity.isSpectator()) {
             CharacterData data = entity.getData(ModAttachments.CHARACTER_DATA);
             if (data.getPlayerCustomization().isFinished() && ClientUtils.headPosition != null) {
                 position = new Vec3(headPosition.x, headPosition.y + 0.25, headPosition.z).add(new Vec3(0, 0, 0.25).yRot((float) Math.toRadians(-entity.getViewYRot(partialTickTime))));
@@ -195,7 +197,7 @@ public class ClientUtils {
     }
 
     public static void getHeadPos(PoseStack poseStack, ModelPart part) {
-        if (renderingFirstPersonModel && Minecraft.getInstance().player != null && Minecraft.getInstance().player.hasData(ModAttachments.CHARACTER_DATA) && RaceCharacteristicRenderer.getRenderer(Minecraft.getInstance().player.getData(ModAttachments.CHARACTER_DATA).getPlayerCustomization().getRace().getCharacteristics().get(0).getClass()).getModel(Minecraft.getInstance().player.getData(ModAttachments.CHARACTER_DATA).getPlayerCustomization().getRace().getCharacteristics().get(0)).getHeadPart() == part) {
+        if (Minecraft.getInstance().player != null && renderingFirstPersonModel && Minecraft.getInstance().player.hasData(ModAttachments.CHARACTER_DATA) && RaceCharacteristicRenderer.getRenderer(Minecraft.getInstance().player.getData(ModAttachments.CHARACTER_DATA).getPlayerCustomization().getRace().getCharacteristics().get(0).getClass()).getModel(Minecraft.getInstance().player.getData(ModAttachments.CHARACTER_DATA).getPlayerCustomization().getRace().getCharacteristics().get(0)).getHeadPart() == part) {
             poseStack.pushPose();
             part.translateAndRotate(poseStack);
             Matrix4f matrix = poseStack.last().pose();

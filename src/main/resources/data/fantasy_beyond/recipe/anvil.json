@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "forging",
+  "pattern": [
+    "a",
+    "l"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:anvil"
+    },
+    "l": {
+      "item": "minecraft:stripped_oak_log"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "fantasy_beyond:anvil"
+  }
+}

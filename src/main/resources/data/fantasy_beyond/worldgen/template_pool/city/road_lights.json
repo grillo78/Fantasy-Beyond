@@ -1,0 +1,15 @@
+{
+  "name": "fantasy_beyond:city/roads",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 150,
+      "element": {
+        "location": "fantasy_beyond:city/road_light",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -31,6 +31,9 @@ public class ModTabs {
             output.accept(ModItems.UNFINISHED_IRON_SHOVEL_HEAD.get());
             output.accept(ModItems.IRON_PICKAXE_HEAD.get());
             output.accept(ModItems.UNFINISHED_IRON_PICKAXE_HEAD.get());
+            output.accept(ModItems.KATANA_1_BLADE.get());
+            output.accept(ModItems.KATANA_1_GUARD.get());
+            output.accept(ModItems.KATANA_1_HANDLE.get());
     }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CLOTHES = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_clothes", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_clothes")).icon(() -> ModItems.HUMAN_HOOD_2.get().getDefaultInstance()).displayItems((parameters, output) -> {
@@ -58,6 +61,7 @@ public class ModTabs {
         output.accept(ModBlocks.BASE_PILAR.get());
         output.accept(ModBlocks.PILAR.get());
         output.accept(ModBlocks.END_PILAR.get());
+        output.accept(ModBlocks.MOSSY_DEEPSLATE_BRICKS.get());
     }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ITEMS = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_items", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_items")).icon(() -> ModItems.GOLD_COIN.get().asItem().getDefaultInstance()).displayItems((parameters, output) -> {

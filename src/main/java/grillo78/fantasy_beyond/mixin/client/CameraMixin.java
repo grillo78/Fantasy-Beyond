@@ -16,7 +16,7 @@ public abstract class CameraMixin {
 
     @Shadow private Entity entity;
 
-    @Redirect(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setPosition(DDD)V"))
+    @Redirect(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setPosition(DDD)V", ordinal = 0))
     public void translate(Camera instance, double x, double y, double z) {
         ClientUtils.moveCamera(instance, x, y,z, partialTickTime, entity);
     }

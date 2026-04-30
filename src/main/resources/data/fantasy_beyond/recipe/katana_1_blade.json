@@ -1,0 +1,10 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "miencraft:iron"
+  },
+  "result": {
+    "id": "fantasy_beyond:katana_1_blade"
+  },
+  "hits": 20
+}

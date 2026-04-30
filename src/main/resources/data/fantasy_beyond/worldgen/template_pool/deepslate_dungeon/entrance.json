@@ -1,0 +1,15 @@
+{
+  "name": "fantasy_beyond:deepslate_dungeon/entrance",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "fantasy_beyond:deepslate_dungeon/entrance",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -1,7 +1,9 @@
 package grillo78.fantasy_beyond.mixin.entity;
 
+import ca.weblite.objc.Client;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
+import grillo78.fantasy_beyond.client.ClientUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -26,6 +28,9 @@ public abstract class EntityMixin {
 
     @Shadow private Level level;
 
+    @Shadow
+    public abstract float getViewYRot(float partialTick);
+
     @Inject(method = "pick", at = @At("HEAD"), cancellable = true)
     public void onPick(double hitDistance, float partialTicks, boolean hitFluids, CallbackInfoReturnable<HitResult> cir) {
         if (((Entity) (Object) this) instanceof Player){
@@ -40,5 +45,11 @@ public abstract class EntityMixin {
                 }
             }
         }
+    }
+
+    @Inject(method = "getEyePosition(F)Lnet/minecraft/world/phys/Vec3;", at = @At("HEAD"), cancellable = true)
+    public void getEyePosition(float partialTick, CallbackInfoReturnable<Vec3> cir) {
+        if(ClientUtils.headPosition != null)
+            cir.setReturnValue(new Vec3(ClientUtils.headPosition.x, ClientUtils.headPosition.y + 0.25, ClientUtils.headPosition.z).add(new Vec3(0, 0, 0.25).yRot((float) Math.toRadians(-getViewYRot(1)))));
     }
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "forging",
+  "ingredients": [
+    {
+      "item": "fantasy_beyond:katana_1_blade"
+    },
+    {
+      "item": "fantasy_beyond:katana_1_guard"
+    },
+    {
+      "item": "fantasy_beyond:katana_1_handle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fantasy_beyond:katana_1"
+  }
+}

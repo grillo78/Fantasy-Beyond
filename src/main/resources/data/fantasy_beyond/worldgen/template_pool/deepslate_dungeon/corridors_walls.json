@@ -1,0 +1,15 @@
+{
+  "name": "fantasy_beyond:deepslate_dungeon/corridors_walls",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "fantasy_beyond:deepslate_dungeon/wall_1",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -222,6 +222,7 @@ public class FantasyBeyondClient {
 
     private void registerJSONModel(ModelEvent.RegisterAdditional event) {
         event.register(new ModelResourceLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "item/forging_tongs_model"),"standalone"));
+        event.register(new ModelResourceLocation(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "item/grimoire_1_model"),"standalone"));
     }
 
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {

@@ -1,6 +1,5 @@
 package grillo78.fantasy_beyond.client.item;
 
-import grillo78.fantasy_beyond.client.entity.GrimoireArmPoseTransformer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.InteractionHand;
@@ -10,6 +9,14 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
 public class GrimoireClientExtensions implements IClientItemExtensions {
+
+    private final GrimoireBEWLR grimoireBEWLR = new GrimoireBEWLR();
+
+    @Override
+    public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+        return grimoireBEWLR;
+    }
+
     @Override
     public HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
         return HumanoidModel.ArmPose.valueOf("FANTASY_BEYOND_GRIMOIRE");

@@ -6,8 +6,7 @@
   "result": {
     "id": "fantasy_beyond:iron_axe_eye"
   },
-  "require_borax": false,
-  "hits": 10,
+  "hits": 20,
   "required_tool": {
     "item":"fantasy_beyond:iron_stick"
   }

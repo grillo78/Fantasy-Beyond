@@ -115,6 +115,10 @@ public class ModItems {
     public static final DeferredHolder<Item,Item> IRON_PICKAXE_HEAD = register("iron_pickaxe_head", ()-> new Item(new Item.Properties()));
     public static final DeferredHolder<Item,Item> UNFINISHED_IRON_PICKAXE_HEAD = register("unfinished_iron_pickaxe_head", ()-> new Item(new Item.Properties()));
 
+    public static final DeferredHolder<Item,Item> KATANA_1_BLADE = register("katana_1_blade", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> KATANA_1_HANDLE = register("katana_1_handle", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> KATANA_1_GUARD = register("katana_1_guard", ()-> new Item(new Item.Properties()));
+
 //    public static final DeferredHolder<Item, Item> GOBLIN_SPAWN_EGG = register("goblin_spawn_egg", ()-> new ForgeSpawnEggItem(()-> ModEntities.GOBLIN.get(), Color.GREEN.hashCode(), Color.GRAY.hashCode(),new Item.Properties()));
 
     public static <T extends Item, V extends Supplier<T>> DeferredHolder<Item, T> register(String name, V itemSupplier) {

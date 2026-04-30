@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "fantasy_beyond:city",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 121541467,
+    "spacing": 200,
+    "separation": 60,
+    "type": "minecraft:random_spread"
+  }
+}
