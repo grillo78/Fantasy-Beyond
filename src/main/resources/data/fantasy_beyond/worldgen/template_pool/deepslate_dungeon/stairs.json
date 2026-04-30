@@ -1,6 +1,6 @@
 {
   "name": "fantasy_beyond:deepslate_dungeon/stairs",
-  "fallback": "minecraft:empty",
+  "fallback": "fantasy_beyond:deepslate_dungeon/stairs_fallback",
   "elements": [
     {
       "weight": 1,
