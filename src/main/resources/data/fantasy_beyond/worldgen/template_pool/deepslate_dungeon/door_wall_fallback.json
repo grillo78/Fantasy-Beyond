@@ -1,11 +1,11 @@
 {
-  "name": "fantasy_beyond:deepslate_dungeon/rooms",
-  "fallback": "fantasy_beyond:deepslate_dungeon/door_wall_fallback",
+  "name": "fantasy_beyond:deepslate_dungeon/door_wall_fallback",
+  "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "fantasy_beyond:deepslate_dungeon/small_room_1",
+        "location": "fantasy_beyond:deepslate_dungeon/door_wall",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"

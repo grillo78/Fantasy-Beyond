@@ -6,25 +6,121 @@
       "weight": 3,
       "element": {
         "location": "fantasy_beyond:deepslate_dungeon/corridor_1",
-        "processors": "minecraft:empty",
+        "processors": [{
+          "processor_type":"fantasy_beyond:leveled_spawners",
+          "entities": [
+            {
+              "level": 1,
+              "ids": [
+                "minecraft:slime",
+                "minecraft:skeleton",
+                "minecraft:spider"
+              ]
+            },
+            {
+              "level": 3,
+              "ids": [
+                "minecraft:evoker",
+                "minecraft:vindicator",
+                "minecraft:pillager",
+                "minecraft:witch",
+                "minecraft:illusioner"
+              ]
+            },
+            {
+              "level": 4,
+              "ids": [
+                "minecraft:magma_cube",
+                "minecraft:strider",
+                "minecraft:vex",
+                "minecraft:warden",
+                "minecraft:stray"
+              ]
+            }
+          ]
+        }],
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
     },
     {
-      "weight": 1.5,
+      "weight": 2,
       "element": {
         "location": "fantasy_beyond:deepslate_dungeon/corridor_2",
-        "processors": "minecraft:empty",
+        "processors": [{
+          "processor_type":"fantasy_beyond:leveled_spawners",
+          "entities": [
+            {
+              "level": 1,
+              "ids": [
+                "minecraft:slime",
+                "minecraft:skeleton",
+                "minecraft:spider"
+              ]
+            },
+            {
+              "level": 3,
+              "ids": [
+                "minecraft:evoker",
+                "minecraft:vindicator",
+                "minecraft:pillager",
+                "minecraft:witch",
+                "minecraft:illusioner"
+              ]
+            },
+            {
+              "level": 4,
+              "ids": [
+                "minecraft:magma_cube",
+                "minecraft:strider",
+                "minecraft:vex",
+                "minecraft:warden",
+                "minecraft:stray"
+              ]
+            }
+          ]
+        }],
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
     },
     {
-      "weight": 1,
+      "weight": 2.5,
       "element": {
         "location": "fantasy_beyond:deepslate_dungeon/corridor_3",
-        "processors": "minecraft:empty",
+        "processors": [{
+          "processor_type":"fantasy_beyond:leveled_spawners",
+          "entities": [
+            {
+              "level": 1,
+              "ids": [
+                "minecraft:slime",
+                "minecraft:skeleton",
+                "minecraft:spider"
+              ]
+            },
+            {
+              "level": 3,
+              "ids": [
+                "minecraft:evoker",
+                "minecraft:vindicator",
+                "minecraft:pillager",
+                "minecraft:witch",
+                "minecraft:illusioner"
+              ]
+            },
+            {
+              "level": 4,
+              "ids": [
+                "minecraft:magma_cube",
+                "minecraft:strider",
+                "minecraft:vex",
+                "minecraft:warden",
+                "minecraft:stray"
+              ]
+            }
+          ]
+        }],
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -33,7 +129,38 @@
       "weight": 2,
       "element": {
         "location": "fantasy_beyond:deepslate_dungeon/cross",
-        "processors": "minecraft:empty",
+        "processors": [{
+          "processor_type":"fantasy_beyond:leveled_spawners",
+          "entities": [
+            {
+              "level": 0,
+              "ids": [
+                "minecraft:slime",
+                "minecraft:skeleton",
+                "minecraft:spider"
+              ]
+            },
+            {
+              "level": 3,
+              "ids": [
+                "minecraft:evoker",
+                "minecraft:vindicator",
+                "minecraft:pillager",
+                "minecraft:witch",
+                "minecraft:illusioner"
+              ]
+            },
+            {
+              "level": 4,
+              "ids": [
+                "minecraft:magma_cube",
+                "minecraft:vex",
+                "minecraft:warden",
+                "minecraft:stray"
+              ]
+            }
+          ]
+        }],
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }

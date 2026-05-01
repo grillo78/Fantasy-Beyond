@@ -18,6 +18,7 @@ import grillo78.fantasy_beyond.magic.spell.SpellType;
 import grillo78.fantasy_beyond.network.*;
 import grillo78.fantasy_beyond.recipes.ModRecipes;
 import grillo78.fantasy_beyond.recipes.serializers.ModRecipeSerializers;
+import grillo78.fantasy_beyond.worldgen.processors.ModProcessors;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -71,6 +72,7 @@ public class FantasyBeyond {
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
         ModRecipes.RECIPE_TYPES.register(modEventBus);
         ModRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
+        ModProcessors.PROCESSORS.register(modEventBus);
         modEventBus.addListener(this::registerPackets);
         modEventBus.addListener(this::registerDataMapTypes);
         modEventBus.addListener(this::registerCapabilities);
