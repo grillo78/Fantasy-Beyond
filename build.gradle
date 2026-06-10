@@ -98,6 +98,13 @@ repositories {
     maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib2, Photon2
     maven { url = "https://maven.bawnorton.com/releases" }
     maven { url = "https://maven.enjarai.dev/mirrors" }
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroup("software.bernie.geckolib")
+        }
+    }
 }
 
 dependencies {
@@ -113,6 +120,7 @@ dependencies {
     runtimeOnly "curse.maven:parcool-482378:6940391"
     implementation "curse.maven:better-combat-by-daedelus-639842:6992930"
     implementation "curse.maven:playeranimator-658587:6024462"
+    implementation "curse.maven:sentinellib-1074465:7612154"
     runtimeOnly "curse.maven:cloth-config-348521:5729127"
     runtimeOnly "curse.maven:sodium-394468:6382651"
     runtimeOnly "curse.maven:irisshaders-455508:6661598"
@@ -122,7 +130,7 @@ dependencies {
     implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all") { transitive = false }
     compileOnly("org.appliedenergistics.yoga:yoga:1.0.0")
     implementation("com.lowdragmc.photon:photon-neoforge-${minecraft_version}:${photon2_version}") { transitive = false }
-    jarJar(implementation("com.moulberry:mixinconstraints:1.0.9")){
+    jarJar(implementation("com.moulberry:mixinconstraints:1.0.9")) {
         version {
             strictly '[1.0.9,)'
             prefer '1.0.9'
@@ -132,6 +140,7 @@ dependencies {
     implementation(jarJar("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:0.3.7-beta.1")) {
         jarJar.ranged(it, "[0.3.7-beta.1,)")
     }
+    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

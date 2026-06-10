@@ -21,9 +21,9 @@ public abstract class LivingEntityRendererMixin {
     @Shadow
     public abstract EntityModel getModel();
 
-    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;getRenderType(Lnet/minecraft/world/entity/LivingEntity;ZZZ)Lnet/minecraft/client/renderer/RenderType;"))
-    public void render(LivingEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, CallbackInfo ci) {
-        if (pEntity instanceof Player) {
+//    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;getRenderType(Lnet/minecraft/world/entity/LivingEntity;ZZZ)Lnet/minecraft/client/renderer/RenderType;"))
+//    public void render(LivingEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, CallbackInfo ci) {
+//        if (pEntity instanceof Player) {
 //            ((PlayerModel) getModel()).setAllVisible(DebugUtils.shouldRenderDefaultPlayerModel());
 //            if (pEntity.getOffhandItem().getItem() instanceof SpellsBook) {
 //                if (pEntity.getMainArm() == HumanoidArm.RIGHT) {
@@ -42,8 +42,8 @@ public abstract class LivingEntityRendererMixin {
 //                    ((PlayerModel) getModel()).rightSleeve.zRot = 0;
 //                }
 //            }
-        }
-    }
+//        }
+//    }
 
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     public void getRenderType(LivingEntity pLivingEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing, CallbackInfoReturnable<RenderType> cir){

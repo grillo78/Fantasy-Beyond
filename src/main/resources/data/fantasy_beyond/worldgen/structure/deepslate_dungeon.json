@@ -10,7 +10,7 @@
   },
   "start_pool": "fantasy_beyond:deepslate_dungeon/entrance",
   "step": "surface_structures",
-  "terrain_adaptation": "beard_box",
+  "terrain_adaptation": "beard_thin",
   "use_expansion_hack": false,
   "liquid_settings": "ignore_waterlogging"
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class HeatableMaterial {
 
     public static final Codec<HeatableMaterial> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-           Codec.list(HeatRange.CODEC).fieldOf("ranges").forGetter(HeatableMaterial::getRanges),
+            Codec.list(HeatRange.CODEC).fieldOf("ranges").forGetter(HeatableMaterial::getRanges),
             Codec.INT.fieldOf("workableAt").forGetter(HeatableMaterial::getWorkableAt),
             Codec.INT.fieldOf("breakAt").forGetter(HeatableMaterial::getBreakAt),
             Codec.FLOAT.fieldOf("heatingSpeed").forGetter(HeatableMaterial::getHeatingSpeed),

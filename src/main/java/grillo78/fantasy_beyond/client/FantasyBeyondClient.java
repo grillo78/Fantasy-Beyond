@@ -30,11 +30,14 @@ import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.MediumHornsMode
 import grillo78.fantasy_beyond.client.entity.race.tiefling.horns.TallHornsModel;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail1Model;
 import grillo78.fantasy_beyond.client.entity.race.tiefling.tails.TieflingTail2Model;
+import grillo78.fantasy_beyond.client.entity.renderers.DemonLordRenderer;
+import grillo78.fantasy_beyond.client.entity.renderers.GoblinRenderer;
 import grillo78.fantasy_beyond.client.item.GrimoireClientExtensions;
 import grillo78.fantasy_beyond.client.item.TongsClientExtensions;
 import grillo78.fantasy_beyond.client.screen.CharacterScreen;
 import grillo78.fantasy_beyond.data_map.ModDataMaps;
 import grillo78.fantasy_beyond.data_map.forging.HeatableMaterial;
+import grillo78.fantasy_beyond.entities.ModEntities;
 import grillo78.fantasy_beyond.items.ItemContainer;
 import grillo78.fantasy_beyond.items.ModItems;
 import grillo78.fantasy_beyond.items.QuiverItem;
@@ -229,6 +232,8 @@ public class FantasyBeyondClient {
         event.registerBlockEntityRenderer(ModBlockEntities.FORGE.get(), ForgeBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.ANVIL.get(), AnvilBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.BLACKSMITH_TABLE.get(), BlacksmithTableBlockEntityRenderer::new);
+        event.registerEntityRenderer(ModEntities.DEMON_LORD.get(), DemonLordRenderer::new);
+        event.registerEntityRenderer(ModEntities.GOBLIN.get(), GoblinRenderer::new);
     }
 
     private void addLayers(EntityRenderersEvent.AddLayers event) {

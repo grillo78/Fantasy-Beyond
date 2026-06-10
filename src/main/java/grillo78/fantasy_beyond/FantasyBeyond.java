@@ -9,6 +9,9 @@ import grillo78.fantasy_beyond.character.CharacterData;
 import grillo78.fantasy_beyond.character.classes.PlayerClassType;
 import grillo78.fantasy_beyond.character.customization.race.RaceType;
 import grillo78.fantasy_beyond.data_map.ModDataMaps;
+import grillo78.fantasy_beyond.entities.DemonLord;
+import grillo78.fantasy_beyond.entities.Goblin;
+import grillo78.fantasy_beyond.entities.ModEntities;
 import grillo78.fantasy_beyond.items.ModItems;
 import grillo78.fantasy_beyond.items.QuiverItem;
 import grillo78.fantasy_beyond.items.components.ArrowItemCodec;
@@ -29,11 +32,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
@@ -50,6 +55,9 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,13 +81,15 @@ public class FantasyBeyond {
         ModRecipes.RECIPE_TYPES.register(modEventBus);
         ModRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         ModProcessors.PROCESSORS.register(modEventBus);
+        ModEntities.ENTITY_TYPES.register(modEventBus);
         modEventBus.addListener(this::registerPackets);
         modEventBus.addListener(this::registerDataMapTypes);
         modEventBus.addListener(this::registerCapabilities);
-        NeoForge.EVENT_BUS.addListener(this::livingFall);
+        modEventBus.addListener(this::createAttributes);
 //        NeoForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
-        NeoForge.EVENT_BUS.addListener(this::entityJoin);
 //        NeoForge.EVENT_BUS.addListener(this::onStartTracking);
+        NeoForge.EVENT_BUS.addListener(this::livingFall);
+        NeoForge.EVENT_BUS.addListener(this::entityJoin);
         NeoForge.EVENT_BUS.addListener(this::resizePlayer);
         NeoForge.EVENT_BUS.addListener(this::playerTick);
         NeoForge.EVENT_BUS.addListener(this::levelTick);
@@ -91,14 +101,44 @@ public class FantasyBeyond {
         NeoForge.EVENT_BUS.addListener(this::onDead);
         NeoForge.EVENT_BUS.addListener(this::onLeftClickInteract);
         NeoForge.EVENT_BUS.addListener(this::onBlockInteract);
+        if(ModList.get().isLoaded("millenaire"))
+        try{
+            Path origin = modContainer.getModInfo().getOwningFile().getFile().findResource("millenaire-pack/" + MOD_ID);
+            Path target = Path.of("millenaire-custom/" + MOD_ID).toAbsolutePath();
+            Files.walkFileTree(origin, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                    // Calcula la ruta equivalente en el destino
+                    Path relative = origin.relativize(dir);
+                    Path targetDir = target.resolve(relative.toString()); // .toString() para cruzar FileSystem
+                    Files.createDirectories(targetDir);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Path relative = origin.relativize(file);
+                    Path targetFile = target.resolve(relative.toString());
+                    Files.copy(file, targetFile, StandardCopyOption.REPLACE_EXISTING);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void createAttributes(EntityAttributeCreationEvent event) {
+        event.put(ModEntities.DEMON_LORD.get(), DemonLord.createAttributes().build());
+        event.put(ModEntities.GOBLIN.get(), Goblin.createAttributes().build());
     }
 
     public void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(
                 Capabilities.FluidHandler.BLOCK, // capability to register for
                 ModBlockEntities.BUCKET.get(),
-        (be, side) -> be.getFluidHandler()
-    );
+                (be, side) -> be.getFluidHandler()
+        );
     }
 
     public void registerDataMapTypes(RegisterDataMapTypesEvent event) {
@@ -106,7 +146,7 @@ public class FantasyBeyond {
     }
 
     public void onDead(LivingDeathEvent event) {
-        if(!event.getEntity().level().isClientSide){
+        if (!event.getEntity().level().isClientSide) {
             List<Pair<String, Float>> damageManager = event.getEntity().getData(ModAttachments.DAMAGE_MANAGER);
             for (int i = 0; i < damageManager.size(); i++) {
                 Pair<String, Float> damage = damageManager.get(i);
@@ -121,15 +161,15 @@ public class FantasyBeyond {
     }
 
     public void onLeftClickInteract(PlayerInteractEvent.LeftClickBlock event) {
-        if(event.getAction() == PlayerInteractEvent.LeftClickBlock.Action.START && event.getHand() == InteractionHand.MAIN_HAND && event.getEntity().getMainHandItem().is(ModItems.FORGING_HAMMER.get()) && event.getLevel().getBlockEntity(event.getPos()) instanceof AnvilBlockEntity){
+        if (event.getAction() == PlayerInteractEvent.LeftClickBlock.Action.START && event.getHand() == InteractionHand.MAIN_HAND && event.getEntity().getMainHandItem().is(ModItems.FORGING_HAMMER.get()) && event.getLevel().getBlockEntity(event.getPos()) instanceof AnvilBlockEntity) {
             event.setCanceled(true);
             ((AnvilBlockEntity) event.getLevel().getBlockEntity(event.getPos())).hitWithHammer(event.getEntity());
         }
     }
 
     public void onBlockInteract(PlayerInteractEvent.RightClickBlock event) {
-        if(!event.getEntity().level().isClientSide && event.getEntity().isShiftKeyDown() && event.getEntity().getItemInHand(event.getHand()).getItem() == Items.BUCKET){
-            switch (event.getFace()){
+        if (!event.getEntity().level().isClientSide && event.getEntity().isShiftKeyDown() && event.getEntity().getItemInHand(event.getHand()).getItem() == Items.BUCKET) {
+            switch (event.getFace()) {
                 case UP:
                     event.getLevel().setBlock(event.getPos().above(), ModBlocks.IRON_BUCKET.get().defaultBlockState(), 3);
                     break;
@@ -150,14 +190,14 @@ public class FantasyBeyond {
                     break;
             }
             event.getLevel().playSound(null, event.getPos(), SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 1, 1);
-            if(!event.getEntity().isCreative())
+            if (!event.getEntity().isCreative())
                 event.getEntity().getItemInHand(event.getHand()).shrink(1);
         }
     }
 
     public void getProjectile(LivingGetProjectileEvent event) {
         Optional<ICuriosItemHandler> inventory = CuriosApi.getCuriosInventory(event.getEntity());
-        if(inventory.isPresent()){
+        if (inventory.isPresent()) {
             List<SlotResult> slots = inventory.get().findCurios("back");
             boolean notObtained = true;
             for (int i = 0; i < slots.size() && notObtained; i++) {
@@ -201,6 +241,9 @@ public class FantasyBeyond {
         }
     }
 
+    private void levelTick(final LevelTickEvent.Post event) {
+    }
+
     public void canBreath(LivingBreatheEvent event) {
         if (event.getEntity().hasData(ModAttachments.CHARACTER_DATA)) {
             CharacterData data = event.getEntity().getData(ModAttachments.CHARACTER_DATA);
@@ -213,9 +256,6 @@ public class FantasyBeyond {
             CharacterData data = event.getEntity().getData(ModAttachments.CHARACTER_DATA);
             data.getPlayerCustomization().getRace().onHurt(event);
         }
-    }
-
-    private void levelTick(final LevelTickEvent.Post event) {
     }
 
     private void onPlayerClone(final PlayerEvent.Clone event) {

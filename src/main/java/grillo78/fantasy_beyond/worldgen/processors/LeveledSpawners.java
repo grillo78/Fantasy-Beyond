@@ -45,8 +45,7 @@ public class LeveledSpawners extends StructureProcessor {
             StructureTemplate template) {
 
         if (blockInfo.state().is(Blocks.SPAWNER) && blockInfo.nbt() != null && relativeBlockInfo.nbt() != null) {
-            System.out.println((pos.getY() - relativeBlockInfo.pos().getY()) / 10);
-            ListTag tags = getEntitiesAsTags((pos.getY() - relativeBlockInfo.pos().getY()) / 10);
+            ListTag tags = getEntitiesAsTags(1 + (pos.getY() - relativeBlockInfo.pos().getY()) / 10);
             relativeBlockInfo.nbt().put("SpawnPotentials", tags);
             CompoundTag randomSpawnData = tags.getCompound(random.nextInt(tags.size())).getCompound("data");
             relativeBlockInfo.nbt().put("SpawnData", randomSpawnData);
