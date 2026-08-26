@@ -58,6 +58,7 @@ public class CharacterScreen extends Screen {
         addRenderableWidget(new CustomImageButton(x + 1, height - 22, 16, 16, RESET_BUTTON_TEXTURE, (pButton -> {
             angleO = 0;
             angle = 0;
+            pButton.setFocused(false);
         })));
         addRenderableWidget(new CustomImageButton(x - 17, height - 22, 16, 16, PLAY_BUTTON_TEXTURE, (pButton -> {
             paused = !paused;

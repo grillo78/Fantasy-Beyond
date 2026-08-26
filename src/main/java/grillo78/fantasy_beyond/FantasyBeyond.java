@@ -10,6 +10,7 @@ import grillo78.fantasy_beyond.character.classes.PlayerClassType;
 import grillo78.fantasy_beyond.character.customization.race.RaceType;
 import grillo78.fantasy_beyond.data_map.ModDataMaps;
 import grillo78.fantasy_beyond.entities.DemonLord;
+import grillo78.fantasy_beyond.entities.Direwolf;
 import grillo78.fantasy_beyond.entities.Goblin;
 import grillo78.fantasy_beyond.entities.ModEntities;
 import grillo78.fantasy_beyond.items.ModItems;
@@ -131,6 +132,7 @@ public class FantasyBeyond {
     public void createAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.DEMON_LORD.get(), DemonLord.createAttributes().build());
         event.put(ModEntities.GOBLIN.get(), Goblin.createAttributes().build());
+        event.put(ModEntities.DIREWOLF.get(), Direwolf.createAttributes().build());
     }
 
     public void registerCapabilities(RegisterCapabilitiesEvent event) {

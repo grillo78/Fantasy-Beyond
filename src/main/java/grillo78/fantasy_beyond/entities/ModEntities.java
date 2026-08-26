@@ -19,5 +19,9 @@ public class ModEntities {
             ENTITY_TYPES.register("goblin", () ->
                     EntityType.Builder.of(Goblin::new, MobCategory.MONSTER).sized(1f, 1.5f)
                             .build(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "goblin").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<Direwolf>> DIREWOLF =
+            ENTITY_TYPES.register("direwolf", () ->
+                    EntityType.Builder.of(Direwolf::new, MobCategory.MONSTER).sized(1f, 1.5f)
+                            .build(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "direwolf").toString()));
 
 }
