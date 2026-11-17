@@ -63,6 +63,30 @@
 					}
 				}
 			}
+		},
+		"bite": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 0.2,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.2": [0, 0, 20]
+					}
+				},
+				"upperjaw": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.2": [-40, 0, 0]
+					}
+				},
+				"Lowerjaw": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.2": [42.5, 0, 0]
+					}
+				}
+			}
 		}
 	}
 }
