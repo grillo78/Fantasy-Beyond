@@ -27,6 +27,7 @@ public class Direwolf extends AnimatedAttackingMonster implements GeoEntity {
     public static final RawAnimation BREATHING = RawAnimation.begin().then("breathing", Animation.LoopType.LOOP);
     public static final RawAnimation MOVING_RIGHT_EAR = RawAnimation.begin().then("moving_right_ear", Animation.LoopType.PLAY_ONCE);
     public static final RawAnimation MOVING_LEFT_EAR = RawAnimation.begin().then("moving_left_ear", Animation.LoopType.PLAY_ONCE);
+    public static final RawAnimation BITE = RawAnimation.begin().then("bite", Animation.LoopType.PLAY_ONCE);
     private final AnimatableInstanceCache animatableInstanceCache = GeckoLibUtil.createInstanceCache(this);
 
     protected Direwolf(EntityType<? extends Monster> entityType, Level level) {
@@ -44,9 +45,24 @@ public class Direwolf extends AnimatedAttackingMonster implements GeoEntity {
     }
 
     @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(6, new JumpBiteGoal(this));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0, false));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8, 1));
+        this.goalSelector.addGoal(6, new MoveTowardsTargetGoal(this, 1.0, 4));
+//        this.goalSelector.addGoal(7, new MoveThroughVillageGoal(this, 1.0, true, 4, () -> true));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers(AnimatedAttackingMonster.class));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Animal.class, false));
+    }
+
+    @Override
     public void tick() {
         super.tick();
-        if(!level().isClientSide){
+        if (!level().isClientSide) {
             if (random.nextInt(100) < 1) {
                 if (random.nextBoolean())
                     triggerAnim("left_ear", "moving_left_ear");
@@ -70,10 +86,41 @@ public class Direwolf extends AnimatedAttackingMonster implements GeoEntity {
                 .triggerableAnim("moving_left_ear", MOVING_LEFT_EAR));
         controllers.add(new AnimationController<>(this, "right_ear", 0, state -> PlayState.STOP)
                 .triggerableAnim("moving_right_ear", MOVING_RIGHT_EAR));
+        controllers.add(new AnimationController<>(this, "attacks", 0, state -> PlayState.STOP)
+                .triggerableAnim("bite", BITE));
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return animatableInstanceCache;
+    }
+
+    private static class JumpBiteGoal extends Goal {
+
+        private final Direwolf mob;
+
+        private JumpBiteGoal(Direwolf mob) {
+            this.mob = mob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return mob.getTarget() != null && mob.distanceTo(mob.getTarget()) > 4 && mob.distanceTo(mob.getTarget()) < 5 && mob.random.nextInt(100)<10;
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            if (mob.getTarget() != null) {
+                mob.setDeltaMovement(mob.getTarget().position().subtract(mob.position()).normalize().scale(2));
+            }
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (mob.getTarget() != null)
+                mob.lookAt(mob.getTarget(), 0, 0);
+        }
     }
 }
