@@ -50,6 +50,6 @@ public abstract class EntityMixin {
     @Inject(method = "getEyePosition(F)Lnet/minecraft/world/phys/Vec3;", at = @At("HEAD"), cancellable = true)
     public void getEyePosition(float partialTick, CallbackInfoReturnable<Vec3> cir) {
         if(ClientUtils.headPosition != null)
-            cir.setReturnValue(new Vec3(ClientUtils.headPosition.x, ClientUtils.headPosition.y + 0.25, ClientUtils.headPosition.z).add(new Vec3(0, 0, 0.25).yRot((float) Math.toRadians(-getViewYRot(1)))));
+            cir.setReturnValue(new Vec3(ClientUtils.headPosition.x, ClientUtils.headPosition.y, ClientUtils.headPosition.z).add(new Vec3(0, 0, 0.25).yRot((float) Math.toRadians(-getViewYRot(1)))));
     }
 }

@@ -6,7 +6,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import grillo78.fantasy_beyond.FantasyBeyond;
 import grillo78.fantasy_beyond.attachment.ModAttachments;
 import grillo78.fantasy_beyond.character.CharacterData;
+import grillo78.fantasy_beyond.character.customization.race.Characteristic;
 import grillo78.fantasy_beyond.client.entity.GrimoireArmPoseTransformer;
+import grillo78.fantasy_beyond.client.entity.race.CustomizationModel;
 import grillo78.fantasy_beyond.client.entity.race.RaceCharacteristicRenderer;
 import grillo78.fantasy_beyond.data_map.ModDataMaps;
 import grillo78.fantasy_beyond.data_map.forging.HeatableMaterial;
@@ -19,10 +21,16 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
@@ -177,33 +185,97 @@ public class ClientUtils {
         RenderSystem.disableDepthTest();
     }
 
-    public static void moveCamera(Camera instance, double x, double y, double z, float partialTickTime, Entity entity) {
-        Vec3 position = new Vec3(
-                Mth.lerp(partialTickTime, entity.xo, entity.getX()),
-                Mth.lerp(partialTickTime, entity.yo, entity.getY()),
-                Mth.lerp(partialTickTime, entity.zo, entity.getZ())
-        );
+    public static void moveCamera(Camera instance, double x, double y, double z, float partialTicks, Entity entity) {
+        Vec3 position = entity.getPosition(partialTicks);
 
         if (entity.hasData(ModAttachments.CHARACTER_DATA)&& !Minecraft.getInstance().gameRenderer.getMainCamera().isDetached() && !entity.isSpectator()) {
             CharacterData data = entity.getData(ModAttachments.CHARACTER_DATA);
-            if (data.getPlayerCustomization().isFinished() && ClientUtils.headPosition != null) {
-                position = new Vec3(headPosition.x, headPosition.y + 0.25, headPosition.z).add(new Vec3(0, 0, 0.25).yRot((float) Math.toRadians(-entity.getViewYRot(partialTickTime))));
+            if (data.getPlayerCustomization().isFinished()) {
+                Characteristic characteristic = data.getPlayerCustomization().getRace().getCharacteristics().getFirst();
+                CustomizationModel raceModel = RaceCharacteristicRenderer.getRenderer(characteristic.getClass()).getModel(characteristic);
+                EntityRenderer entityRenderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity);
+                if(entityRenderer instanceof PlayerRenderer playerRenderer){
+                    AbstractClientPlayer player = (AbstractClientPlayer) entity;
+                    PoseStack poseStack = new PoseStack();
+                    playerRenderer.getModel().attackTime = playerRenderer.getAttackAnim(player, partialTicks);
+                    boolean shouldSit = entity.isPassenger() && (entity.getVehicle() != null && entity.getVehicle().shouldRiderSit());
+                    playerRenderer.getModel().riding = shouldSit;
+                    playerRenderer.getModel().young = player.isBaby();
+                    float f = Mth.rotLerp(partialTicks, player.yBodyRotO, player.yBodyRot);
+                    float f1 = Mth.rotLerp(partialTicks, player.yHeadRotO, player.yHeadRot);
+                    float f2 = f1 - f;
+                    if (shouldSit && entity.getVehicle() instanceof LivingEntity livingentity) {
+                        f = Mth.rotLerp(partialTicks, livingentity.yBodyRotO, livingentity.yBodyRot);
+                        f2 = f1 - f;
+                        float f7 = Mth.wrapDegrees(f2);
+                        if (f7 < -85.0F) {
+                            f7 = -85.0F;
+                        }
+
+                        if (f7 >= 85.0F) {
+                            f7 = 85.0F;
+                        }
+
+                        f = f1 - f7;
+                        if (f7 * f7 > 2500.0F) {
+                            f += f7 * 0.2F;
+                        }
+
+                        f2 = f1 - f;
+                    }
+
+                    float f6 = Mth.lerp(partialTicks, entity.xRotO, entity.getXRot());
+                    if (LivingEntityRenderer.isEntityUpsideDown(player)) {
+                        f6 *= -1.0F;
+                        f2 *= -1.0F;
+                    }
+
+                    f2 = Mth.wrapDegrees(f2);
+                    if (entity.hasPose(Pose.SLEEPING)) {
+                        Direction direction = player.getBedOrientation();
+                        if (direction != null) {
+                            float f3 = entity.getEyeHeight(Pose.STANDING) - 0.1F;
+                            poseStack.translate((float)(-direction.getStepX()) * f3, 0.0F, (float)(-direction.getStepZ()) * f3);
+                        }
+                    }
+
+                    float f8 = player.getScale();
+                    poseStack.scale(f8, f8, f8);
+                    float f9 = playerRenderer.getBob(player, partialTicks);
+                    playerRenderer.setupRotations(player, poseStack, f9, f, partialTicks, f8);
+                    poseStack.scale(-1.0F, -1.0F, 1.0F);
+                    playerRenderer.scale(player, poseStack, partialTicks);
+                    poseStack.translate(0.0F, -0.25F, 0.0F);
+                    float f4 = 0.0F;
+                    float f5 = 0.0F;
+                    if (!shouldSit && entity.isAlive()) {
+                        f4 = player.walkAnimation.speed(partialTicks);
+                        f5 = player.walkAnimation.position(partialTicks);
+                        if (player.isBaby()) {
+                            f5 *= 3.0F;
+                        }
+
+                        if (f4 > 1.0F) {
+                            f4 = 1.0F;
+                        }
+                    }
+
+                    playerRenderer.getModel().prepareMobModel(player, f5, f4, partialTicks);
+                    playerRenderer.getModel().setupAnim(player, f5, f4, f9, f2, f6);
+
+
+                    raceModel.setupModel(playerRenderer.getModel());
+                    raceModel.getHeadPart().translateAndRotate(poseStack);
+                    Matrix4f matrix = poseStack.last().pose();
+                    headPosition = new Vec3(matrix.m30(), matrix.m31(), matrix.m32()).add(position);
+                }
+                position = new Vec3(headPosition.x, headPosition.y, headPosition.z).add(new Vec3(0, 0, 0.2).yRot((float) Math.toRadians(-entity.getViewYRot(partialTicks))));
             }
         } else {
-            position = position.add(0, (double) Mth.lerp(partialTickTime, instance.eyeHeightOld, instance.eyeHeight), 0);
+            position = position.add(0, (double) Mth.lerp(partialTicks, instance.eyeHeightOld, instance.eyeHeight), 0);
         }
         instance.setPosition(position.x, position.y, position.z);
 
-    }
-
-    public static void getHeadPos(PoseStack poseStack, ModelPart part) {
-        if (Minecraft.getInstance().player != null && renderingFirstPersonModel && Minecraft.getInstance().player.hasData(ModAttachments.CHARACTER_DATA) && RaceCharacteristicRenderer.getRenderer(Minecraft.getInstance().player.getData(ModAttachments.CHARACTER_DATA).getPlayerCustomization().getRace().getCharacteristics().get(0).getClass()).getModel(Minecraft.getInstance().player.getData(ModAttachments.CHARACTER_DATA).getPlayerCustomization().getRace().getCharacteristics().get(0)).getHeadPart() == part) {
-            poseStack.pushPose();
-            part.translateAndRotate(poseStack);
-            Matrix4f matrix = poseStack.last().pose();
-            ClientUtils.headPosition = new Vec3(matrix.m30(), matrix.m31(), matrix.m32()).add(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition());
-            poseStack.popPose();
-        }
     }
 
     public static void startAttack() {
