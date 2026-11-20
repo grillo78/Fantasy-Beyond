@@ -267,9 +267,9 @@ public class ClientUtils {
                     raceModel.setupModel(playerRenderer.getModel());
                     raceModel.getHeadPart().translateAndRotate(poseStack);
                     Matrix4f matrix = poseStack.last().pose();
-                    headPosition = new Vec3(matrix.m30(), matrix.m31(), matrix.m32()).add(position);
+                    headPosition = new Vec3(matrix.m30(), matrix.m31(), matrix.m32()).add(position).add(new Vec3(0, 0, 0.2).yRot((float) Math.toRadians(-entity.getViewYRot(partialTicks))));
                 }
-                position = new Vec3(headPosition.x, headPosition.y, headPosition.z).add(new Vec3(0, 0, 0.2).yRot((float) Math.toRadians(-entity.getViewYRot(partialTicks))));
+                position = new Vec3(headPosition.x, headPosition.y, headPosition.z);
             }
         } else {
             position = position.add(0, (double) Mth.lerp(partialTicks, instance.eyeHeightOld, instance.eyeHeight), 0);
