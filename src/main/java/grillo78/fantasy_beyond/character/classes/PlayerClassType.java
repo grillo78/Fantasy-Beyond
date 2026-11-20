@@ -12,7 +12,11 @@ public class PlayerClassType {
     public static DeferredRegister<PlayerClassType> PLAYER_CLASS_TYPES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(FantasyBeyond.MOD_ID, "player_class_type"), FantasyBeyond.MOD_ID);
     public static Registry<PlayerClassType> PLAYER_CLASS_TYPES_REGISTRY = PLAYER_CLASS_TYPES.makeRegistry(raceTypeRegistryBuilder -> {});
 
-    public static PlayerClassType TANK = register("tank", new PlayerClassType(Tank::new));
+    public static PlayerClassType HEAVY_KNIGHT = register("heavy_knight", new PlayerClassType(HeavyKnight::new));
+    public static PlayerClassType KNIGHT = register("knight", new PlayerClassType(HeavyKnight::new));
+    public static PlayerClassType ASSASSIN = register("assassin", new PlayerClassType(HeavyKnight::new));
+    public static PlayerClassType MAGE = register("mage", new PlayerClassType(HeavyKnight::new));
+    public static PlayerClassType ARCHER = register("archer", new PlayerClassType(HeavyKnight::new));
 
     private Supplier<PlayerClass> playerClassSupplier;
 

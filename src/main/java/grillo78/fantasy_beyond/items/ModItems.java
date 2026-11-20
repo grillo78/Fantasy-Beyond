@@ -23,15 +23,15 @@ public class ModItems {
 ////            SpellType.SHIELD_SPELL, SpellType.SWORD_INVOKE_SPELL,
 //            SpellType.FIREBALL_SPELL, SpellType.LIGHT_SPELL)));
 
-    public static final DeferredHolder<Item,Item> KATANA_1 = register("katana_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.KATANA, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 2, -2F))));
-    public static final DeferredHolder<Item,Item> SWORD_1 = register("sword_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.SWORD, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
-    public static final DeferredHolder<Item,Item> SPEAR_1 = register("spear_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.SPEAR, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 2, -1F))));
-    public static final DeferredHolder<Item,Item> SCYTHE_1 = register("scythe_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.SCYTHE, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
-    public static final DeferredHolder<Item,Item> GREATSWORD_1 = register("greatsword_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.GREAT_SWORD, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
-    public static final DeferredHolder<Item,Item> GAUNTLET_1 = register("gauntlet_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.GAUNTLET, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 1.5F, -1F))));
-    public static final DeferredHolder<Item,Item> GREATHAMMER_1 = register("greathammer_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.GREAT_HAMMER, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
-    public static final DeferredHolder<Item,Item> BATTLEAXE_1 = register("battleaxe_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.BATTLE_AXE, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
-    public static final DeferredHolder<Item,Item> HALBERD_1 = register("halberd_1", ()-> new CustomWeapon(CustomWeapon.WeaponType.HALBERD, Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
+    public static final DeferredHolder<Item,Item> KATANA_1 = register("katana_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 2, -2F))));
+    public static final DeferredHolder<Item,Item> SWORD_1 = register("sword_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
+    public static final DeferredHolder<Item,Item> SPEAR_1 = register("spear_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 2, -1F))));
+    public static final DeferredHolder<Item,Item> SCYTHE_1 = register("scythe_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
+    public static final DeferredHolder<Item,Item> GREATSWORD_1 = register("greatsword_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
+    public static final DeferredHolder<Item,Item> GAUNTLET_1 = register("gauntlet_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 1.5F, -1F))));
+    public static final DeferredHolder<Item,Item> GREATHAMMER_1 = register("greathammer_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
+    public static final DeferredHolder<Item,Item> BATTLEAXE_1 = register("battleaxe_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
+    public static final DeferredHolder<Item,Item> HALBERD_1 = register("halberd_1", ()-> new CustomWeapon(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 6, -3F))));
 
     public static final DeferredHolder<Item,Item> STAFF_1 = register("staff_1", ()-> new Item(new Item.Properties().stacksTo(1).attributes(SwordItem.createAttributes(Tiers.WOOD, 2, -2.4F))));
     public static final DeferredHolder<Item,Item> GRIMOIRE_1 = register("grimoire_1", ()-> new GrimoireItem(new Item.Properties().stacksTo(1)));

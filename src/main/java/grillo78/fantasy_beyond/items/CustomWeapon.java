@@ -10,11 +10,9 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class CustomWeapon extends SwordItem {
-    private WeaponType weaponType;
 
-    public CustomWeapon(WeaponType weaponType, Tier tier, Properties properties) {
+    public CustomWeapon(Tier tier, Properties properties) {
         super(tier, properties);
-        this.weaponType = weaponType;
     }
 
     @Override
@@ -28,16 +26,8 @@ public class CustomWeapon extends SwordItem {
         if (damageSource.getEntity() != null && damageSource.getEntity().hasData(ModAttachments.CHARACTER_DATA)) {
             CharacterData data = damageSource.getEntity().getData(ModAttachments.CHARACTER_DATA);
             if (data.getPlayerClass() != null)
-                bonus = data.getPlayerClass().getAttackDamageBonus(this);
+                bonus = data.getPlayerClass().getAttackDamageBonus(damageSource.getWeaponItem());
         }
         return bonus + super.getAttackDamageBonus(target, damage, damageSource);
-    }
-
-    public WeaponType getWeaponType() {
-        return this.weaponType;
-    }
-
-    public static enum WeaponType {
-        BOW, KATANA, SPEAR, SCYTHE, GREAT_SWORD, GAUNTLET, GREAT_HAMMER, BATTLE_AXE, HALBERD, SWORD
     }
 }

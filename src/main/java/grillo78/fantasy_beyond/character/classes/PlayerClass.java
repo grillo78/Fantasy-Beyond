@@ -6,9 +6,12 @@ import grillo78.fantasy_beyond.items.CustomWeapon;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.UnknownNullability;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +41,10 @@ public abstract class PlayerClass implements INBTSerializable<CompoundTag> {
 
     protected abstract void addAbilities();
 
-    public abstract Component getDisplayName();
+    public Component getDisplayName() {
+        ResourceLocation registryName = PlayerClassType.PLAYER_CLASS_TYPES_REGISTRY.getKey(getType());
+        return Component.translatable(registryName.getNamespace() + ".player_class." + registryName.getPath()).withColor(Color.ORANGE.hashCode());
+    }
 
     public void onIncreaseLevel(){
         abilityPoints++;
@@ -103,7 +109,7 @@ public abstract class PlayerClass implements INBTSerializable<CompoundTag> {
         return type;
     }
 
-    public abstract float getAttackDamageBonus(CustomWeapon customWeapon);
+    public abstract float getAttackDamageBonus(ItemStack customWeapon);
 
     public void setType(PlayerClassType type) {
         this.type = type;
