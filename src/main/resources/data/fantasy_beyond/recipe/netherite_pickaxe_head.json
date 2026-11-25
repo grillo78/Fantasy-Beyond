@@ -1,0 +1,10 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "fantasy_beyond:unweld_netherite_pickaxe_head"
+  },
+  "result": {
+    "id": "fantasy_beyond:netherite_pickaxe_head"
+  },
+  "hits": 10
+}

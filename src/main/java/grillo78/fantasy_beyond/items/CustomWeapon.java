@@ -16,11 +16,6 @@ public class CustomWeapon extends SwordItem {
     }
 
     @Override
-    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
-        return super.getDefaultAttributeModifiers(stack);
-    }
-
-    @Override
     public float getAttackDamageBonus(Entity target, float damage, DamageSource damageSource) {
         float bonus = 0;
         if (damageSource.getEntity() != null && damageSource.getEntity().hasData(ModAttachments.CHARACTER_DATA)) {

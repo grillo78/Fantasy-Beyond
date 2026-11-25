@@ -1,0 +1,10 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "fantasy_beyond:unweld_netherite_axe_head"
+  },
+  "result": {
+    "id": "fantasy_beyond:netherite_axe_head"
+  },
+  "hits": 10
+}

@@ -1,0 +1,13 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "id": "fantasy_beyond:netherite_eye"
+  },
+  "hits": 20,
+  "required_tool": {
+    "item":"fantasy_beyond:iron_stick"
+  }
+}

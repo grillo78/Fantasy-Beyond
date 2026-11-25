@@ -1,0 +1,1 @@
+//replace tuff_brick_stairs[half=top,facing=north]25%,tuff_brick_stairs[half=top,facing=east]25%,tuff_brick_stairs[half=top,facing=west]25%,tuff_brick_stairs[half=top,facing=south]25%

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fantasy_beyond:item/iron_axe_eye"
+    "layer0": "fantasy_beyond:item/iron_hoe_head"
   }
 }

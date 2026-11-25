@@ -1,0 +1,10 @@
+{
+  "type": "fantasy_beyond:smashing",
+  "ingredient": {
+    "item": "fantasy_beyond:unfinished_netherite_shovel_head"
+  },
+  "result": {
+    "id": "fantasy_beyond:netherite_shovel_head"
+  },
+  "hits": 10
+}

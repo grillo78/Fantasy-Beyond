@@ -106,14 +106,50 @@ public class ModItems {
     public static final DeferredHolder<Item,Item> FORGING_TONGS = register("forging_tongs", ()-> new TongsItem(new Item.Properties().stacksTo(1).durability(1000)));
     public static final DeferredHolder<Item,Item> IRON_STICK = register("iron_stick", ()-> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredHolder<Item,Item> BORAX = register("borax", ()-> new Item(new Item.Properties()));
-    public static final DeferredHolder<Item,Item> IRON_AXE_EYE = register("iron_axe_eye", ()-> new Item(new Item.Properties()));
+
+    public static final DeferredHolder<Item,Item> IRON_EYE = register("iron_eye", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> GOLD_EYE = register("gold_eye", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> NETHERITE_EYE = register("netherite_eye", ()-> new Item(new Item.Properties()));
+
     public static final DeferredHolder<Item,Item> IRON_AXE_EDGE = register("iron_axe_edge", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> GOLD_AXE_EDGE = register("gold_axe_edge", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> NETHERITE_AXE_EDGE = register("netherite_axe_edge", ()-> new Item(new Item.Properties()));
+
     public static final DeferredHolder<Item,Item> UNWELD_IRON_AXE_HEAD = register("unweld_iron_axe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNWELD_GOLD_AXE_HEAD = register("unweld_gold_axe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNWELD_NETHERITE_AXE_HEAD = register("unweld_netherite_axe_head", ()-> new Item(new Item.Properties()));
+
     public static final DeferredHolder<Item,Item> IRON_AXE_HEAD = register("iron_axe_head", ()-> new Item(new Item.Properties()));
-    public static final DeferredHolder<Item,Item> IRON_SHOVEL_HEAD = register("iron_shovel_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> GOLD_AXE_HEAD = register("gold_axe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> NETHERITE_AXE_HEAD = register("netherite_axe_head", ()-> new Item(new Item.Properties()));
+
+    public static final DeferredHolder<Item,Item> IRON_HOE_EDGE = register("iron_hoe_edge", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> GOLD_HOE_EDGE = register("gold_hoe_edge", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> NETHERITE_HOE_EDGE = register("netherite_hoe_edge", ()-> new Item(new Item.Properties()));
+
+    public static final DeferredHolder<Item,Item> UNWELD_IRON_HOE_HEAD = register("unweld_iron_hoe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNWELD_GOLD_HOE_HEAD = register("unweld_gold_hoe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNWELD_NETHERITE_HOE_HEAD = register("unweld_netherite_hoe_head", ()-> new Item(new Item.Properties()));
+
+    public static final DeferredHolder<Item,Item> IRON_HOE_HEAD = register("iron_hoe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> GOLD_HOE_HEAD = register("gold_hoe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> NETHERITE_HOE_HEAD = register("netherite_hoe_head", ()-> new Item(new Item.Properties()));
+
     public static final DeferredHolder<Item,Item> UNFINISHED_IRON_SHOVEL_HEAD = register("unfinished_iron_shovel_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNFINISHED_GOLD_SHOVEL_HEAD = register("unfinished_gold_shovel_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNFINISHED_NETHERITE_SHOVEL_HEAD = register("unfinished_netherite_shovel_head", ()-> new Item(new Item.Properties()));
+
+    public static final DeferredHolder<Item,Item> IRON_SHOVEL_HEAD = register("iron_shovel_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> GOLD_SHOVEL_HEAD = register("gold_shovel_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> NETHERITE_SHOVEL_HEAD = register("netherite_shovel_head", ()-> new Item(new Item.Properties()));
+
+    public static final DeferredHolder<Item,Item> UNWELD_IRON_PICKAXE_HEAD = register("unweld_iron_pickaxe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNWELD_GOLD_PICKAXE_HEAD = register("unweld_gold_pickaxe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> UNWELD_NETHERITE_PICKAXE_HEAD = register("unweld_netherite_pickaxe_head", ()-> new Item(new Item.Properties()));
+
     public static final DeferredHolder<Item,Item> IRON_PICKAXE_HEAD = register("iron_pickaxe_head", ()-> new Item(new Item.Properties()));
-    public static final DeferredHolder<Item,Item> UNFINISHED_IRON_PICKAXE_HEAD = register("unfinished_iron_pickaxe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> GOLD_PICKAXE_HEAD = register("gold_pickaxe_head", ()-> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item,Item> NETHERITE_PICKAXE_HEAD = register("netherite_pickaxe_head", ()-> new Item(new Item.Properties()));
 
     public static final DeferredHolder<Item,Item> KATANA_1_BLADE = register("katana_1_blade", ()-> new Item(new Item.Properties()));
     public static final DeferredHolder<Item,Item> KATANA_1_HANDLE = register("katana_1_handle", ()-> new Item(new Item.Properties()));

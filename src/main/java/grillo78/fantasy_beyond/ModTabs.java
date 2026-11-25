@@ -13,27 +13,52 @@ public class ModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, FantasyBeyond.MOD_ID);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FORGING = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_forging", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_forging")).icon(() -> ModItems.FORGING_HAMMER.get().asItem().getDefaultInstance()).displayItems((parameters, output) -> {
-            output.accept(ModBlocks.FORGE.get());
-            output.accept(ModBlocks.ANVIL.get());
-            output.accept(ModBlocks.BLACKSMITH_TABLE.get());
-            output.accept(ModItems.FORGING_HAMMER.get());
-            output.accept(ModItems.FORGING_TONGS.get());
-            output.accept(ModItems.IRON_STICK.get());
-            output.accept(ModItems.BORAX.get());
+        output.accept(ModBlocks.FORGE.get());
+        output.accept(ModBlocks.ANVIL.get());
+        output.accept(ModBlocks.BLACKSMITH_TABLE.get());
+        output.accept(ModItems.FORGING_HAMMER.get());
+        output.accept(ModItems.FORGING_TONGS.get());
+        output.accept(ModItems.IRON_STICK.get());
+        output.accept(ModItems.BORAX.get());
     }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FORGING_PARTS = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_forging_parts", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_forging_parts")).icon(() -> ModItems.IRON_AXE_HEAD.get().asItem().getDefaultInstance()).displayItems((parameters, output) -> {
-            output.accept(ModItems.IRON_AXE_EYE.get());
-            output.accept(ModItems.IRON_AXE_EDGE.get());
-            output.accept(ModItems.UNWELD_IRON_AXE_HEAD.get());
-            output.accept(ModItems.IRON_AXE_HEAD.get());
-            output.accept(ModItems.IRON_SHOVEL_HEAD.get());
-            output.accept(ModItems.UNFINISHED_IRON_SHOVEL_HEAD.get());
-            output.accept(ModItems.IRON_PICKAXE_HEAD.get());
-            output.accept(ModItems.UNFINISHED_IRON_PICKAXE_HEAD.get());
-            output.accept(ModItems.KATANA_1_BLADE.get());
-            output.accept(ModItems.KATANA_1_GUARD.get());
-            output.accept(ModItems.KATANA_1_HANDLE.get());
+        output.accept(ModItems.IRON_EYE.get());
+        output.accept(ModItems.GOLD_EYE.get());
+        output.accept(ModItems.NETHERITE_EYE.get());
+        output.accept(ModItems.IRON_AXE_EDGE.get());
+        output.accept(ModItems.GOLD_AXE_EDGE.get());
+        output.accept(ModItems.NETHERITE_AXE_EDGE.get());
+        output.accept(ModItems.UNWELD_IRON_AXE_HEAD.get());
+        output.accept(ModItems.UNWELD_GOLD_AXE_HEAD.get());
+        output.accept(ModItems.UNWELD_NETHERITE_AXE_HEAD.get());
+        output.accept(ModItems.IRON_AXE_HEAD.get());
+        output.accept(ModItems.GOLD_AXE_HEAD.get());
+        output.accept(ModItems.NETHERITE_AXE_HEAD.get());
+        output.accept(ModItems.IRON_HOE_EDGE.get());
+        output.accept(ModItems.GOLD_HOE_EDGE.get());
+        output.accept(ModItems.NETHERITE_HOE_EDGE.get());
+        output.accept(ModItems.UNWELD_IRON_HOE_HEAD.get());
+        output.accept(ModItems.UNWELD_GOLD_HOE_HEAD.get());
+        output.accept(ModItems.UNWELD_NETHERITE_HOE_HEAD.get());
+        output.accept(ModItems.IRON_HOE_HEAD.get());
+        output.accept(ModItems.GOLD_HOE_HEAD.get());
+        output.accept(ModItems.NETHERITE_HOE_HEAD.get());
+        output.accept(ModItems.IRON_SHOVEL_HEAD.get());
+        output.accept(ModItems.GOLD_SHOVEL_HEAD.get());
+        output.accept(ModItems.NETHERITE_SHOVEL_HEAD.get());
+        output.accept(ModItems.UNFINISHED_IRON_SHOVEL_HEAD.get());
+        output.accept(ModItems.UNFINISHED_GOLD_SHOVEL_HEAD.get());
+        output.accept(ModItems.UNFINISHED_NETHERITE_SHOVEL_HEAD.get());
+        output.accept(ModItems.UNWELD_IRON_PICKAXE_HEAD.get());
+        output.accept(ModItems.UNWELD_GOLD_PICKAXE_HEAD.get());
+        output.accept(ModItems.UNWELD_NETHERITE_PICKAXE_HEAD.get());
+        output.accept(ModItems.IRON_PICKAXE_HEAD.get());
+        output.accept(ModItems.GOLD_PICKAXE_HEAD.get());
+        output.accept(ModItems.NETHERITE_PICKAXE_HEAD.get());
+//            output.accept(ModItems.KATANA_1_BLADE.get());
+//            output.accept(ModItems.KATANA_1_GUARD.get());
+//            output.accept(ModItems.KATANA_1_HANDLE.get());
     }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CLOTHES = CREATIVE_MODE_TABS.register(FantasyBeyond.MOD_ID + "_clothes", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + FantasyBeyond.MOD_ID + "_clothes")).icon(() -> ModItems.HUMAN_HOOD_2.get().getDefaultInstance()).displayItems((parameters, output) -> {
